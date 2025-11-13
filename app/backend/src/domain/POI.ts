@@ -1,15 +1,6 @@
-// ============================================
-// POI = Point of Interest (Ponto de Interesse)
-// Exemplo: Biblioteca, Restaurante, Sala de aula
-// ============================================
-
-// ============================================
-// INTERFACE = Contrato de estrutura de dados
-// ============================================
-// Garante que coordenadas sempre tenha lat e lng
 export interface Coordinates {
-  latitude: number;   // Exemplo: -18.2389
-  longitude: number;  // Exemplo: -43.6005
+  latitude: number;   // Ex: -18.2389
+  longitude: number;  // Exo: -43.6005
 }
 
 export enum POICategory {

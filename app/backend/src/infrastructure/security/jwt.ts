@@ -1,39 +1,46 @@
-import jwt from 'jsonwebtoken';
+// src/infrastructure/security/jwt.ts
+import jwt, { SignOptions } from 'jsonwebtoken';
 import { env } from '../config/env';
 import { Role } from '../../domain/Role';
 import { UnauthorizedError } from '../../shared/errors';
 
-export interface TokenPayload {
-  userId: string;
+export interface ConteudoToken {
+  usuarioId: string;
   email: string;
-  role: Role;
+  papel: Role;
 }
 
-export class JwtService {
-  static generate(payload: TokenPayload): string {
-    return jwt.sign(payload, env.jwt.secret, {
-      expiresIn: env.jwt.expiresIn
-    });
+export class ServicoJwt {
+  static gerarToken(conteudo: ConteudoToken): string {
+    const opcoes: SignOptions = {
+      expiresIn: env.jwt.expiresIn as SignOptions['expiresIn'],
+    };
+
+    // Cast do secret para o tipo esperado pela lib
+    const segredo = env.jwt.secret as jwt.Secret;
+
+    return jwt.sign(conteudo, segredo, opcoes);
   }
 
-  static verify(token: string): TokenPayload {
+  static verificarToken(token: string): ConteudoToken {
     try {
-      const decoded = jwt.verify(token, env.jwt.secret) as TokenPayload;
-      return decoded;
-    } catch (error) {
-      if (error instanceof jwt.TokenExpiredError) {
+      const segredo = env.jwt.secret as jwt.Secret;
+      const decodificado = jwt.verify(token, segredo) as ConteudoToken;
+      return decodificado;
+    } catch (erro) {
+      if (erro instanceof jwt.TokenExpiredError) {
         throw new UnauthorizedError('Token expirado');
       }
-      if (error instanceof jwt.JsonWebTokenError) {
+      if (erro instanceof jwt.JsonWebTokenError) {
         throw new UnauthorizedError('Token inválido');
       }
       throw new UnauthorizedError('Erro ao validar token');
     }
   }
 
-  static decode(token: string): TokenPayload | null {
+  static decodificar(token: string): ConteudoToken | null {
     try {
-      return jwt.decode(token) as TokenPayload;
+      return jwt.decode(token) as ConteudoToken;
     } catch {
       return null;
     }

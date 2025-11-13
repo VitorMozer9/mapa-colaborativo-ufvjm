@@ -1,0 +1,62 @@
+{
+  "compilerOptions": {
+    // Versão do JavaScript que vai gerar
+    "target": "ES2020",
+    
+    // Sistema de módulos (como importar arquivos)
+    "module": "commonjs",
+    
+    // Bibliotecas JavaScript disponíveis
+    "lib": ["ES2020"],
+    
+    // Onde colocar o código compilado
+    "outDir": "./dist",
+    
+    // Onde está o código fonte
+    "rootDir": "./src",
+    
+    // Ativa TODAS as verificações de tipo (recomendado!)
+    "strict": true,
+    
+    // Permite importar módulos de forma mais fácil
+    "esModuleInterop": true,
+    
+    // Ignora erros em bibliotecas de terceiros
+    "skipLibCheck": true,
+    
+    // Garante consistência entre maiúsculas/minúsculas
+    "forceConsistentCasingInFileNames": true,
+    
+    // Permite importar arquivos JSON
+    "resolveJsonModule": true,
+    
+    // Como resolver imports
+    "moduleResolution": "node",
+    
+    // Gera arquivos .d.ts (definições de tipos)
+    "declaration": true,
+    "declarationMap": true,
+    
+    // Gera source maps (ajuda a debugar)
+    "sourceMap": true,
+    
+    // Avisa sobre variáveis não usadas
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    
+    // Garante que todas as funções retornem algo
+    "noImplicitReturns": true,
+    
+    // Garante que switch/case tenha break
+    "noFallthroughCasesInSwitch": true,
+    
+    // Permite import default de módulos CommonJS
+    "allowSyntheticDefaultImports": true
+  },
+  
+  // Arquivos que o TypeScript vai processar
+  "include": ["src/**/*"],
+  
+  // Arquivos que o TypeScript vai ignorar
+  "exclude": ["node_modules", "dist"]
+}

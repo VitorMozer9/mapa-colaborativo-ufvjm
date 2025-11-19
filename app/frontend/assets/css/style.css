@@ -1,0 +1,182 @@
+/* CSS da tela de login e cadastro */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #f5f5f5;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.topbar {
+    background: #006da8;
+    color: #fff;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 40px;
+}
+
+.logo img {
+    height: 40px;
+    width: auto;
+    display: flex;
+    align-items: center;
+    gap: 1px;
+    font-weight: bold;
+    font-size: 22px;
+}
+
+.topbar-nav {
+    display:flex;
+    gap: 40px;
+    font-size: 16px;
+}
+
+.topbar-nav a {
+  position: relative;
+  padding-bottom: 3px;
+}
+
+.topbar-nav a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 0;
+  height: 2px;
+  background: #8ad23a;
+  transition: width 0.2s;
+}
+
+.topbar-nav a:hover::after {
+  width: 100%;
+}
+
+.btn {
+    border-radius: 4px;
+    padding: 6px 18px;
+    font-size: 14px;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.1s, box-shadow 0.1s, background 0.1s;
+    display: inline-block;
+}
+
+.btn:active {
+    transform: translateY(1px);
+    box-shadow: none;
+}
+
+.btn-cadastro {
+    background: #8ad23a;
+    color: #fff;
+    box-shadow: 0 2px 0 #5b9a13;
+}
+
+.btn-cadastro:hover {
+    background: #7ac329;
+}
+
+.btn-login {
+    background: #8ad23a;
+    color: #fff;
+    box-shadow: 0 2px 0 #5b9a13;
+}
+
+.btn-login:hover {
+    background: #7ac329;
+}
+
+.main {
+    padding: 40px 0;
+    display: flex;
+    justify-content: center;
+}
+
+.secao-principal {
+    display: none;
+    width: 100%;
+    max-width: 1000px;
+    padding: 0 20px;
+}
+
+#login {
+    display: block;
+}
+
+.secao-principal:target {
+    display: block;
+}
+
+.bloco-autenticacao {
+    display: flex;
+    justify-content: center;
+    gap: 60px;
+    flex-wrap: wrap;
+}
+
+.autenticacao {
+    background: #0066a0;
+    width: 260px;
+    border-radius: 6px;
+    padding: 25px 25px 30px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    color: #fff;
+}
+
+.autenticacao h2 {
+    font-size: 18px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.autenticacao label {
+    display: block;
+    font-size: 11px;
+    margin-bottom: 4px;
+}
+
+.autenticacao input {
+    width: 100%;
+    padding: 8px;
+    border-radius: 3px;
+    border: none;
+    margin-bottom: 12px;
+    font-size: 13px;
+}
+
+.autenticacao .btn-submit {
+    width: 100%;
+    margin-top: 8px;
+}
+
+@media (max-width: 700px) {
+    .topbar {
+        flex-wrap: wrap;
+        height: auto;
+        padding: 10px 20px;
+        gap: 10px;
+    }
+
+    .topbar-nav {
+        order: 3;
+        width: 100%;
+        justify-content: center;
+    }
+
+    .bloco-autenticacao {
+        gap: 20px;
+        height: 20px;
+        width: auto;
+    }
+}

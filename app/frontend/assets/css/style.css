@@ -1,3 +1,185 @@
+/* CSS da tela inicial*/
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body, html {
+    width: 100%;
+    height: 100%;
+    font-family: 'Gabarito', sans-serif;
+    background-color: #f6f6f6;
+}
+
+.tela-inicial {
+    position: relative;
+    width: 100%;
+    min-width: 1280px;
+    height: 1080px;
+    background-color: #f6f6f6;
+}
+
+/* Barra Superior */
+.barra-superior {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 173px;
+    background-color: #00659f;
+    
+}
+
+/* Logo UFVJM */
+.logo-ufvjm {
+    position: absolute;
+    left: 60px;
+    top: 63px;
+    width: 259px;
+    height: 48px;
+}
+
+.logo-ufvjm img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+/* Navegação */
+nav {
+    position: absolute;
+    top: 64px;
+    display: flex;
+    gap: 0;
+}
+
+.nav-link {
+    position: absolute;
+    top: 0;
+    font-family: 'Gabarito', sans-serif;
+    font-weight: 400;
+    font-size: 40px;
+    line-height: 47px;
+    color: white;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.nav-link:nth-child(1) {
+    left: 424px;
+}
+
+.nav-link:nth-child(2) {
+    left: 600px;
+}
+
+.nav-link:nth-child(3) {
+    left: 833px;
+}
+
+/* Botões de Acesso */
+.botoes-acesso {
+    position: absolute;
+    right: 17px;
+    top: 10px;
+}
+
+.botao-login,
+.botao-cadastro {
+    position: absolute;
+    right: 0;
+    width: 207px;
+    height: 62px;
+    background-color: #9fd960;
+    border-radius: 13px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.botao-login {
+    top: 0;
+    box-shadow: 6px 8px 2.5px 0px rgba(0,0,0,0.25);
+}
+
+.botao-cadastro {
+    top: 77px;
+    box-shadow: 8px 8px 2.6px 0px rgba(0,0,0,0.25);
+}
+
+.botao-login span {
+    font-family: 'Gabarito', sans-serif;
+    font-weight: 400;
+    font-size: 30px;
+    color: white;
+    text-shadow: 5px 5px 4px rgba(0,0,0,0.25);
+}
+
+.botao-cadastro span {
+    font-family: 'Gabarito', sans-serif;
+    font-weight: 400;
+    font-size: 30px;
+    color: white;
+    text-shadow: 4px 4px 4px rgba(0,0,0,0.25);
+}
+
+/* Main Content */
+main {
+    position: relative;
+}
+
+
+.slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.prev:hover,
+.next:hover {
+    opacity: 1;
+}
+
+.dot {
+    width: 13px;
+    height: 13px;
+    background-color: #d9d9d9;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.dot.active {
+    background-color: #00659f;
+}
+
+.dot:hover {
+    background-color: #00659f;
+}
+
+.botao-principal img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.botao-principal span {
+    position: absolute;
+    left: 57px;
+    top: 23px;
+    font-family: 'Gabarito', sans-serif;
+    font-weight: 400;
+    font-size: 40px;
+    line-height: 47px;
+    color: white;
+    text-align: center;
+    pointer-events: none;
+}
+
 /* CSS da tela de login e cadastro */
 
 * {
@@ -101,6 +283,9 @@ a {
     padding: 40px 0;
     display: flex;
     justify-content: center;
+    align-items: center;
+    min-height: calc(100vh - 173px);
+    margin-top: 173px;
 }
 
 .secao-principal {

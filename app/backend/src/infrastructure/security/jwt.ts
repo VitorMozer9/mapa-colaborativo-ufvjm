@@ -10,7 +10,7 @@ export interface ConteudoToken {
   papel: Role;
 }
 
-export class ServicoJwt {
+export class JwtService {
   static gerarToken(conteudo: ConteudoToken): string {
     const opcoes: SignOptions = {
       expiresIn: env.jwt.expiresIn as SignOptions['expiresIn'],

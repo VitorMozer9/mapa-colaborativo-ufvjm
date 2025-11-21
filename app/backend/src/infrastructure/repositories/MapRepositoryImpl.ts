@@ -1,4 +1,3 @@
-// src/infrastructure/repositories/MapaRepositoryImpl.ts
 import { pool } from '../config/db';
 import { IRepositorioMapa } from '../../interfaces/IMapRepository';
 import { Logger } from '../../shared/logger';

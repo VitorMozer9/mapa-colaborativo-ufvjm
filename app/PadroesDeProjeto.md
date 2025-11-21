@@ -2,33 +2,20 @@
 classDiagram
     direction LR
 
-    class Pool {
-      <<singleton>>
-      +query(sql, params)
+    class Router {
+      +configurarRotas()
     }
 
-    class RepositorioMapaPostgres {
-      -pool: Pool
-      +obterMapaCompletoGeoJSON()
+    class RepositorioPontoInteressePostgres
+    class ServicoPontoInteresse {
+      -repositorioPOI
+    }
+    class ControladorPontoInteresse {
+      -servicoPOI
+      +listarTodos(req, res)
     }
 
-    class IRepositorioMapa {
-      <<interface>>
-      +obterMapaCompletoGeoJSON()
-    }
-
-    class ServicoMapa {
-      -repositorioMapa: IRepositorioMapa
-      +obterMapaCompleto()
-    }
-
-    class ControladorMapa {
-      -servicoMapa: ServicoMapa
-      +obterMapa(req, res, next)
-    }
-
-    Pool <.. RepositorioMapaPostgres : usa (Singleton)
-    IRepositorioMapa <|.. RepositorioMapaPostgres : implementa
-    IRepositorioMapa <.. ServicoMapa : depende
-    ServicoMapa <.. ControladorMapa : depende
+    Router --> ControladorPontoInteresse : chama métodos
+    ControladorPontoInteresse --> ServicoPontoInteresse : recebe via construtor
+    ServicoPontoInteresse --> RepositorioPontoInteressePostgres : recebe via construtor
 ```

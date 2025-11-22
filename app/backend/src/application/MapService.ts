@@ -1,4 +1,4 @@
-import { IRepositorioMapa } from '../interfaces/IMapRepository';
+import { IRepositorioMapa } from '../interfaces/repositories/IMapRepository';
 
 export class ServicoMapa {
   constructor(

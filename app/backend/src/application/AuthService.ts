@@ -1,5 +1,5 @@
 // src/application/AuthService.ts
-import { IUserRepository } from '../interfaces/IUserRepository';
+import { IUserRepository } from '../interfaces/repositories/IUserRepository';
 import { PasswordHasher } from '../infrastructure/security/password';
 import { JwtService } from '../infrastructure/security/jwt';
 import { User } from '../domain/User';

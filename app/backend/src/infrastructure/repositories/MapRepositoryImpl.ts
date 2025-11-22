@@ -1,5 +1,5 @@
 import { pool } from '../config/db';
-import { IRepositorioMapa } from '../../interfaces/IMapRepository';
+import { IRepositorioMapa } from '../../interfaces/repositories/IMapRepository';
 import { Logger } from '../../shared/logger';
 
 export class RepositorioMapaPostgres implements IRepositorioMapa {

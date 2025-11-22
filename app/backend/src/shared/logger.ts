@@ -1,19 +1,28 @@
 export class Logger {
-  static info(message: string, ...args: any[]): void {
-    console.log(`[INFO] ${new Date().toISOString()} - ${message}`, ...args);
+  // Log informativo
+  static info(mensagem: string, ...args: any[]): void {
+    console.log(`[INFO] ${this.obterTimestamp()} - ${mensagem}`, ...args);
   }
 
-  static error(message: string, error?: Error): void {
-    console.error(`[ERROR] ${new Date().toISOString()} - ${message}`, error);
+  // Log de erro
+  static erro(mensagem: string, erro?: Error): void {
+    console.error(`[ERRO] ${this.obterTimestamp()} - ${mensagem}`, erro);
   }
 
-  static warn(message: string, ...args: any[]): void {
-    console.warn(`[WARN] ${new Date().toISOString()} - ${message}`, ...args);
+  // Log de aviso
+  static aviso(mensagem: string, ...args: any[]): void {
+    console.warn(`[AVISO] ${this.obterTimestamp()} - ${mensagem}`, ...args);
   }
 
-  static debug(message: string, ...args: any[]): void {
+  // Log de debug (apenas em desenvolvimento)
+  static debug(mensagem: string, ...args: any[]): void {
     if (process.env.NODE_ENV === 'development') {
-      console.debug(`[DEBUG] ${new Date().toISOString()} - ${message}`, ...args);
+      console.debug(`[DEBUG] ${this.obterTimestamp()} - ${mensagem}`, ...args);
     }
+  }
+
+  // Retorna timestamp no formato ISO
+  private static obterTimestamp(): string {
+    return new Date().toISOString();
   }
 }

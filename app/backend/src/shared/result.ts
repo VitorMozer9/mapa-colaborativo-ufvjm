@@ -1,22 +1,24 @@
-export class Result<T> {
+export class Resultado<T> {
   private constructor(
-    public readonly isSuccess: boolean,
-    public readonly error?: string,
-    private readonly _value?: T
+    public readonly ehSucesso: boolean,
+    public readonly erro?: string,
+    private readonly _valor?: T
   ) {}
 
-  get value(): T {
-    if (!this.isSuccess) {
-      throw new Error('Cannot get value from failed result');
+  get valor(): T {
+    if (!this.ehSucesso) {
+      throw new Error('Não é possível obter valor de resultado falho');
     }
-    return this._value as T;
+    return this._valor as T;
   }
 
-  static ok<U>(value?: U): Result<U> {
-    return new Result<U>(true, undefined, value);
+  // Factory method para sucesso
+  static ok<U>(valor?: U): Resultado<U> {
+    return new Resultado<U>(true, undefined, valor);
   }
 
-  static fail<U>(error: string): Result<U> {
-    return new Result<U>(false, error);
+  // Factory method para falha
+  static falha<U>(erro: string): Resultado<U> {
+    return new Resultado<U>(false, erro);
   }
 }

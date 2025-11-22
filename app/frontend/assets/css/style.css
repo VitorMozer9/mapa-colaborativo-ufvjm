@@ -99,6 +99,15 @@ nav {
     justify-content: center;
     text-decoration: none;
     cursor: pointer;
+    transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+}
+
+/* botão descer e mudar de cor quando passa o mouse em cima */
+.botao-cadastro:hover,
+.botao-login:hover {
+    background: #4c8f08;
+    transform: translateY(3px);        
+    box-shadow: 0 2px 0 rgba(0,0,0,0.2);
 }
 
 .botao-login {
@@ -449,4 +458,76 @@ a {
         height: 20px;
         width: auto;
     }
+}
+
+/* Seção Sobre da página */
+
+.secao-sobre {
+    background: #f4f4f4;
+    padding: 60px 0 80px;
+    display: flex;
+    justify-content: center;
+}
+
+/* texto da seção */
+.conteudo-sobre {
+    max-width: 900px;
+    width: 100%;
+    margin: 0 40px;
+}
+
+.conteudo-sobre h1{
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 30px;
+}
+.conteudo-sobre p {
+    font-size: 20px;
+    line-height: 1.8;
+    text-align: justify;
+    margin-bottom: 18px;
+}
+
+/* Rodapé */
+.rodape {
+    background: #000000;
+    color: #ffffff;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    padding: 20px 40px;
+    font-size: 14px;
+}
+
+.rodape-titulo {
+    margin-bottom: 10px;
+    font-weight: 700;
+}
+
+.rodape-contato ul{
+    list-style: none;
+}
+
+.rodape-contato li {
+    margin-bottom: 4px;
+}
+
+.rodape-logo img {
+    height: 110px;
+    width: auto;
+}
+
+.rede-social {
+    height: 40px;
+    width: auto;
+    display: flex;             
+    align-items: center;        
+    gap: 10px;                  
+    margin-bottom: 10px;
+}
+
+
+.rede-social img{
+    height: 35px;
+    width: 35px;
 }

@@ -247,31 +247,34 @@ main {
 .botao-principal {
     position: absolute;
     left: 50%;
-    transform: translateX(-50%);
     top: 886px;
     width: 543px;
     height: 94px;
-    display: block;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     text-decoration: none;
+    transform: translateX(-50%);
+    cursor: pointer;
+    background-color: #00659f;
+    border-radius: 20px;
+    transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+    box-shadow: 6px 8px 2.5px 0px rgba(0,0,0,0.25);
 }
 
-.botao-principal img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
+.botao-principal:hover {
+    background: #004a73;
+    transform: translateX(-50%) translateY(3px);
+    box-shadow: 0 2px 0 rgba(0,0,0,0.2);
 }
 
 .botao-principal span {
-    position: absolute;
-    left: 57px;
-    top: 23px;
     font-family: 'Gabarito', sans-serif;
     font-weight: 400;
     font-size: 40px;
     line-height: 47px;
     color: white;
-    text-align: center;
-    pointer-events: none;
+    text-shadow: 4px 4px 4px rgba(0,0,0,0.25);
 }
 
 /* CSS da tela de login e cadastro */

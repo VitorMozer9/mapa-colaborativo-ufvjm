@@ -1,4 +1,4 @@
-import { ApplicationError } from '../../shared/errors/ApplicationError';
+import { ApplicationError } from '../../shared/errors';
 
 interface ConfigBancoDados {
   host: string;

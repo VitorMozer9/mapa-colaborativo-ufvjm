@@ -1,4 +1,4 @@
-import { pool } from '../config/db';
+import { pool } from '../database/connection';
 import { IRepositorioMapa } from '../../interfaces/repositories/IMapRepository';
 import { Logger } from '../../shared/logger';
 
@@ -60,7 +60,7 @@ export class RepositorioMapaPostgres implements IRepositorioMapa {
       const linha = resultado.rows[0];
 
       if (!linha || !linha.geojson) {
-        Logger.warn('RepositórioMapa: nenhuma geometria encontrada');
+        Logger.warn('RepositorioMapaPostgres: nenhuma geometria encontrada');
         return {
           type: 'FeatureCollection',
           features: [],

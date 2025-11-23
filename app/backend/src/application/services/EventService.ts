@@ -1,7 +1,7 @@
 import { IRepositorioEvento } from '../../interfaces/repositories/IEventRepository';
 import { Evento } from '../../domain/Event';
 import { ErroNaoEncontrado } from '../../shared/errors/NotFoundError';
-import { ErroValidacao } from '../../shared/errors/ValidationError';
+import { ApplicationError } from '../../shared/errors/ApplicationError';
 import { Logger } from '../../shared/logger';
 
 export class ServicoEventos {
@@ -104,11 +104,11 @@ export class ServicoEventos {
   // Valida se data de fim é após data de início
   private validarDatas(dataInicio: Date, dataFim: Date): void {
     if (dataInicio >= dataFim) {
-      throw new ErroValidacao('Data de fim deve ser após data de início');
+      throw new ApplicationError('Data de fim deve ser após data de início');
     }
 
     if (dataInicio < new Date()) {
-      throw new ErroValidacao('Data de início não pode ser no passado');
+      throw new ApplicationError('Data de início não pode ser no passado');
     }
   }
 }

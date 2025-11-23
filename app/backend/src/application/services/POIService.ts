@@ -1,8 +1,8 @@
-import { IRepositorioPOI } from '../interfaces/repositories/IPOIRepository';
-import { POI, CategoriaPOI } from '../domain/POI';
-import { Coordenadas } from '../domain/Coordinate';
-import { NotFoundError } from '../shared/errors';
-import { ValidationError } from '../shared/errors';
+import { IRepositorioPOI } from '../../interfaces/repositories/IPOIRepository';
+import { POI, CategoriaPOI } from '../../domain/POI';
+import { Coordenadas } from '../../domain/Coordinate';
+import { NotFoundError } from '../../shared/errors/NotFoundError';
+import { ValidationError } from '../../shared/errors/ValidationError';
 
 export class ServicoPOI {
   constructor(private readonly repositorioPOI: IRepositorioPOI) {}
@@ -27,7 +27,10 @@ export class ServicoPOI {
   }
 
   // Busca POIs próximos a uma localização (raio em metros)
-  async buscarProximos(coordenadas: Coordenadas, raioMetros: number): Promise<POI[]> {
+  async buscarProximos(
+    coordenadas: Coordenadas,
+    raioMetros: number
+  ): Promise<POI[]> {
     if (raioMetros <= 0) {
       throw new ValidationError('Raio deve ser maior que zero');
     }
@@ -37,7 +40,9 @@ export class ServicoPOI {
   // Busca POIs por texto (nome ou descrição)
   async buscar(termo: string): Promise<POI[]> {
     if (termo.trim().length < 2) {
-      throw new ValidationError('Termo de busca deve ter pelo menos 2 caracteres');
+      throw new ValidationError(
+        'Termo de busca deve ter pelo menos 2 caracteres'
+      );
     }
     return this.repositorioPOI.buscar(termo);
   }
@@ -49,15 +54,30 @@ export class ServicoPOI {
     categoria: CategoriaPOI,
     coordenadas: Coordenadas,
     nomePredio: string,
-    opcoes?: { andar?: string; numeroSala?: string; urlImagem?: string; ehAcessivel?: boolean }
+    opcoes?: {
+      andar?: string;
+      numeroSala?: string;
+      urlImagem?: string;
+      ehAcessivel?: boolean;
+    }
   ): Promise<POI> {
     this.validarCoordenadas(coordenadas);
-    const poi = POI.criar(nome, descricao, categoria, coordenadas, nomePredio, opcoes);
+    const poi = POI.criar(
+      nome,
+      descricao,
+      categoria,
+      coordenadas,
+      nomePredio,
+      opcoes
+    );
     return this.repositorioPOI.criar(poi);
   }
 
   // Atualiza um POI existente
-  async atualizar(idPOI: string, dados: Partial<Omit<POI, 'id'>>): Promise<POI> {
+  async atualizar(
+    idPOI: string,
+    dados: Partial<Omit<POI, 'id'>>
+  ): Promise<POI> {
     const poiExistente = await this.buscarPorId(idPOI);
     const poiAtualizado = new POI(
       poiExistente.id,
@@ -85,10 +105,10 @@ export class ServicoPOI {
   // Valida coordenadas geograficamente válidas
   private validarCoordenadas(coordenadas: Coordenadas): void {
     if (coordenadas.latitude < -90 || coordenadas.latitude > 90) {
-      throw new ValidationError('Latitude deve estar entre -90 e 90');
+      throw new ValidationError('Latitude inválida');
     }
     if (coordenadas.longitude < -180 || coordenadas.longitude > 180) {
-      throw new ValidationError('Longitude deve estar entre -180 e 180');
+      throw new ValidationError('Longitude inválida');
     }
   }
 }

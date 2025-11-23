@@ -1,24 +1,11 @@
-export class Resultado<T> {
-  private constructor(
-    public readonly ehSucesso: boolean,
-    public readonly erro?: string,
-    private readonly _valor?: T
-  ) {}
+export type Resultado<T> =
+  | { sucesso: true; valor: T }
+  | { sucesso: false; erro: Error };
 
-  get valor(): T {
-    if (!this.ehSucesso) {
-      throw new Error('Não é possível obter valor de resultado falho');
-    }
-    return this._valor as T;
-  }
+export function sucesso<T>(valor: T): Resultado<T> {
+  return { sucesso: true, valor };
+}
 
-  // Factory method para sucesso
-  static ok<U>(valor?: U): Resultado<U> {
-    return new Resultado<U>(true, undefined, valor);
-  }
-
-  // Factory method para falha
-  static falha<U>(erro: string): Resultado<U> {
-    return new Resultado<U>(false, erro);
-  }
+export function falha<T = never>(erro: Error): Resultado<T> {
+  return { sucesso: false, erro };
 }

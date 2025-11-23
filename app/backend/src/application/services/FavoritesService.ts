@@ -1,6 +1,6 @@
-import { IRepositorioFavorito } from '../interfaces/repositories/IFavoriteRepository';
-import { Favorito } from '../domain/Favorite';
-import { NotFoundError } from '../shared/errors';
+// src/application/services/FavoritesService.ts
+import { IRepositorioFavorito } from '../../interfaces/repositories/IFavoriteRepository';
+import { Favorito } from '../../domain/Favorite';
 
 export class ServicoFavoritos {
   constructor(private readonly repositorioFavorito: IRepositorioFavorito) {}
@@ -12,10 +12,16 @@ export class ServicoFavoritos {
 
   // Adiciona um POI aos favoritos do usuário
   async adicionar(idUsuario: string, idPOI: string): Promise<Favorito> {
-    const favoritoExistente = await this.repositorioFavorito.buscarPorUsuarioEPOI(idUsuario, idPOI);
+    const favoritoExistente =
+      await this.repositorioFavorito.buscarPorUsuarioEPOI(
+        idUsuario,
+        idPOI
+      );
+
     if (favoritoExistente) {
       return favoritoExistente;
     }
+
     const favorito = Favorito.criar(idUsuario, idPOI);
     return this.repositorioFavorito.criar(favorito);
   }

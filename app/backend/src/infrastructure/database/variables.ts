@@ -1,4 +1,4 @@
-import { ApplicationError } from '../../shared/errors';
+import { ApplicationError } from '../../shared/errors/ApplicationError';
 
 interface ConfigBancoDados {
   host: string;
@@ -17,7 +17,7 @@ interface ConfigCORS {
   origem: string;
 }
 
-interface VariaveisAmbiente {
+export interface VariaveisAmbiente {
   porta: number;
   ambienteExecucao: string;
   bancoDados: ConfigBancoDados;
@@ -27,16 +27,18 @@ interface VariaveisAmbiente {
 
 function validarVariaveisAmbiente(): VariaveisAmbiente {
   const variaveisRequeridas = [
-    'PORTA',
+    'PORT',
     'DB_HOST',
-    'DB_PORTA',
-    'DB_NOME',
-    'DB_USUARIO',
-    'DB_SENHA',
-    'JWT_SEGREDO'
+    'DB_PORT',
+    'DB_NAME',
+    'DB_USER',
+    'DB_PASSWORD',
+    'JWT_SECRET',
   ];
 
-  const faltando = variaveisRequeridas.filter(varNome => !process.env[varNome]);
+  const faltando = variaveisRequeridas.filter(
+    (varNome) => !process.env[varNome]
+  );
 
   if (faltando.length > 0) {
     throw new ApplicationError(
@@ -46,21 +48,24 @@ function validarVariaveisAmbiente(): VariaveisAmbiente {
   }
 
   return {
-    porta: parseInt(process.env.PORTA || '3000', 10),
+    porta: parseInt(process.env.PORT || '3000', 10),
     ambienteExecucao: process.env.NODE_ENV || 'development',
     bancoDados: {
       host: process.env.DB_HOST!,
-      porta: parseInt(process.env.DB_PORTA || '5432', 10),
-      nome: process.env.DB_NOME!,
-      usuario: process.env.DB_USUARIO!,
-      senha: process.env.DB_SENHA!
+      porta: parseInt(process.env.DB_PORT || '5432', 10),
+      nome: process.env.DB_NAME!,
+      usuario: process.env.DB_USER!,
+      senha: process.env.DB_PASSWORD!,
     },
     jwt: {
-      segredo: process.env.JWT_SEGREDO!,
-      tempoExpiracao: process.env.JWT_TEMPO_EXPIRACAO || '7d'
+      segredo: process.env.JWT_SECRET!,
+      tempoExpiracao: process.env.JWT_EXPIRES_IN || '7d',
     },
     cors: {
-      origem: process.env.CORS_ORIGEM || 'http://localhost:8080'
-    }
+      origem: process.env.CORS_ORIGIN || 'http://localhost:8080',
+    },
   };
 }
+
+export const variaveisAmbiente: VariaveisAmbiente =
+  validarVariaveisAmbiente();

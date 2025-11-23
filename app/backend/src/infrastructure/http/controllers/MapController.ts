@@ -1,19 +1,19 @@
 import { Request, Response, NextFunction } from 'express';
-import { ServicoMapa } from '../../../application/MapService';
+import { ServicoMapa } from '../../../application/services/MapService';
 
 export class ControladorMapa {
-  constructor(
-    private readonly servicoMapa: ServicoMapa
-  ) {}
+  constructor(private readonly servicoMapa: ServicoMapa) {}
 
-  obterMapa = async (req: Request, res: Response, next: NextFunction) => {
+  obterMapa = async (
+    _req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> => {
     try {
       const geojson = await this.servicoMapa.obterMapaCompleto();
-
-      // Cache leve de 10 minutos
       res.setHeader('Cache-Control', 'public, max-age=600');
 
-      return res.json(geojson);
+      res.json(geojson);
     } catch (erro) {
       next(erro);
     }

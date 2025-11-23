@@ -1,33 +1,16 @@
-export class Validadores {
-  // Valida se é um email válido
-  static ehEmailValido(email: string): boolean {
-    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return regex.test(email);
-  }
+// src/shared/validators.ts
 
-  // Valida se é um UUID válido
-  static ehUUIDValido(uuid: string): boolean {
-    const regex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
-    return regex.test(uuid);
-  }
+export function validarEmail(email: string): boolean {
+  const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return regex.test(email);
+}
 
-  // Valida se string não está vazia
-  static ehTextoValido(texto: string, tamanhoMinimo: number = 1): boolean {
-    return texto.trim().length >= tamanhoMinimo;
-  }
+export function validarUUID(id: string): boolean {
+  const regex =
+    /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+  return regex.test(id);
+}
 
-  // Valida se é uma URL válida
-  static ehURLValida(url: string): boolean {
-    try {
-      new URL(url);
-      return true;
-    } catch {
-      return false;
-    }
-  }
-
-  // Valida se coordenadas estão dentro de limites geográficos válidos
-  static ehCoordenadaValida(latitude: number, longitude: number): boolean {
-    return latitude >= -90 && latitude <= 90 && longitude >= -180 && longitude <= 180;
-  }
+export function validarStringNaoVazia(valor: string, minimo = 1): boolean {
+  return valor !== undefined && valor !== null && valor.trim().length >= minimo;
 }

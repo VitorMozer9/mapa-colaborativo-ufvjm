@@ -1,31 +1,25 @@
-// src/infrastructure/security/jwt.ts
+// src/infrastructure/security/JWTService.ts
 import jwt, { SignOptions } from 'jsonwebtoken';
-import { env } from '../config/env';
-import { Role } from '../../domain/Role';
+import { variaveisAmbiente } from '../database/variables';
+import { ConteudoToken, IServicoJWT } from '../../interfaces/services/IServiceJWT';
 import { UnauthorizedError } from '../../shared/errors';
 
-export interface ConteudoToken {
-  usuarioId: string;
-  email: string;
-  papel: Role;
-}
-
-export class JwtService {
-  static gerarToken(conteudo: ConteudoToken): string {
-    const opcoes: SignOptions = {
-      expiresIn: env.jwt.expiresIn as SignOptions['expiresIn'],
-    };
-
-    // Cast do secret para o tipo esperado pela lib
-    const segredo = env.jwt.secret as jwt.Secret;
-
-    return jwt.sign(conteudo, segredo, opcoes);
+export class ServicoJWT implements IServicoJWT {
+  private obterSegredo(): jwt.Secret {
+    return variaveisAmbiente.jwt.segredo as jwt.Secret;
   }
 
-  static verificarToken(token: string): ConteudoToken {
+  gerar(payload: ConteudoToken): string {
+    const opcoes: SignOptions = {
+      expiresIn: variaveisAmbiente.jwt.tempoExpiracao as SignOptions['expiresIn'],
+    };
+
+    return jwt.sign(payload, this.obterSegredo(), opcoes);
+  }
+
+  verificar<T = ConteudoToken>(token: string): T {
     try {
-      const segredo = env.jwt.secret as jwt.Secret;
-      const decodificado = jwt.verify(token, segredo) as ConteudoToken;
+      const decodificado = jwt.verify(token, this.obterSegredo()) as T;
       return decodificado;
     } catch (erro) {
       if (erro instanceof jwt.TokenExpiredError) {
@@ -38,9 +32,9 @@ export class JwtService {
     }
   }
 
-  static decodificar(token: string): ConteudoToken | null {
+  decodificar<T = ConteudoToken>(token: string): T | null {
     try {
-      return jwt.decode(token) as ConteudoToken;
+      return jwt.decode(token) as T;
     } catch {
       return null;
     }

@@ -1,0 +1,536 @@
+/* CSS da tela inicial*/
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body, html {
+    width: 100%;
+    height: 100%;
+    font-family: 'Gabarito', sans-serif;
+    background-color: #f6f6f6;
+}
+
+.tela-inicial {
+    position: relative;
+    width: 100%;
+    min-width: 1280px;
+    height: 1080px;
+    background-color: #f6f6f6;
+}
+
+/* Barra Superior */
+.barra-superior {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 173px;
+    background-color: #00659f;
+    
+}
+
+/* Logo UFVJM */
+.logo-ufvjm {
+    position: absolute;
+    left: 60px;
+    top: 63px;
+    width: 259px;
+    height: 48px;
+}
+
+.logo-ufvjm img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+/* Navegação */
+nav {
+    position: absolute;
+    top: 64px;
+    display: flex;
+    gap: 0;
+}
+
+.nav-link {
+    position: absolute;
+    top: 0;
+    font-family: 'Gabarito', sans-serif;
+    font-weight: 400;
+    font-size: 40px;
+    line-height: 47px;
+    color: white;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.nav-link:nth-child(1) {
+    left: 424px;
+}
+
+.nav-link:nth-child(2) {
+    left: 600px;
+}
+
+.nav-link:nth-child(3) {
+    left: 833px;
+}
+
+/* Botões de Acesso */
+.botoes-acesso {
+    position: absolute;
+    right: 17px;
+    top: 10px;
+}
+
+.botao-login,
+.botao-cadastro {
+    position: absolute;
+    right: 0;
+    width: 207px;
+    height: 62px;
+    background-color: #9fd960;
+    border-radius: 13px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    cursor: pointer;
+    transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+}
+
+/* botão descer e mudar de cor quando passa o mouse em cima */
+.botao-cadastro:hover,
+.botao-login:hover {
+    background: #4c8f08;
+    transform: translateY(3px);        
+    box-shadow: 0 2px 0 rgba(0,0,0,0.2);
+}
+
+.botao-login {
+    top: 0;
+    box-shadow: 6px 8px 2.5px 0px rgba(0,0,0,0.25);
+}
+
+.botao-cadastro {
+    top: 77px;
+    box-shadow: 8px 8px 2.6px 0px rgba(0,0,0,0.25);
+}
+
+.botao-login span {
+    font-family: 'Gabarito', sans-serif;
+    font-weight: 400;
+    font-size: 30px;
+    color: white;
+    text-shadow: 5px 5px 4px rgba(0,0,0,0.25);
+}
+
+.botao-cadastro span {
+    font-family: 'Gabarito', sans-serif;
+    font-weight: 400;
+    font-size: 30px;
+    color: white;
+    text-shadow: 4px 4px 4px rgba(0,0,0,0.25);
+}
+
+/* Main Content */
+main {
+    position: relative;
+}
+
+/* Slideshow Container */
+.slideshow-container {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 293px;
+    width: 877px;
+    height: 493px;
+    border: 6px solid #00659f;
+    overflow: hidden;
+}
+
+.slide {
+    display: none;
+    width: 100%;
+    height: 100%;
+}
+
+.slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Texto DECOM - UFVJM */
+.decom-ufvjm-text {
+    position: absolute;
+    left: 50%;
+    margin-left: -411px;
+    top: 315px;
+    width: 242px;
+    height: 34px;
+    font-family: 'Gabarito', sans-serif;
+    font-weight: 700;
+    font-size: 30px;
+    line-height: 34px;
+    color: black;
+    opacity: 0.7;
+}
+
+/* Setas de Navegação */
+.prev,
+.next {
+    position: absolute;
+    top: 516px;
+    width: 48px;
+    height: 48px;
+    cursor: pointer;
+    opacity: 0.3;
+    font-size: 48px;
+    color: rgba(30, 30, 30, 1);
+    user-select: none;
+    transition: opacity 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.prev {
+    left: 50%;
+    transform: translateX(-50%);
+    margin-left: -490px;
+}
+
+.next {
+    left: 50%;
+    transform: translateX(-50%);
+    margin-left: 490px;
+}
+
+.prev:hover,
+.next:hover {
+    opacity: 1;
+}
+
+/* Dots Container */
+.dots-container {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 752px;
+    display: flex;
+    gap: 8px;
+}
+
+.dot {
+    width: 13px;
+    height: 13px;
+    background-color: #d9d9d9;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.dot.active {
+    background-color: #00659f;
+}
+
+.dot:hover {
+    background-color: #00659f;
+}
+
+/* Botão Principal */
+.botao-principal {
+    position: absolute;
+    left: 50%;
+    top: 886px;
+    width: 543px;
+    height: 94px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    transform: translateX(-50%);
+    cursor: pointer;
+    background-color: #00659f;
+    border-radius: 20px;
+    transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+    box-shadow: 6px 8px 2.5px 0px rgba(0,0,0,0.25);
+}
+
+.botao-principal:hover {
+    background: #004a73;
+    transform: translateX(-50%) translateY(3px);
+    box-shadow: 0 2px 0 rgba(0,0,0,0.2);
+}
+
+.botao-principal span {
+    font-family: 'Gabarito', sans-serif;
+    font-weight: 400;
+    font-size: 40px;
+    line-height: 47px;
+    color: white;
+    text-shadow: 4px 4px 4px rgba(0,0,0,0.25);
+}
+
+/* CSS da tela de login e cadastro */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #f5f5f5;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.topbar {
+    background: #006da8;
+    color: #fff;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 40px;
+}
+
+.logo img {
+    height: 40px;
+    width: auto;
+    display: flex;
+    align-items: center;
+    gap: 1px;
+    font-weight: bold;
+    font-size: 22px;
+}
+
+.topbar-nav {
+    display:flex;
+    gap: 40px;
+    font-size: 16px;
+}
+
+.topbar-nav a {
+  position: relative;
+  padding-bottom: 3px;
+}
+
+.topbar-nav a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 0;
+  height: 2px;
+  background: #8ad23a;
+  transition: width 0.2s;
+}
+
+.topbar-nav a:hover::after {
+  width: 100%;
+}
+
+.btn {
+    border-radius: 4px;
+    padding: 6px 18px;
+    font-size: 14px;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.1s, box-shadow 0.1s, background 0.1s;
+    display: inline-block;
+}
+
+.btn:active {
+    transform: translateY(1px);
+    box-shadow: none;
+}
+
+.btn-cadastro {
+    background: #8ad23a;
+    color: #fff;
+    box-shadow: 0 2px 0 #5b9a13;
+}
+
+.btn-cadastro:hover {
+    background: #7ac329;
+}
+
+.btn-login {
+    background: #8ad23a;
+    color: #fff;
+    box-shadow: 0 2px 0 #5b9a13;
+}
+
+.btn-login:hover {
+    background: #7ac329;
+}
+
+.main {
+    padding: 40px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: calc(100vh - 173px);
+    margin-top: 173px;
+}
+
+.secao-principal {
+    display: none;
+    width: 100%;
+    max-width: 1000px;
+    padding: 0 20px;
+}
+
+#login {
+    display: block;
+}
+
+.secao-principal:target {
+    display: block;
+}
+
+.bloco-autenticacao {
+    display: flex;
+    justify-content: center;
+    gap: 60px;
+    flex-wrap: wrap;
+}
+
+.autenticacao {
+    background: #0066a0;
+    width: 260px;
+    border-radius: 6px;
+    padding: 25px 25px 30px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    color: #fff;
+}
+
+.autenticacao h2 {
+    font-size: 18px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.autenticacao label {
+    display: block;
+    font-size: 11px;
+    margin-bottom: 4px;
+}
+
+.autenticacao input {
+    width: 100%;
+    padding: 8px;
+    border-radius: 3px;
+    border: none;
+    margin-bottom: 12px;
+    font-size: 13px;
+}
+
+.autenticacao .btn-submit {
+    width: 100%;
+    margin-top: 8px;
+}
+
+@media (max-width: 700px) {
+    .topbar {
+        flex-wrap: wrap;
+        height: auto;
+        padding: 10px 20px;
+        gap: 10px;
+    }
+
+    .topbar-nav {
+        order: 3;
+        width: 100%;
+        justify-content: center;
+    }
+
+    .bloco-autenticacao {
+        gap: 20px;
+        height: 20px;
+        width: auto;
+    }
+}
+
+/* Seção Sobre da página */
+
+.secao-sobre {
+    background: #f4f4f4;
+    padding: 60px 0 80px;
+    display: flex;
+    justify-content: center;
+}
+
+/* texto da seção */
+.conteudo-sobre {
+    max-width: 900px;
+    width: 100%;
+    margin: 0 40px;
+}
+
+.conteudo-sobre h1{
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 30px;
+}
+.conteudo-sobre p {
+    font-size: 20px;
+    line-height: 1.8;
+    text-align: justify;
+    margin-bottom: 18px;
+}
+
+/* Rodapé */
+.rodape {
+    background: #000000;
+    color: #ffffff;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    padding: 20px 40px;
+    font-size: 14px;
+}
+
+.rodape-titulo {
+    margin-bottom: 10px;
+    font-weight: 700;
+}
+
+.rodape-contato ul{
+    list-style: none;
+}
+
+.rodape-contato li {
+    margin-bottom: 4px;
+}
+
+.rodape-logo img {
+    height: 110px;
+    width: auto;
+}
+
+.rede-social {
+    height: 40px;
+    width: auto;
+    display: flex;             
+    align-items: center;        
+    gap: 10px;                  
+    margin-bottom: 10px;
+}
+
+
+.rede-social img{
+    height: 35px;
+    width: 35px;
+}

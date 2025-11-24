@@ -1,16 +1,16 @@
-export class Favorite {
+export class Favorito {
   constructor(
-    public readonly id: string,           // ID do favorito
-    public readonly userId: string,       // ID do usuário
-    public readonly poiId: string,        // ID do POI favoritado
-    public readonly createdAt: Date = new Date()
+    public readonly id: string,
+    public readonly idUsuario: string,
+    public readonly idPOI: string,
+    public readonly criadoEm: Date = new Date()
   ) {}
 
-  static create(userId: string, poiId: string): Favorite {
-    return new Favorite(
+  static criar(idUsuario: string, idPOI: string): Favorito {
+    return new Favorito(
       crypto.randomUUID(),
-      userId,
-      poiId
+      idUsuario,
+      idPOI
     );
   }
 }

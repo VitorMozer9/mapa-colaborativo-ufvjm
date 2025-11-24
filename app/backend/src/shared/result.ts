@@ -1,22 +1,11 @@
-export class Result<T> {
-  private constructor(
-    public readonly isSuccess: boolean,
-    public readonly error?: string,
-    private readonly _value?: T
-  ) {}
+export type Resultado<T> =
+  | { sucesso: true; valor: T }
+  | { sucesso: false; erro: Error };
 
-  get value(): T {
-    if (!this.isSuccess) {
-      throw new Error('Cannot get value from failed result');
-    }
-    return this._value as T;
-  }
+export function sucesso<T>(valor: T): Resultado<T> {
+  return { sucesso: true, valor };
+}
 
-  static ok<U>(value?: U): Result<U> {
-    return new Result<U>(true, undefined, value);
-  }
-
-  static fail<U>(error: string): Result<U> {
-    return new Result<U>(false, error);
-  }
+export function falha<T = never>(erro: Error): Resultado<T> {
+  return { sucesso: false, erro };
 }

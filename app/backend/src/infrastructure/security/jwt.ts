@@ -1,39 +1,40 @@
-import jwt from 'jsonwebtoken';
-import { env } from '../config/env';
-import { Role } from '../../domain/Role';
+// src/infrastructure/security/JWTService.ts
+import jwt, { SignOptions } from 'jsonwebtoken';
+import { variaveisAmbiente } from '../database/variables';
+import { ConteudoToken, IServicoJWT } from '../../interfaces/services/IServiceJWT';
 import { UnauthorizedError } from '../../shared/errors';
 
-export interface TokenPayload {
-  userId: string;
-  email: string;
-  role: Role;
-}
-
-export class JwtService {
-  static generate(payload: TokenPayload): string {
-    return jwt.sign(payload, env.jwt.secret, {
-      expiresIn: env.jwt.expiresIn
-    });
+export class ServicoJWT implements IServicoJWT {
+  private obterSegredo(): jwt.Secret {
+    return variaveisAmbiente.jwt.segredo as jwt.Secret;
   }
 
-  static verify(token: string): TokenPayload {
+  gerar(payload: ConteudoToken): string {
+    const opcoes: SignOptions = {
+      expiresIn: variaveisAmbiente.jwt.tempoExpiracao as SignOptions['expiresIn'],
+    };
+
+    return jwt.sign(payload, this.obterSegredo(), opcoes);
+  }
+
+  verificar<T = ConteudoToken>(token: string): T {
     try {
-      const decoded = jwt.verify(token, env.jwt.secret) as TokenPayload;
-      return decoded;
-    } catch (error) {
-      if (error instanceof jwt.TokenExpiredError) {
+      const decodificado = jwt.verify(token, this.obterSegredo()) as T;
+      return decodificado;
+    } catch (erro) {
+      if (erro instanceof jwt.TokenExpiredError) {
         throw new UnauthorizedError('Token expirado');
       }
-      if (error instanceof jwt.JsonWebTokenError) {
+      if (erro instanceof jwt.JsonWebTokenError) {
         throw new UnauthorizedError('Token inválido');
       }
       throw new UnauthorizedError('Erro ao validar token');
     }
   }
 
-  static decode(token: string): TokenPayload | null {
+  decodificar<T = ConteudoToken>(token: string): T | null {
     try {
-      return jwt.decode(token) as TokenPayload;
+      return jwt.decode(token) as T;
     } catch {
       return null;
     }

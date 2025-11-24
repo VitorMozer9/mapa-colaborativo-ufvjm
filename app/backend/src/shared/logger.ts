@@ -1,19 +1,18 @@
 export class Logger {
-  static info(message: string, ...args: any[]): void {
-    console.log(`[INFO] ${new Date().toISOString()} - ${message}`, ...args);
+  static info(mensagem: string, contexto?: any): void {
+    console.log('[INFO]', mensagem, contexto || '');
   }
 
-  static error(message: string, error?: Error): void {
-    console.error(`[ERROR] ${new Date().toISOString()} - ${message}`, error);
+  static warn(mensagem: string, contexto?: any): void {
+    console.warn('[WARN]', mensagem, contexto || '');
   }
 
-  static warn(message: string, ...args: any[]): void {
-    console.warn(`[WARN] ${new Date().toISOString()} - ${message}`, ...args);
+  static error(mensagem: string, erro?: any): void {
+    console.error('[ERROR]', mensagem, erro || '');
   }
 
-  static debug(message: string, ...args: any[]): void {
-    if (process.env.NODE_ENV === 'development') {
-      console.debug(`[DEBUG] ${new Date().toISOString()} - ${message}`, ...args);
-    }
+  // Para compatibilidade com alguns usos (Logger.erro)
+  static erro(mensagem: string, erro?: any): void {
+    this.error(mensagem, erro);
   }
 }

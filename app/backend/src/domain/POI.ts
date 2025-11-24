@@ -1,66 +1,60 @@
-export interface Coordinates {
-  latitude: number;   // Ex: -18.2389
-  longitude: number;  // Exo: -43.6005
-}
+import { Coordenadas  } from './Coordinate';
 
-export enum POICategory {
-  ACADEMIC = 'academic',              // Acadêmico (salas, departamentos)
-  ADMINISTRATIVE = 'administrative',  // Administrativo (reitoria, secretarias)
-  RESTAURANT = 'restaurant',          // Restaurante universitário
-  LIBRARY = 'library',                // Biblioteca
-  LABORATORY = 'laboratory',          // Laboratórios
-  AUDITORIUM = 'auditorium',          // Auditórios
-  SPORTS = 'sports',                  // Esportes (quadras, ginásio)
-  PARKING = 'parking',                // Estacionamento
-  ENTRANCE = 'entrance',              // Entradas do campus
-  BATHROOM = 'bathroom',              // Banheiros
-  ACCESSIBILITY = 'accessibility',    // Recursos de acessibilidade
-  OTHER = 'other'                     // Outros
+export enum CategoriaPOI {
+  ACADEMICO = 'academico',
+  ADMINISTRATIVO = 'administrativo',
+  RESTAURANTE = 'restaurante',
+  BIBLIOTECA = 'biblioteca',
+  LABORATORIO = 'laboratorio',
+  AUDITORIO = 'auditorio',
+  ESPORTES = 'esportes',
+  ESTACIONAMENTO = 'estacionamento',
+  ENTRADA = 'entrada',
+  BANHEIRO = 'banheiro',
+  ACESSIBILIDADE = 'acessibilidade',
+  OUTRO = 'outro'
 }
 
 export class POI {
   constructor(
-    public readonly id: string,                    // ID único
-    public readonly name: string,                  // Nome (ex: "Biblioteca Central")
-    public readonly description: string,           // Descrição detalhada
-    public readonly category: POICategory,         // Categoria
-    public readonly coordinates: Coordinates,      // Lat/Lng
-    public readonly buildingName: string,          // Nome do prédio
-    public readonly floor?: string,                // Andar (opcional)
-    public readonly roomNumber?: string,           // Número da sala (opcional)
-    public readonly imageUrl?: string,             // URL da imagem (opcional)
-    public readonly isAccessible: boolean = false, // Tem acessibilidade?
-    public readonly createdAt: Date = new Date(),  // Data de criação
-    public readonly updatedAt: Date = new Date()   // Data de atualização
-  ) {
+    public readonly id: string,
+    public readonly nome: string,
+    public readonly descricao: string,
+    public readonly categoria: CategoriaPOI,
+    public readonly coordenadas: Coordenadas,
+    public readonly nomePredio: string,
+    public readonly andar?: string,
+    public readonly numeroSala?: string,
+    public readonly urlImagem?: string,
+    public readonly ehAcessivel: boolean = false,
+    public readonly criadoEm: Date = new Date(),
+    public readonly atualizadoEm: Date = new Date()
+  ) {}
 
-  }
-
-  static create(
-    name: string,
-    description: string,
-    category: POICategory,
-    coordinates: Coordinates,
-    buildingName: string,
-
-    options?: {
-      floor?: string;
-      roomNumber?: string;
-      imageUrl?: string;
-      isAccessible?: boolean;
+  static criar(
+    nome: string,
+    descricao: string,
+    categoria: CategoriaPOI,
+    coordenadas: Coordenadas,
+    nomePredio: string,
+    opcoes?: {
+      andar?: string;
+      numeroSala?: string;
+      urlImagem?: string;
+      ehAcessivel?: boolean;
     }
   ): POI {
     return new POI(
       crypto.randomUUID(),
-      name,
-      description,
-      category,
-      coordinates,
-      buildingName,
-      options?.floor,           
-      options?.roomNumber,
-      options?.imageUrl,
-      options?.isAccessible ?? false 
+      nome,
+      descricao,
+      categoria,
+      coordenadas,
+      nomePredio,
+      opcoes?.andar,
+      opcoes?.numeroSala,
+      opcoes?.urlImagem,
+      opcoes?.ehAcessivel ?? false
     );
   }
 }

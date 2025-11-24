@@ -1,43 +1,39 @@
 import { Role } from './Role';
 
-export class User {
-    
+export class Usuario {
   constructor(
-    public readonly id: string,           // ID único
-    public readonly name: string,         // Nome completo
-    public readonly email: string,        // Email
-    public readonly password: string,     // Senha (hash)
-    public readonly role: Role,           // Papel do usuário
-    public readonly createdAt: Date,      // Data de criação
-    public readonly updatedAt: Date       // Data de atualização
-  ) {
-  }
+    public readonly id: string,
+    public readonly nome: string,
+    public readonly email: string,
+    public readonly senhaHash: string,
+    public readonly papel: Role,
+    public readonly criadoEm: Date,
+    public readonly atualizadoEm: Date
+  ) {}
 
-  static create(
-    name: string,
+  static criar(
+    nome: string,
     email: string,
-    password: string,
-    role: Role = Role.VISITOR  
-  ): User {
-    // Retorna um novo User
-    return new User(
-      crypto.randomUUID(),  
-      name,
+    senhaHash: string,
+    papel: Role = Role.VISITANTE
+  ): Usuario {
+    const agora = new Date();
+    return new Usuario(
+      crypto.randomUUID(),
+      nome,
       email,
-      password,
-      role,
-      new Date(),          // Data atual
-      new Date()
+      senhaHash,
+      papel,
+      agora,
+      agora
     );
   }
-  
-  // Verifica se o usuário é admin
-  isAdmin(): boolean {
-    return this.role === Role.ADMIN;
+
+  isAdministrador(): boolean {
+    return this.papel === Role.ADMINISTRADOR;
   }
 
-  // Verifica se pode gerenciar conteúdo
-  canManageContent(): boolean {
-    return this.role === Role.ADMIN || this.role === Role.TEACHER;
+  podeGerenciarConteudo(): boolean {
+    return this.papel === Role.ADMINISTRADOR || this.papel === Role.PROFESSOR;
   }
 }

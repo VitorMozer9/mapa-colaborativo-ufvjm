@@ -1,4 +1,3 @@
-// src/infrastructure/http/middleware/globalError.ts
 import { NextFunction, Request, Response } from 'express';
 import { ApplicationError } from '../../../shared/errors';
 import { Logger } from '../../../shared/logger';

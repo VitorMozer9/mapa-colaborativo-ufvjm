@@ -13,7 +13,6 @@ interface LinhaCaminho {
 
 export class RepositorioCaminhoPostgres implements IWalkwayRepository {
   private mapearCoordenadas(geomJson: any): Array<[number, number]> {
-    // GeoJSON LineString: { type: 'LineString', coordinates: [[lon, lat], ...] }
     if (!geomJson || geomJson.type !== 'LineString') return [];
     return geomJson.coordinates as Array<[number, number]>;
   }

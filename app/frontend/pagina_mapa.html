@@ -1,2 +1,112 @@
 <!-- Página do Mapa-->
- <h1>Aqui terá o mapa interativo</h1>
+
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Mapa da Universidade</title>
+        <link rel="stylesheet" href="assets/css/style.css">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link href="https://fonts.googleapis.com/css2?family=Gabarito:wght@400;700&display=swap" rel="stylesheet">
+        <!--Leaflet-->
+        <link href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="" rel="stylesheet">
+    </head>
+
+    <!--Barra de Navegação-->
+    <body>
+        <div class="barra-esquerda">
+            <!--Barra lateral (esquerda)-->
+            <aside class="sidebar">
+
+                <a href="pagina_inicial.html" class="logo-icones" data-node-id="1:1042">
+                        <img src="assets/img/logo-login/logo-lateral.png" alt="logo UFVJM minimalista">
+                </a>
+
+                <nav class="sidebar-nav">
+                    <button class="sidebar-btn">
+                        <span class="icone">
+                            <img src="assets/img/icones-mapa/salvos.png" alt="icone salvos">
+                            <p class="btn-nome">
+                                Salvos
+                            </p>
+                        </span>
+                    </button>
+
+                    <button class="sidebar-btn">
+                        <span class="icone">
+                            <img src="assets/img/icones-mapa/favoritos.png" alt="icone favoritos">
+                            <p class="btn-nome">
+                                Favoritos
+                            </p>
+                        </span>
+                    </button>
+
+                    <button class="sidebar-btn">
+                        <span class="icone">
+                            <img src="assets/img/icones-mapa/eventos.png" alt="icone eventos">
+                            <p class="btn-nome">
+                                Eventos
+                            </p>
+                        </span>
+                    </button>
+                </nav>
+            </aside>
+
+            <!--Conteúdo Principal-->
+            <main>
+                <!--Topo-->
+                <!--Barra de Pesquisa-->
+                <header class="topbar">
+                    <div class="bara-busca-mapa">
+                        <input type="text" placeholder="Pesquise o local desejado" id="seach-input"/>
+                        <button class="btn-busca">
+                            <img src="assets/img/barra-busca/lupa.png" alt="Lupa busca mapa">
+                        </button>
+                    </div>
+
+                    <!--Filtros de Busca-->
+                    <div class="filtro-grupos">
+                        <button class="filtro-btn" data-category="Departamento">Departamentos</button>
+
+                        <button class="filtro-btn" data-category="Alimentação">Lanchonetes</button>
+
+                        <button class="filtro-btn" data-category="Eventos">Eventos</button>
+                    </div>
+
+                    <!--Acesso ao perfil do usuário-->
+                    <!-- <a href="perfil_usuario.html" class="user-btnx">
+                        <img src="assets/img/perfil-usuário/user.png" alt="icone usuário">
+                    </a> -->
+
+                    <div class="botoes-acessox">
+                        <a href="pagina_login.html" class="botao-loginx" data-node-id="1:1038">
+                             <span data-node-id="1:1040">Login</span>
+                        </a>
+                        <a href="pagina_login.html" class="botao-cadastrox" data-node-id="1:1039">
+                            <span data-node-id="1:1041">Cadastre-se</span>
+                        </a>
+                    </div>
+                     
+                </header>
+
+                <!--Mapa-->
+                <section class="map-class">
+                    <div id="map">
+
+                    </div>
+                </section>
+            </main>
+        </div>
+
+        <!--Leaflet-->
+        <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+                integrity="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+                crossorigin="">
+        </script>
+
+        <script src="apps.js"></script>
+        
+    </body>
+</html>

@@ -1,4 +1,6 @@
-/* CSS da tela inicial*/
+/* ================================
+   TELA INICIAL
+   ================================ */
 
 * {
     margin: 0;
@@ -11,6 +13,7 @@ body, html {
     height: 100%;
     font-family: 'Gabarito', sans-serif;
     background-color: #f6f6f6;
+    
 }
 
 .tela-inicial {
@@ -277,7 +280,9 @@ main {
     text-shadow: 4px 4px 4px rgba(0,0,0,0.25);
 }
 
-/* CSS da tela de login e cadastro */
+/* ================================
+   TELA DE LOGIN E CADASTRO
+   ================================ */
 
 * {
     box-sizing: border-box;
@@ -409,7 +414,8 @@ a {
 
 .autenticacao {
     background: #0066a0;
-    width: 260px;
+    width: 350px;
+    height: 390px;
     border-radius: 6px;
     padding: 25px 25px 30px;
     box-shadow: 0 4px 12px rgba(0,0,0,0.2);
@@ -439,7 +445,7 @@ a {
 
 .autenticacao .btn-submit {
     width: 100%;
-    margin-top: 8px;
+    margin-top: 10px;
 }
 
 @media (max-width: 700px) {
@@ -463,7 +469,9 @@ a {
     }
 }
 
-/* Seção Sobre da página */
+/* ================================
+   TELA SOBRE
+   ================================ */
 
 .secao-sobre {
     background: #f4f4f4;
@@ -535,7 +543,9 @@ a {
     width: 35px;
 }
 
-/* CSS da tela de perfil do usuário quando logado */
+/* ================================
+   TELA DE PERFIL DO USUÁRIO
+   ================================ */
 
 /* Icone do usuário na barra de navegação */
 
@@ -566,6 +576,9 @@ a {
     width: 150%;
     background: #ffffff;
     overflow: hidden;
+    max-height: 900px;
+    margin-top: 173px;
+    
 }
 
 /* Informações do usuário (a esquerda na tela de perfil) */
@@ -753,4 +766,105 @@ a {
         padding: 20px;
     }
 }
+
+/* ================================
+   TELA EVENTOS
+   ================================ */
+
+.eventos-container {
+    max-height: 900px;
+    margin-top: 173px;
+    padding: 40px 20px 60px;
+}
+
+.evento-titulo {
+    text-align: center;
+    font-size: 42px;
+    margin-bottom: 40px;
+}
+
+.evento-busca {
+    display: flex;
+    align-items: center;
+    max-width: 290px;
+    margin: 0 auto 50px;
+
+    background: rgba(214, 183, 255, 0.25);
+    border-radius: 999px;
+    padding: 8px 10px;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.12);
+}
+
+.evento-busca-menu,
+.evento-busca-icone {
+    border: none;
+    background: transparent;
+    font-size: 18px;
+    cursor: pointer;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.eventos-busca input {
+    flex: 1;
+    border: none;
+    outline: none;
+    background: transparent;
+    font-size: 14px;
+    padding: 0 8px;
+}
+
+
+
+/* Bloco da página de eventos da UFVJM(iframe) */
+.eventos-secao {
+    margin-top: 50px;
+}
+
+.eventos-secao h2 {
+    font-size: 22px;
+    margin-bottom: 14px;
+}
+
+/* Caixa com scroll próprio */
+.caixa-eventos{
+    border: 2px solid #00659f;
+    border-radius: 8px;
+    overflow: hidden;
+    max-height: 450px;
+}
+
+.caixa-eventos iframe {
+    width: 100%;
+    height: 450px;
+    border: none;
+}
+
+.evetos-secao-aviso {
+    font-size: 12px;
+    margin-top: 6px;
+    opacity: 0.7;
+}
+
+.evento-busca-menu img {
+    width: 40px;
+}
+
+.evento-busca-icone img {
+    width: 40px;
+}
+
+.barra-pesquisa {
+    padding: 8px 10px;
+    background-color: rgba(214, 183, 255, 0.1);
+    border: 0px solid rgba(214, 183, 255, 0.1);
+    border-radius: 5px 0 0 5px;
+}
+
+
+
+
 

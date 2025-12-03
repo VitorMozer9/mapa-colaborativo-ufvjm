@@ -1,0 +1,21 @@
+/* CSS Específico para a Página Sobre */
+
+.about-section {
+    background-color: var(--white);
+    padding: var(--spacing-xl);
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.about-content p {
+    margin-bottom: var(--spacing-md);
+    font-size: 1.1rem;
+    line-height: 1.8;
+    text-align: justify;
+}
+
+.about-content strong {
+    color: var(--primary-color);
+}

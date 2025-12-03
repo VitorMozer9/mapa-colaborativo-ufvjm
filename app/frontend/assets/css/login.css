@@ -1,0 +1,88 @@
+/* CSS Específico para a Página de Login */
+
+.login-section {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: var(--spacing-xl) 0;
+    min-height: 60vh;
+}
+
+.bloco-autenticacao {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xl);
+    width: 100%;
+    max-width: 900px;
+}
+
+.autenticacao {
+    background-color: var(--white);
+    padding: var(--spacing-lg);
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    flex: 1;
+}
+
+.autenticacao h2 {
+    color: var(--primary-color);
+    margin-bottom: var(--spacing-md);
+    text-align: center;
+    font-size: 1.5rem;
+}
+
+.form-group {
+    margin-bottom: var(--spacing-md);
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: var(--spacing-sm);
+    font-weight: bold;
+    font-size: 0.9rem;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+.btn-submit {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    color: var(--white);
+    margin-top: var(--spacing-sm);
+}
+
+.btn-cadastro {
+    background-color: var(--secondary-color);
+}
+
+.btn-cadastro:hover {
+    background-color: var(--secondary-hover);
+}
+
+.btn-login {
+    background-color: var(--primary-color);
+}
+
+.btn-login:hover {
+    background-color: var(--primary-hover);
+}
+
+/* Responsive */
+@media (min-width: 768px) {
+    .bloco-autenticacao {
+        flex-direction: row;
+        align-items: stretch;
+    }
+}

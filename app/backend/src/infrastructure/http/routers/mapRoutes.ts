@@ -11,4 +11,8 @@ const controladorMapa = new ControladorMapa(servicoMapa);
 
 router.get('/', (req, res, next) => controladorMapa.obterMapa(req, res, next));
 
+router.get('/config', (req, res, next) =>
+  controladorMapa.obterConfiguracao(req, res, next)
+);
+
 export { router as mapRoutes };

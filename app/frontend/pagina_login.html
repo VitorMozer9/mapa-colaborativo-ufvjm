@@ -39,6 +39,7 @@
 <main>
     <section class="login-section">
       <div class="bloco-autenticacao">
+        <div id="mensagens-auth" class="mensagens-auth"></div>
         <!-- Cadastro -->
         <div class="autenticacao">
           <h2>Realizar Cadastro</h2>
@@ -89,7 +90,9 @@
       </div>
     </div>
   </footer>
-
+  
+  <script src="assets/js/api.js"></script>
+  <script src="assets/js/auth.js"></script>
   <script>
     const navToggle = document.querySelector('.nav-toggle');
     const navMenu = document.querySelector('.nav-menu');
@@ -98,7 +101,6 @@
       navMenu.classList.toggle('active');
     });
   </script>
-       
 
     </body>
 

@@ -1,20 +1,97 @@
-/* CSS Específico para a Página do Mapa */
-
-.map-container {
-    width: 100%;
-    height: 70vh;
-    background-color: #e0e0e0;
-    border-radius: 8px;
-    position: relative;
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #666;
-    font-size: 1.2rem;
-    border: 1px solid #ccc;
+#map { height: 100vh; width: 100%; }
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
 }
 
-.map-placeholder {
-    text-align: center;
+.sidebar {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 1000;
+  width: 90px;
+  height: 100vh;
+  background-color: #0a6ea6;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 20px;
 }
+
+.logo {
+  margin-bottom: 60px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 67px;
+}
+
+.logo-img {
+  width: 67px;
+  height: 67px;
+  display: block;
+  margin: 0 auto;
+}
+
+
+
+.menu {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #fff;
+  font-size: 10px;
+  cursor: pointer;
+}
+
+.icon, .icon1, .icon2 {
+  width: 24px;
+  height: 24px;
+  display: block;
+  margin: 0 auto 5px;
+  border-radius: 4px;
+}
+.searchbar {
+  position: fixed;
+  top: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-radius: 12px;
+  padding: 8px 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  opacity: 0.9;
+  z-index: 2000;
+}
+.searchbar input {
+  width: 350px;
+  height: 30px;
+  opacity: 0.9;
+  border-radius: 25px;
+  padding: 8px 12px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+}
+.logo2-img {
+  height: 14px;
+  width: auto;
+}
+.logo3-img {
+  height: 14px;
+  width: auto;
+}
+.logo4-img {
+  height: 14px;
+  width: auto;
+}
+
+.chip { border: 1px solid #ccc; background: #fff; border-radius: 20px; padding: 6px 10px; font-size: 13px; cursor: pointer; }
+.chip.active { background: hsl(205, 87%, 94%); }

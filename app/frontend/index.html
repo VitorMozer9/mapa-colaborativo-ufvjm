@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tela Inicial UFVJM</title>
+    <link rel="stylesheet" href="assets/css/home.css">
+    <link rel="stylesheet" href="assets/css/global.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Gabarito:wght@400;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    
+
+<header>
+    <div class="header-container">
+
+    <!--Barra de Navegação-->
+      <a href="index.html" class="logo-ufvjm">
+        <img alt="Logo UFVJM" src="assets/img/logo-login/Logo-UFVJM-sem-fundo2.png" />
+      </a>
+
+      <button class="nav-toggle" aria-label="Menu">☰</button>
+
+      <!--Navegação-->
+      <nav class="nav-menu">
+        <a href="pagina_mapa.html" class="nav-link">Mapa</a>
+        <a href="pagina_eventos.html" class="nav-link">Eventos</a>
+        <a href="pagina_sobre.html" class="nav-link">Sobre</a>
+        <a href="pagina_login.html" class="nav-link">Login</a>
+      </nav>
+    </div>
+</header>
+
+<main>
+    <section class="hero-section">
+      <div class="slideshow-container">
+        <div class="slide active">
+          <img alt="Biblioteca" src="assets/img/slide-show-tela-inicial/Biblioteca.jpg"/>
+          <div class="slide-caption">Biblioteca</div>
+        </div>
+        <div class="slide">
+          <img alt="Bosque" src="assets/img/slide-show-tela-inicial/Bosque.jpg"/>
+          <div class="slide-caption">Bosque</div>
+        </div>
+        <div class="slide">
+          <img alt="Pavilhão I" src="assets/img/slide-show-tela-inicial/PavI.jpg"/>
+          <div class="slide-caption">Pavilhão I</div>
+        </div>
+        <div class="slide">
+          <img alt="Pró-Reitoria" src="assets/img/slide-show-tela-inicial/ProReitoria.jpg"/>
+          <div class="slide-caption">Pró-Reitoria</div>
+        </div>
+        <div class="slide">
+          <img alt="Prédio Sistemas" src="assets/img/slide-show-tela-inicial/PrédioSistemas.jpg"/>
+          <div class="slide-caption">Prédio Sistemas</div>
+        </div>
+
+
+        <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+        <a class="next" onclick="plusSlides(1)">&#10095;</a>
+
+        <div class="dots-container">
+          <span class="dot active" onclick="currentSlide(1)"></span>
+          <span class="dot" onclick="currentSlide(2)"></span>
+          <span class="dot" onclick="currentSlide(3)"></span>
+          <span class="dot" onclick="currentSlide(4)"></span>
+          <span class="dot" onclick="currentSlide(5)"></span>
+        </div>
+      </div>
+    </section>
+
+    <div class="cta-container">
+      <a href="pagina_mapa.html" class="botao-principal">
+        <span>Acessar mapa interativo</span>
+      </a>
+    </div>
+</main>
+
+  <footer>
+    <div class="footer-content">
+      <div class="footer-links">
+        <p>&copy; 2025 UFVJM - Mapa Colaborativo</p>
+      </div>
+    </div>
+  </footer>
+
+<script src="assets/js/scritpt.js"></script>
+<script>
+    // Script simples para o menu mobile
+    const navToggle = document.querySelector('.nav-toggle');
+    const navMenu = document.querySelector('.nav-menu');
+
+    navToggle.addEventListener('click', () => {
+      navMenu.classList.toggle('active');
+    });
+
+    // Slideshow logic (basic implementation if script.js is missing or incompatible)
+    let slideIndex = 1;
+    showSlides(slideIndex);
+
+    function plusSlides(n) {
+      showSlides(slideIndex += n);
+    }
+
+    function currentSlide(n) {
+      showSlides(slideIndex = n);
+    }
+
+    function showSlides(n) {
+      let i;
+      let slides = document.getElementsByClassName("slide");
+      let dots = document.getElementsByClassName("dot");
+      if (n > slides.length) { slideIndex = 1 }
+      if (n < 1) { slideIndex = slides.length }
+      for (i = 0; i < slides.length; i++) {
+        slides[i].style.display = "none";
+        slides[i].classList.remove('active');
+      }
+      for (i = 0; i < dots.length; i++) {
+        dots[i].className = dots[i].className.replace(" active", "");
+      }
+      slides[slideIndex - 1].style.display = "block";
+      slides[slideIndex - 1].classList.add('active');
+      dots[slideIndex - 1].className += " active";
+    }
+</script>
+
+
+</body>
+</html>

@@ -6,11 +6,15 @@
   <title>Mapa Colaborativo UFVJM</title>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
   <link rel="stylesheet" href="assets/css/map.css"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Gabarito:wght@400;700&display=swap" rel="stylesheet">
   
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   </head>
 <body>
   
+  <!--Barra de Busca-->
   <div id="map"></div>
   <div class="searchbar">
     <input id="searchInput" type="text" placeholder="Pesquise o local desejado" />
@@ -32,14 +36,22 @@
   </div>
 
 
-   <div class="sidebar">
-  <div class="logo">
-    <img src="assets/img/Mapa/logo.png" alt="Logo" class="logo-img">
-    <span class="leaf"></span>
+  <!--Barra Lateral-->
+  <div class="sidebar">
+
+    <div class="logo">
+
+      <a href="index.html" class="logo-ufvjm">
+
+        <img src="assets/img/Mapa/logo.png" alt="Logo" class="logo-img">
+
+        <span class="leaf"></span>
+        
+      </a>
   </div>
 
 
-
+<!--Icones da barra lateral-->
   <div class="menu">
     <div class="item">
 
@@ -78,9 +90,9 @@
 
       var map = L.map('map', { maxBoundsViscosity: 1.0 });
 
-      var imageUrl = 'assets/img/Mapa/mapa-atualizado.png';
+      var imageUrl = 'assets/img/Mapa/mapa-quadrado.png';
 
-      var areaPoints = [
+    var areaPoints = [
         [-18.20596, -43.58189],
         [-18.18906, -43.56978],
         [-18.20199, -43.56016],

@@ -1,352 +1,141 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mapa Interativo - CampusPath</title>
-
-  <!-- CSS Global -->
-  <link rel="stylesheet" href="assets/css/global.css">
-
-  <!-- Leaflet CSS -->
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
-
-  <!-- Google Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Gabarito:wght@400;500;600;700;800;900&display=swap"
-    rel="stylesheet">
-
-  <style>
-    /* Map specific styles */
-    body {
-      display: flex;
-      flex-direction: column;
-      height: 100vh;
-      overflow: hidden;
-      /* Prevent scrolling on body */
-    }
-
-    /* Override main padding for map page to allow full screen map */
-    main {
-      flex: 1;
-      position: relative;
-      padding: 0;
-      max-width: 100%;
-      margin: 0;
-    }
-
-    #map {
-      height: 100%;
-      width: 100%;
-      z-index: 1;
-    }
-
-    /* Floating Control Panel */
-    .map-controls {
-      position: absolute;
-      bottom: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 90%;
-      max-width: 400px;
-      background: white;
-      padding: 1rem;
-      border-radius: 16px;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-      z-index: 1000;
-      /* Above map */
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    .map-controls h3 {
-      margin: 0 0 0.5rem 0;
-      font-size: 1rem;
-      color: var(--text-color);
-      font-family: var(--font-main);
-    }
-
-    .control-group {
-      display: flex;
-      gap: 10px;
-    }
-
-    select {
-      flex: 1;
-      padding: 12px;
-      border: 1px solid var(--gray-light);
-      border-radius: 8px;
-      font-family: var(--font-main);
-      font-size: 1rem;
-      background-color: var(--white);
-    }
-
-    .btn-route {
-      background-color: var(--primary-color);
-      color: white;
-      border: none;
-      padding: 12px 20px;
-      border-radius: 8px;
-      font-weight: 600;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      transition: background-color 0.2s;
-      font-family: var(--font-main);
-    }
-
-    .btn-route:hover {
-      background-color: var(--primary-hover);
-    }
-
-    .btn-route:disabled {
-      background-color: var(--gray-light);
-      cursor: not-allowed;
-    }
-
-    /* Loading Overlay */
-    .loading-overlay {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: rgba(255, 255, 255, 0.8);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      z-index: 2000;
-      display: none;
-    }
-
-    .loading-overlay.active {
-      display: flex;
-    }
-
-    .spinner {
-      width: 40px;
-      height: 40px;
-      border: 4px solid #f3f3f3;
-      border-top: 4px solid var(--primary-color);
-      border-radius: 50%;
-      animation: spin 1s linear infinite;
-    }
-
-    @keyframes spin {
-      0% {
-        transform: rotate(0deg);
-      }
-
-      100% {
-        transform: rotate(360deg);
-      }
-    }
-  </style>
-</head>
-
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mapa Colaborativo UFVJM</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+  <link rel="stylesheet" href="assets/css/map.css"/>
+  
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  </head>
 <body>
-  <header>
-    <div class="header-container">
-      <a href="index.html" class="logo-ufvjm">
-        <!-- Assuming same logo path as index.html, adjusted for relative path if needed -->
-        <!-- index.html uses assets/img/logo-login/Logo-UFVJM-sem-fundo2.png -->
-        <img alt="Logo UFVJM" src="assets/img/logo-login/Logo-UFVJM-sem-fundo2.png" />
-      </a>
-
-      <button class="nav-toggle" aria-label="Menu">☰</button>
-
-      <nav class="nav-menu">
-        <a href="index.html" class="nav-link">Início</a>
-        <a href="pagina_mapa.html" class="nav-link">Mapa</a>
-        <a href="pagina_eventos.html" class="nav-link">Eventos</a>
-        <a href="pagina_sobre.html" class="nav-link">Sobre</a>
-        <a href="pagina_login.html" class="nav-link">Login</a>
-      </nav>
+  
+  <div id="map"></div>
+  <div class="searchbar">
+    <input id="searchInput" type="text" placeholder="Pesquise o local desejado" />
+    <div class="chips">
+      
+      <button class="chip deselected" data-cat="Departamentos">
+        <img src="assets/img/Mapa/logo2.png" alt="Logo2" class="logo2-img">Departamentos
+        
+        
+      </button>
+      
+      <button class="chip deselected" data-cat="Lanchonetes">
+        <img src="assets/img/Mapa/logo3.png" alt="Logo3" class="logo3-img">Lanchonetes</button>
+      
+      <button class="chip deselected " data-cat="Eventos">
+        <img src="assets/img/Mapa/logo4.png" alt="Logo4" class="logo4-img">Eventos</button>
+      
     </div>
-  </header>
+  </div>
 
-  <main>
-    <div id="map"></div>
 
-    <div class="map-controls">
-      <h3>Para onde você quer ir?</h3>
-      <div class="control-group">
-        <select id="poi-select">
-          <option value="">Selecione um local...</option>
-        </select>
-        <button id="btn-go" class="btn-route" disabled>
-          <span>Ir</span>
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-            <path fill-rule="evenodd"
-              d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z" />
-          </svg>
-        </button>
-      </div>
+   <div class="sidebar">
+  <div class="logo">
+    <img src="assets/img/Mapa/logo.png" alt="Logo" class="logo-img">
+    <span class="leaf"></span>
+  </div>
+
+
+
+  <div class="menu">
+    <div class="item">
+
+      <img src="assets/img/Mapa/pngegg2.png" alt="Ícone2" class="icon2">
+      <span>Salvos</span>
     </div>
 
-    <div id="loading" class="loading-overlay">
-      <div class="spinner"></div>
+    <div class="item">
+       <img src="assets/img/Mapa/pngegg1.png" alt="Ícone1" class="icon1">
+      <span>Favoritos</span>
     </div>
-  </main>
 
-  <!-- Leaflet JS -->
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <div class="item">
+      <img src="assets/img/Mapa/pngegg.png" alt="Ícone" class="icon">
+      <span>Eventos</span>
+    </div>
+  </div>
+</div>
 
+
+
+
+ 
   <script>
-    // Mobile Menu Logic
-    const navToggle = document.querySelector('.nav-toggle');
-    const navMenu = document.querySelector('.nav-menu');
-
-    if (navToggle && navMenu) {
-      navToggle.addEventListener('click', () => {
-        navMenu.classList.toggle('active');
-      });
-    }
-
-    // Map Logic
-    document.addEventListener('DOMContentLoaded', async () => {
-      const mapElement = document.getElementById('map');
-      const poiSelect = document.getElementById('poi-select');
-      const btnGo = document.getElementById('btn-go');
-      const loading = document.getElementById('loading');
-
-      let map;
-      let userMarker;
-      let destinationMarker;
-      let routeLayer;
-      let allPois = [];
-
-      const toggleLoading = (show) => {
-        loading.classList.toggle('active', show);
-      };
-
-      try {
-        // 1. Inicializar Mapa
-        const configResponse = await fetch('http://localhost:3000/api/map/config');
-        const config = await configResponse.json();
-        const bounds = config.bounds;
-
-        map = L.map('map', {
-          zoomControl: false
-        });
-
-        L.control.zoom({
-          position: 'topright'
-        }).addTo(map);
-
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-          maxZoom: 19,
-          attribution: '© OpenStreetMap'
-        }).addTo(map);
-
-        if (bounds) {
-          map.fitBounds(bounds);
-          map.setMaxBounds(bounds);
-          map.setMinZoom(15);
-        }
-
-        // 2. Carregar POIs
-        const dataResponse = await fetch('http://localhost:3000/api/map');
-        const geoData = await dataResponse.json();
-
-        allPois = geoData.features.filter(f => f.properties.camada === 'ponto');
-        allPois.sort((a, b) => a.properties.nome.localeCompare(b.properties.nome));
-
-        allPois.forEach(poi => {
-          const option = document.createElement('option');
-          const [lon, lat] = poi.geometry.coordinates;
-          option.value = JSON.stringify({ lat, lon, name: poi.properties.nome });
-          option.textContent = poi.properties.nome;
-          poiSelect.appendChild(option);
-        });
-
-        poiSelect.addEventListener('change', () => {
-          btnGo.disabled = !poiSelect.value;
-
-          if (poiSelect.value) {
-            const dest = JSON.parse(poiSelect.value);
-            if (destinationMarker) map.removeLayer(destinationMarker);
-            destinationMarker = L.marker([dest.lat, dest.lon])
-              .addTo(map)
-              .bindPopup(`<b>${dest.name}</b>`)
-              .openPopup();
-            map.setView([dest.lat, dest.lon], 18);
-          }
-        });
-
-        // 3. Rota
-        btnGo.addEventListener('click', () => {
-          if (!poiSelect.value) return;
-
-          toggleLoading(true);
-
-          if (!navigator.geolocation) {
-            alert('Seu navegador não suporta geolocalização.');
-            toggleLoading(false);
-            return;
-          }
-
-          navigator.geolocation.getCurrentPosition(
-            async (position) => {
-              const userLat = position.coords.latitude;
-              const userLon = position.coords.longitude;
-              const dest = JSON.parse(poiSelect.value);
-
-              if (userMarker) map.removeLayer(userMarker);
-              userMarker = L.circleMarker([userLat, userLon], {
-                radius: 8,
-                fillColor: '#2196F3',
-                color: '#fff',
-                weight: 2,
-                opacity: 1,
-                fillOpacity: 0.8
-              }).addTo(map).bindPopup('Você está aqui');
-
-              try {
-                const url = `http://localhost:3000/api/paths/route?startLat=${userLat}&startLon=${userLon}&endLat=${dest.lat}&endLon=${dest.lon}`;
-                const routeResp = await fetch(url);
-
-                if (!routeResp.ok) throw new Error('Erro ao calcular rota');
-
-                const routeGeoJSON = await routeResp.json();
-
-                if (routeLayer) map.removeLayer(routeLayer);
-
-                routeLayer = L.geoJSON(routeGeoJSON, {
-                  style: { color: '#4CAF50', weight: 6, opacity: 0.8 }
-                }).addTo(map);
-
-                const routeBounds = routeLayer.getBounds();
-                map.fitBounds(routeBounds, { padding: [50, 50] });
-
-              } catch (error) {
-                console.error(error);
-                alert('Não foi possível traçar a rota. Tente novamente.');
-              } finally {
-                toggleLoading(false);
-              }
-            },
-            (error) => {
-              console.error(error);
-              alert('Erro ao obter sua localização. Verifique as permissões.');
-              toggleLoading(false);
-            },
-            { enableHighAccuracy: true }
-          );
-        });
-
-      } catch (error) {
-        console.error('Erro de inicialização:', error);
-        mapElement.innerHTML = `<div style="padding:20px; text-align:center">Erro ao carregar mapa: ${error.message}</div>`;
+    window.addEventListener('DOMContentLoaded', function() {
+      if (typeof L === 'undefined') {
+        var el = document.getElementById('map');
+        el.textContent = 'Falha ao carregar Leaflet. Verifique sua conexão com a internet.';
+        el.style.display = 'flex';
+        el.style.alignItems = 'center';
+        el.style.justifyContent = 'center';
+        el.style.color = '#b00020';
+        el.style.fontFamily = 'system-ui, -apple-system, Segoe UI, Roboto, sans-serif';
+        return;
       }
+
+      var map = L.map('map', { maxBoundsViscosity: 1.0 });
+
+      var imageUrl = 'assets/img/Mapa/mapa.jpeg';
+
+      var areaPoints = [
+        [-18.20596, -43.58189],
+        [-18.18906, -43.56978],
+        [-18.20199, -43.56016],
+        [-18.21125, -43.56789]
+      ];
+    var bounds = L.latLngBounds(areaPoints);
+    var polyLatLngs = areaPoints.map(function(p){ return L.latLng(p[0], p[1]); });
+
+      map.setMinZoom(16.5);   
+      map.setMaxZoom(18);   
+      map.setMaxBounds(bounds);
+      map.fitBounds(bounds);
+
+      var overlay = L.imageOverlay(imageUrl, bounds, { opacity: 1 }).addTo(map);
+      overlay.on('error', function() {
+        L.popup().setLatLng(map.getCenter()).setContent('Imagem base não encontrada em '+imageUrl).openOn(map);
+      });
+
+      function pointInPolygon(latlng, poly) {
+        var x = latlng.lng, y = latlng.lat;
+        var inside = false;
+        for (var i = 0, j = poly.length - 1; i < poly.length; j = i++) {
+          var xi = poly[i].lng, yi = poly[i].lat;
+          var xj = poly[j].lng, yj = poly[j].lat;
+          var intersect = ((yi > y) !== (yj > y)) && (x < (xj - xi) * (y - yi) / (yj - yi) + xi);
+          if (intersect) inside = !inside;
+        }
+        return inside;
+      }
+
+      var clickMarker;
+      map.on('click', function(e) {
+        if (!pointInPolygon(e.latlng, polyLatLngs)) return;
+        if (clickMarker) map.removeLayer(clickMarker);
+        clickMarker = L.marker(e.latlng).addTo(map);
+        clickMarker.bindPopup('Novo ponto: ' + e.latlng.lat.toFixed(5) + ', ' + e.latlng.lng.toFixed(5)).openPopup();
+      });
+
+      document.getElementById('locate').addEventListener('click', function() {
+        if (!navigator.geolocation) return;
+        navigator.geolocation.getCurrentPosition(function(pos) {
+        var latlng = [pos.coords.latitude, pos.coords.longitude];
+        var ll = L.latLng(latlng[0], latlng[1]);
+        if (!pointInPolygon(ll, polyLatLngs)) {
+          L.popup().setLatLng(map.getCenter()).setContent('Fora da área delimitada').openOn(map);
+          return;
+        }
+        map.setView(latlng, 16);
+        L.circleMarker(latlng, { radius: 8, color: '#1976d2' }).addTo(map).bindPopup('Você está aqui').openPopup();
+      });
+      });
+
+
+      
+
     });
   </script>
 </body>
-
-</html>

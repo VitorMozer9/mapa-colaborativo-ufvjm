@@ -101,49 +101,59 @@
     var bounds = L.latLngBounds(areaPoints);
     var polyLatLngs = areaPoints.map(function(p){ return L.latLng(p[0], p[1]); });
 
-      map.setMinZoom(16.5);   
-      map.setMaxZoom(18);   
-      map.setMaxBounds(bounds);
       map.fitBounds(bounds);
 
       var overlay = L.imageOverlay(imageUrl, bounds, { opacity: 1 }).addTo(map);
       overlay.on('error', function() {
         L.popup().setLatLng(map.getCenter()).setContent('Imagem base não encontrada em '+imageUrl).openOn(map);
       });
+      var srcPt = L.latLng(-18.202508, -43.573279);
+      var dstPt = L.latLng(-18.200153, -43.575919);
+      var dLat = dstPt.lat - srcPt.lat;
+      var dLng = dstPt.lng - srcPt.lng;
+      var shifted = areaPoints.map(function(p){ return [p[0] + dLat, p[1] + dLng]; });
+      var shiftedBounds = L.latLngBounds(shifted);
+      overlay.setBounds(shiftedBounds);
+      map.setMinZoom(16.5);
+      map.setMaxZoom(18);
+      map.setMaxBounds(shiftedBounds);
+      map.fitBounds(shiftedBounds);
 
-      function pointInPolygon(latlng, poly) {
-        var x = latlng.lng, y = latlng.lat;
-        var inside = false;
-        for (var i = 0, j = poly.length - 1; i < poly.length; j = i++) {
-          var xi = poly[i].lng, yi = poly[i].lat;
-          var xj = poly[j].lng, yj = poly[j].lat;
-          var intersect = ((yi > y) !== (yj > y)) && (x < (xj - xi) * (y - yi) / (yj - yi) + xi);
-          if (intersect) inside = !inside;
-        }
-        return inside;
-      }
 
+      var markersData = [
+        { nome: 'Almoxarifado', lat: -18.203047464079, lng: -43.5756421509754, categoria: 'Logística' },
+        { nome: 'Biblioteca', lat: -18.2001528787829, lng: -43.5760135599367, categoria: 'Serviço' },
+        { nome: 'Bosque', lat: -18.2002999000964, lng: -43.5753240295475, categoria: 'Área Verde' },
+        { nome: 'Centro de Pós CIpq', lat: -18.199243168563, lng: -43.57256262081, categoria: 'Acadêmico' },
+        { nome: 'DECOM', lat: -18.202215722936, lng: -43.5771069207662, categoria: 'Departamento' },
+        { nome: 'Departamento de Agronomia', lat: -18.2020544880635, lng: -43.5736118358237, categoria: 'Departamento' },
+        { nome: 'Departamento de Biologia', lat: -18.1958072077952, lng: -43.5731395386659, categoria: 'Departamento' },
+        { nome: 'Departamento de Educação Física', lat: -18.1969559272964, lng: -43.574105164036, categoria: 'Departamento' },
+        { nome: 'Departamento de Enfermagem', lat: -18.1962623397701, lng: -43.573843446478, categoria: 'Departamento' },
+        { nome: 'Departamento de Farmácia', lat: -18.197138053417, lng: -43.5730044995501, categoria: 'Departamento' },
+        { nome: 'Departamento de Medicina', lat: -18.1954138404507, lng: -43.5743937787052, categoria: 'Departamento' }
+      ];
+
+
+
+      markersData.forEach(function(m) {
+        var ll = L.latLng(m.lat, m.lng);
+        var info = '<strong>' + m.nome + '</strong><br/>' + (m.categoria || '') + '<br/>' +
+          'Lat: ' + m.lat.toFixed(6) + ', Lng: ' + m.lng.toFixed(6);
+        L.marker(ll).addTo(map).bindPopup(info);
+      });
       var clickMarker;
       map.on('click', function(e) {
-        if (!pointInPolygon(e.latlng, polyLatLngs)) return;
         if (clickMarker) map.removeLayer(clickMarker);
         clickMarker = L.marker(e.latlng).addTo(map);
-        clickMarker.bindPopup('Novo ponto: ' + e.latlng.lat.toFixed(5) + ', ' + e.latlng.lng.toFixed(5)).openPopup();
+        clickMarker.bindPopup('Coordenadas: ' + e.latlng.lat.toFixed(6) + ', ' + e.latlng.lng.toFixed(6)).openPopup();
       });
 
-      document.getElementById('locate').addEventListener('click', function() {
-        if (!navigator.geolocation) return;
-        navigator.geolocation.getCurrentPosition(function(pos) {
-        var latlng = [pos.coords.latitude, pos.coords.longitude];
-        var ll = L.latLng(latlng[0], latlng[1]);
-        if (!pointInPolygon(ll, polyLatLngs)) {
-          L.popup().setLatLng(map.getCenter()).setContent('Fora da área delimitada').openOn(map);
-          return;
-        }
-        map.setView(latlng, 16);
-        L.circleMarker(latlng, { radius: 8, color: '#1976d2' }).addTo(map).bindPopup('Você está aqui').openPopup();
-      });
-      });
+      
+
+      
+
+      
 
 
       

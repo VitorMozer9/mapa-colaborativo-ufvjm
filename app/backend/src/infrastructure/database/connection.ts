@@ -31,7 +31,6 @@ export async function testarConexao(): Promise<void> {
     const resultado = await cliente.query('SELECT NOW()');
     Logger.info('Conexão com banco de dados OK', resultado.rows[0]);
 
-    // Confere se PostGIS está instalado
     const postgis = await cliente.query('SELECT PostGIS_version()');
     Logger.info('PostGIS versão', postgis.rows[0].postgis_version);
 

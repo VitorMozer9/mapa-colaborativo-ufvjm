@@ -35,7 +35,6 @@ class Server {
     this.app.use(express.json());
     this.app.use(express.urlencoded({ extended: true }));
 
-    // Log de requisições
     this.app.use(
       (req: Request, _res: Response, next: NextFunction) => {
         Logger.info(`${req.method} ${req.path}`);

@@ -21,8 +21,8 @@ export class ServicoAutenticacao {
     nome: string,
     email: string,
     senha: string,
-    siape?: string,
-    papel: Role = Role.VISITANTE
+    papel: Role = Role.VISITANTE,
+    siape?: string
   ): Promise<{ usuario: Usuario; token: string }> {
 
     // Valida email institucional

@@ -47,26 +47,42 @@
     const isProfilePage = document.querySelector('.perfil-layout');
     if (!isProfilePage) return;
 
+    //  Verifica login
     const user = getCurrentUserSafe();
     if (!user) {
-      // se não estiver logado, manda pra login
       window.location.href = 'pagina_login.html';
       return;
     }
 
+    //  Seleciona os elementos do HTML 
     const nomeEl = document.querySelector('.perfil-nome');
     const emailEl = document.querySelector('.perfil-email');
     const cargoEl = document.querySelector('.perfil-cargo');
-    const matriculaEl = document.querySelector('.perfil-matricula');
+    
+    // Elementos do SIAP (Professor)
+    const matriculaWrapper = document.querySelector('.perfil-matricula-wrapper'); 
+    const matriculaSpan = document.querySelector('.perfil-matricula');
 
+    //  Preenche dados básicos
     if (nomeEl) nomeEl.textContent = user.nome || 'Usuário';
     if (emailEl) emailEl.textContent = user.email || 'Email não informado';
-    if (cargoEl) cargoEl.textContent = user.papel || 'Visitante';
-    if (matriculaEl) {
-      // Se no futuro tiver user.matricula, só trocar aqui
-      matriculaEl.textContent = user.matricula || 'Matrícula não informada';
+
+    //  Lógica do Cargo 
+    let textoCargo = 'Aluno';
+    if (user.papel === 'professor') textoCargo = 'Docente / Professor';
+    if (user.papel === 'admin') textoCargo = 'Administrador';
+    
+    if (cargoEl) cargoEl.textContent = textoCargo;
+
+    //  Se for PROFESSOR, mostra o SIAP
+    if (user.papel === 'professor') {
+        if (matriculaWrapper) matriculaWrapper.style.display = 'block'; 
+        if (matriculaSpan) matriculaSpan.textContent = user.siap || user.matricula || 'N/A';
+    } else {
+        if (matriculaWrapper) matriculaWrapper.style.display = 'none'; 
     }
 
+    //  Lógica de Avatar e Logout
     const storedAvatar = localStorage.getItem('profileAvatar');
     if (storedAvatar) {
       applyAvatarToAll(storedAvatar);
@@ -84,7 +100,7 @@
           try {
             localStorage.setItem('profileAvatar', dataUrl);
           } catch (err) {
-            console.error('Erro ao salvar avatar no localStorage', err);
+            console.error('Erro ao salvar avatar', err);
           }
           applyAvatarToAll(dataUrl);
         };

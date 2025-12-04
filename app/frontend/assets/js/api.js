@@ -62,10 +62,10 @@
   }
 
   // ---------- Autenticação ----------
-  async function registerUser({ nome, email, senha, papel = 'user' }) {
+  async function registerUser({ nome, email, senha, papel = 'user', ...outrosDados }) {
     const data = await apiFetch('/auth/register', {
       method: 'POST',
-      body: JSON.stringify({ nome, email, senha, papel })
+      body: JSON.stringify({ nome, email, senha, papel, ...outrosDados })
     });
     // data = { usuario, token }:contentReference[oaicite:16]{index=16}
     setAuth(data.token, data.usuario);

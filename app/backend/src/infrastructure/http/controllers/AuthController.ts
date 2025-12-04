@@ -12,14 +12,14 @@ export class ControladorAutenticacao {
     next: NextFunction
   ): Promise<void> => {
     try {
-      const { nome, email, senha, papel, siape } = req.body;
+      const { nome, email, senha, papel, siap } = req.body;
 
       const resultado = await this.servicoAutenticacao.registrar(
         nome,
         email,
         senha,
-        siape,
-        papel as Role
+        papel as Role,
+        siap
       );
 
       res.status(201).json({

@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
   const cadastroForm = document.querySelector('.btn-cadastro')?.closest('form');
+  const professorForm = document.querySelector('.btn-professor')?.closest('form');
   const loginForm = document.querySelector('.btn-login')?.closest('form');
   const mensagensDiv = document.getElementById('mensagens-auth');
 
@@ -9,7 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
     mensagensDiv.className = `mensagens-auth ${tipo}`;
   }
 
-  // Cadastro
+  // Cadastro Aluno/Geral
   if (cadastroForm) {
     cadastroForm.addEventListener('submit', async (e) => {
       e.preventDefault();
@@ -32,15 +33,38 @@ document.addEventListener('DOMContentLoaded', () => {
         await window.API.registerUser({ nome, email, senha });
         showMessage('Cadastro realizado com sucesso! Redirecionando...', 'sucesso');
 
-        setTimeout(() => {
-          window.location.href = 'pagina_mapa.html';
-        }, 1000);
+        setTimeout(() => window.location.reload(), 1500);
       } catch (err) {
         console.error(err);
         showMessage(err.message || 'Erro ao cadastrar.', 'erro');
       }
     });
   }
+  // Cadastro Professor
+  if (professorForm) {
+    professorForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const siap = document.getElementById('siap-cad')?.value.trim();
+      const nome = professorForm.querySelector('#nome-cad')?.value.trim();
+      const email = professorForm.querySelector('#email-cad')?.value.trim();
+      const senha = professorForm.querySelector('#senha-cad')?.value;
+      const confirma = professorForm.querySelector('#confirma-senha')?.value;
+
+      if (!siap || !nome || !email || !senha) {
+        return showMessage('Preencha todos os dados do docente.', 'erro');
+      }
+
+      try {
+        await window.API.registerUser({ nome, email, senha, siap, papel: 'professor' });
+        showMessage('Docente cadastrado! Aguarde aprovação ou faça login.', 'sucesso');
+        setTimeout(() => window.location.reload(), 1500);
+      } catch (error) {
+        console.error(error);
+        showMessage(error.message || 'Erro ao cadastrar docente.', 'erro');
+      }
+    });
+  }
+
 
   // Login
   if (loginForm) {
@@ -55,9 +79,16 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
       try {
-        await window.API.loginUser({ email, senha });
-        showMessage('Login realizado com sucesso! Redirecionando...', 'sucesso');
+        const dados = await window.API.loginUser({ email, senha });
+        if(dados.token) localStorage.setItem('authToken', dados.token);
 
+        if(dados.usuario){
+          localStorage.setItem('authUser', JSON.stringify(dados.usuario));
+        }else if(dados.papel){
+          localStorage.setItem('authUser', JSON.stringify({ papel: dados.papel }));
+        }
+
+        showMessage('Login realizado com sucesso! Redirecionando...', 'sucesso');
         setTimeout(() => {
           window.location.href = 'pagina_mapa.html';
         }, 1000);

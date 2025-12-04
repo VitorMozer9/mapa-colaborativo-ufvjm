@@ -1,174 +1,121 @@
-<!-- Documento HTML5 -->
 <!DOCTYPE html>
-<!-- Define o idioma da página como Português (Brasil) -->
 <html lang="pt-BR">
 
 <head>
-  <!-- Metadados básicos -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-
-  <!-- Título exibido na aba do navegador -->
   <title>Mapa Colaborativo UFVJM</title>
 
-  <!-- Estilos do Leaflet para o mapa -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-  <!-- Estilos próprios da página -->
   <link rel="stylesheet" href="assets/css/map.css" />
-
-  <!-- Otimização de carregamento de fontes -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com">
-  <!-- Fonte Gabarito usada na interface -->
   <link href="https://fonts.googleapis.com/css2?family=Gabarito:wght@400;700&display=swap" rel="stylesheet">
 
-  <!-- Biblioteca Leaflet para mapas -->
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 </head>
 
 <body>
 
-  <!-- Contêiner do mapa Leaflet -->
   <div id="map"></div>
 
-  <!-- Barra de busca e chips de categorias -->
-  <div class="searchbar">
-    <!-- Campo de pesquisa de locais -->
-    <input id="searchInput" type="text" placeholder="Pesquise o local desejado" />
-    <div class="chips">
-      <!-- Filtro: Departamentos -->
-      <button class="chip deselected" data-cat="Departamentos">
-        <img src="assets/img/Mapa/logo2.png" alt="Logo2" class="logo2-img">Departamentos
-      </button>
+  <div class="routing-container">
+    <select id="select-origin" class="route-select">
+      <option value="">📍 Minha Localização (Detectando...)</option>
+    </select>
 
-      <!-- Filtro: Lanchonetes -->
-      <button class="chip deselected" data-cat="Lanchonetes">
-        <img src="assets/img/Mapa/logo3.png" alt="Logo3" class="logo3-img">Lanchonetes
-      </button>
+    <span style="color: #666; font-weight: bold;">➝</span>
 
-      <!-- Filtro: Eventos -->
-      <button class="chip deselected " data-cat="Eventos">
-        <img src="assets/img/Mapa/logo4.png" alt="Logo4" class="logo4-img">Eventos
-      </button>
-    </div>
+    <select id="select-dest" class="route-select">
+      <option value="">🏁 Selecione o Destino</option>
+    </select>
+
+    <button id="btn-trace-route" class="btn-route">IR</button>
+    <button id="btn-clear-route" class="btn-clear" title="Limpar rota">✕</button>
   </div>
 
-  <!-- Barra lateral com navegação -->
+  <button id="btn-fav-route" class="fav-route-btn" title="Salvar rota nos favoritos">
+    ❤
+  </button>
+
   <div class="sidebar">
-    <!-- Logotipo e atalho para a página inicial -->
     <div class="logo">
       <a href="index.html" class="logo-ufvjm">
         <img src="assets/img/Mapa/logo.png" alt="Logo" class="logo-img">
-        <span class="leaf"></span>
       </a>
     </div>
 
-    <!-- Menu de navegação lateral -->
     <div class="menu">
-      <!-- Item: Salvos -->
       <div class="item">
-        <img src="assets/img/Mapa/pngegg2.png" alt="Ícone2" class="icon2">
-        <span>Salvos</span>
+        <img src="assets/img/Mapa/pngegg2.png" class="icon2"><span>Salvos</span>
       </div>
-
-      <!-- Item: Favoritos -->
       <div class="item">
-        <img src="assets/img/Mapa/pngegg1.png" alt="Ícone1" class="icon1">
-        <span>Favoritos</span>
+        <img src="assets/img/Mapa/pngegg1.png" class="icon1"><span>Favoritos</span>
       </div>
-
-      <!-- Item: Eventos -->
       <div class="item">
-        <img src="assets/img/Mapa/pngegg.png" alt="Ícone" class="icon">
-        <span>Eventos</span>
+        <img src="assets/img/Mapa/pngegg.png" class="icon"><span>Eventos</span>
       </div>
-
-      <!-- Link para o perfil do usuário -->
+      
       <div class="item menu-profile-bottom">
         <a href="perfil_usuario.html" class="menu-profile-link">
-          <img src="assets/img/perfil-usuário/user.png" alt="Perfil" class="icon-profile profile-avatar-img" />
+          <img src="assets/img/perfil-usuário/user.png" class="icon-profile profile-avatar-img" />
           <span>Perfil</span>
         </a>
       </div>
     </div>
   </div>
 
-
-
-
+  <script src="assets/js/api.js"></script>
+  <script src="assets/js/profile.js"></script>
 
   <script>
-    // Aguarda a construção do DOM antes de iniciar o mapa
-    window.addEventListener('DOMContentLoaded', function () {
-      // Verifica se a biblioteca Leaflet foi carregada
+    document.addEventListener('DOMContentLoaded', async function () {
+
       if (typeof L === 'undefined') {
         var el = document.getElementById('map');
-        el.textContent = 'Falha ao carregar Leaflet. Verifique sua conexão com a internet.';
-        el.style.display = 'flex';
-        el.style.alignItems = 'center';
-        el.style.justifyContent = 'center';
-        el.style.color = '#b00020';
-        el.style.fontFamily = 'system-ui, -apple-system, Segoe UI, Roboto, sans-serif';
+        el.textContent = 'Erro: Leaflet não carregado.';
         return;
       }
 
-      // Cria o mapa Leaflet associado ao elemento #map
       var map = L.map('map', { maxBoundsViscosity: 1.0 });
 
-      // Caminho da imagem base usada como overlay
       var imageUrl = 'assets/img/Mapa/mapa-quadrado.png';
-
-      // Pontos delimitadores da área original (lat, lng)
       var areaPoints = [
         [-18.20596, -43.58189],
         [-18.18906, -43.56978],
         [-18.20199, -43.56016],
         [-18.21125, -43.56789]
       ];
-      // Calcula limites em formato Leaflet
+
       var bounds = L.latLngBounds(areaPoints);
-      // Converte para objetos LatLng
-      var polyLatLngs = areaPoints.map(function (p) { return L.latLng(p[0], p[1]); });
-
-      // Ajusta a visão do mapa para cobrir os limites definidos
-      map.fitBounds(bounds);
-
-      // Adiciona a imagem como overlay e trata erro de carregamento
-      var overlay = L.imageOverlay(imageUrl, bounds, { opacity: 1 }).addTo(map);
-      overlay.on('error', function () {
-        L.popup().setLatLng(map.getCenter()).setContent('Imagem base não encontrada em ' + imageUrl).openOn(map);
-      });
-
-      // Aplica um deslocamento para alinhar a imagem ao sistema de coordenadas
       var srcPt = L.latLng(-18.202508, -43.573279);
       var dstPt = L.latLng(-18.200153, -43.575919);
       var dLat = dstPt.lat - srcPt.lat;
       var dLng = dstPt.lng - srcPt.lng;
       var shifted = areaPoints.map(function (p) { return [p[0] + dLat, p[1] + dLng]; });
       var shiftedBounds = L.latLngBounds(shifted);
-      overlay.setBounds(shiftedBounds);
 
-      // Define limites e níveis de zoom do mapa
+      map.fitBounds(shiftedBounds);
+
+      var overlay = L.imageOverlay(imageUrl, shiftedBounds, { opacity: 1 }).addTo(map);
+      overlay.on('error', function () { console.error('Imagem base não encontrada'); });
+
       map.setMinZoom(16.5);
       map.setMaxZoom(18);
       map.setMaxBounds(shiftedBounds);
       map.fitBounds(shiftedBounds);
 
-      // Dados dos marcadores a serem exibidos no mapa
-      // Cada item pode conter: nome, lat, lng, categoria, image, descricao, instagram, site
       var markersData = [
         { nome: 'Almoxarifado', lat: -18.203389, lng: -43.575549, categoria: 'Logística', image: 'assets/img/fotos-pop-up/Almoxarifado.jpg', descricao: 'Responsável pelo armazenamento e distribuição de materiais da universidade.' },
         { nome: 'Biblioteca', lat: -18.2001528787829, lng: -43.5760135599367, categoria: 'Serviço', image: 'assets/img/fotos-pop-up/Biblioteca.jpg', descricao: 'Biblioteca central com acervo físico e digital, salas de estudo e computadores.', instagram: '@bibliotecasufvjm', site: 'https://ufvjm.edu.br/biblioteca/' },
         { nome: 'Bosque', lat: -18.2002999000964, lng: -43.5753240295475, categoria: 'Área Verde', image: 'assets/img/fotos-pop-up/Bosque.jpg', descricao: 'Área de convivência ao ar livre, ideal para descanso e estudos em grupo.' },
         { nome: 'Centro de Pós CIpq', lat: -18.198696, lng: -43.572024, categoria: 'Acadêmico', image: 'assets/img/fotos-pop-up/CIPQ.jpeg', descricao: 'Centro de pesquisa e pós-graduação da UFVJM.', instagram: '', site: 'https://portal.ufvjm.edu.br/prppg/pesquisa/infraestrutura-para-pesquisa/laboratorio-cipq' },
         { nome: 'DECOM', lat: -18.202215722936, lng: -43.5771069207662, categoria: 'Departamento', image: 'assets/img/fotos-pop-up/Decom.jpg', descricao: 'Departamento de Computação - Curso de Sistemas de Informação.', instagram: '@decom_ufvjm', site: 'http://www.decom.ufvjm.edu.br/dc2020/' },
-        { nome: 'Departamento de Agronomia', lat: -18.2020544880635, lng: -43.5736118358237, categoria: 'Departamento',image: 'assets/img/fotos-pop-up/Agronomia.jpg', descricao: 'Curso de Agronomia e pesquisas em agricultura sustentável.', instagram: '', site: 'https://portal.ufvjm.edu.br/a-universidade/cursos/agr' },
-        { nome: 'Departamento de Biologia', lat: -18.1958072077952, lng: -43.5731395386659, categoria: 'Departamento',image: 'assets/img/fotos-pop-up/Biologia.jpg', descricao: 'Cursos de Ciências Biológicas - Licenciatura e Bacharelado.', instagram: '', site: 'https://portal.ufvjm.edu.br/a-universidade/cursos/bio' },
-        { nome: 'Departamento de Educação Física', lat: -18.196219, lng: -43.573966, categoria: 'Departamento',image: 'assets/img/fotos-pop-up/Educação_Fisica.jpg', descricao: 'Curso de Educação Física e atividades esportivas.', instagram: '', site: 'https://portal.ufvjm.edu.br/a-universidade/cursos/efs ' },
-        { nome: 'Departamento de Enfermagem', lat: -18.195511, lng: -43.573580, categoria: 'Departamento',image: 'assets/img/fotos-pop-up/Enfermagem.jpg', descricao: 'Curso de Enfermagem e práticas em saúde.', instagram: '', site: 'https://portal.ufvjm.edu.br/a-universidade/cursos/edf' },
-        { nome: 'Departamento de Farmácia', lat: -18.196382, lng: -43.572668, categoria: 'Departamento',image: 'assets/img/fotos-pop-up/Farmácia.jpg', descricao: 'Curso de Farmácia e laboratórios de pesquisa farmacêutica.', instagram: '', site: 'https://portal.ufvjm.edu.br/a-universidade/cursos/far' },
-        { nome: 'Departamento de Medicina', lat: -18.194354, lng: -43.574256, categoria: 'Departamento',image: 'assets/img/fotos-pop-up/Medicina.jpg', descricao: 'Curso de Medicina e Hospital Universitário.', instagram: '', site: 'https://portal.ufvjm.edu.br/a-universidade/cursos/med' },
-        { nome: 'Departamento de Odontologia', lat: -18.193579, lng:  -43.573151, categoria: 'Departamento', image: 'assets/img/fotos-pop-up/Odontologia.jpg', descricao: 'Dinheiro jogado fora', instagram: '', site: 'https://portal.ufvjm.edu.br/a-universidade/cursos/odo' },
+        { nome: 'Departamento de Agronomia', lat: -18.2020544880635, lng: -43.5736118358237, categoria: 'Departamento', image: 'assets/img/fotos-pop-up/Agronomia.jpg', descricao: 'Curso de Agronomia e pesquisas em agricultura sustentável.', instagram: '', site: 'https://portal.ufvjm.edu.br/a-universidade/cursos/agr' },
+        { nome: 'Departamento de Biologia', lat: -18.1958072077952, lng: -43.5731395386659, categoria: 'Departamento', image: 'assets/img/fotos-pop-up/Biologia.jpg', descricao: 'Cursos de Ciências Biológicas - Licenciatura e Bacharelado.', instagram: '', site: 'https://portal.ufvjm.edu.br/a-universidade/cursos/bio' },
+        { nome: 'Departamento de Educação Física', lat: -18.196219, lng: -43.573966, categoria: 'Departamento', image: 'assets/img/fotos-pop-up/Educação_Fisica.jpg', descricao: 'Curso de Educação Física e atividades esportivas.', instagram: '', site: 'https://portal.ufvjm.edu.br/a-universidade/cursos/efs ' },
+        { nome: 'Departamento de Enfermagem', lat: -18.195511, lng: -43.573580, categoria: 'Departamento', image: 'assets/img/fotos-pop-up/Enfermagem.jpg', descricao: 'Curso de Enfermagem e práticas em saúde.', instagram: '', site: 'https://portal.ufvjm.edu.br/a-universidade/cursos/edf' },
+        { nome: 'Departamento de Farmácia', lat: -18.196382, lng: -43.572668, categoria: 'Departamento', image: 'assets/img/fotos-pop-up/Farmácia.jpg', descricao: 'Curso de Farmácia e laboratórios de pesquisa farmacêutica.', instagram: '', site: 'https://portal.ufvjm.edu.br/a-universidade/cursos/far' },
+        { nome: 'Departamento de Medicina', lat: -18.194354, lng: -43.574256, categoria: 'Departamento', image: 'assets/img/fotos-pop-up/Medicina.jpg', descricao: 'Curso de Medicina e Hospital Universitário.', instagram: '', site: 'https://portal.ufvjm.edu.br/a-universidade/cursos/med' },
+        { nome: 'Departamento de Odontologia', lat: -18.193579, lng: -43.573151, categoria: 'Departamento', image: 'assets/img/fotos-pop-up/Odontologia.jpg', descricao: 'Dinheiro jogado fora', instagram: '', site: 'https://portal.ufvjm.edu.br/a-universidade/cursos/odo' },
         { nome: 'Departamento de Química', lat: -18.202834, lng: -43.576552, categoria: 'Departamento', image: 'assets/img/fotos-pop-up/Química.jpeg', descricao: 'Departamento do curso de Química (Bacharelado e Licenciatura). Possui complexo de laboratórios para ensino e pesquisa em ciências exatas.', instagram: '', site: '' },
         { nome: 'Departamento de Zootecnia', lat: -18.2028258218552, lng: -43.5741621680712, categoria: 'Departamento', image: 'assets/img/fotos-pop-up/Zootecnia.jpg', descricao: 'Departamento do curso de Zootecnia. Foca na produção animal, nutrição e melhoramento genético, com laboratórios especializados.', instagram: '', site: 'https://portal.ufvjm.edu.br/a-universidade/cursos/zoo ' },
         { nome: 'Departamento Florestal', lat: -18.2020202064797, lng: -43.571419528717, categoria: 'Departamento', image: 'assets/img/fotos-pop-up/Florestal.jpg', descricao: 'Departamento de Engenharia Florestal. Dedicado ao manejo de recursos florestais, silvicultura e tecnologia da madeira.', instagram: '', site: 'https://portal.ufvjm.edu.br/a-universidade/cursos/flo' },
@@ -179,83 +126,69 @@
         { nome: 'Reitoria', lat: -18.2010170232133, lng: -43.5753023464019, categoria: 'Administração', image: 'assets/img/fotos-pop-up/Reitoria.jpeg', descricao: 'Edifício sede da administração superior. Abriga o gabinete do Reitor, as Pró-Reitorias e os setores administrativos centrais da universidade.', instagram: '', site: 'https://portal.ufvjm.edu.br/a-universidade/reitoria' }
       ];
 
-      // Cria marcadores e popups com conteúdo detalhado
-      markersData.forEach(function(m) {
+      markersData.forEach(function (m) {
         var ll = L.latLng(m.lat, m.lng);
-
-        // ID único do bloco de detalhes para controle de expandir/recolher
         var popupId = 'popup-' + m.nome.replace(/\s+/g, '-').toLowerCase();
 
-        // Constrói o HTML do popup
         var popupHTML = '<div style="font-family: Gabarito, sans-serif; min-width: 220px;">';
 
-        // Adiciona imagem se estiver definida
         if (m.image) {
           popupHTML += '<img src="' + m.image + '" alt="' + m.nome + '" style="width:100%; height:auto; max-height:180px; object-fit:contain; border-radius:4px; margin-bottom:8px; background:#f6f6f6;">';
         }
 
-        // Título e categoria
         popupHTML += '<strong style="font-size:16px; color:#00659f; display:block; margin-bottom:4px;">' + m.nome + '</strong>';
         popupHTML += '<span style="color:#666; font-size:13px; display:block; margin-bottom:6px;">📍 ' + (m.categoria || 'Local') + '</span>';
 
-        // Coordenadas sempre visíveis
         popupHTML += '<div style="font-size:11px; color:#999; margin-bottom:10px;">';
         popupHTML += 'Lat: ' + m.lat.toFixed(6) + ' | Lng: ' + m.lng.toFixed(6);
         popupHTML += '</div>';
 
-        // Se houver informações adicionais, cria botão para exibir detalhes
         if (m.descricao || m.instagram || m.site) {
           popupHTML += '<button id="btn-' + popupId + '" onclick="toggleDetails(\'' + popupId + '\')" ';
           popupHTML += 'style="width:100%; padding:8px; background:#00659f; color:white; border:none; border-radius:4px; cursor:pointer; font-family:Gabarito; font-size:13px; font-weight:600; transition:0.15s ease;"';
           popupHTML += ' onmouseover="this.style.background=\'#004a73\'" onmouseout="this.style.background=\'#00659f\'">';
           popupHTML += '▼ Mais detalhes</button>';
 
-          // Conteúdo expandível (inicialmente oculto)
           popupHTML += '<div id="' + popupId + '" style="display:none; margin-top:10px; padding-top:10px; border-top:1px solid #e0e0e0;">';
 
-          // Descrição
           if (m.descricao) {
             popupHTML += '<p style="font-size:13px; color:#333; line-height:1.4; margin:0 0 8px 0;">' + m.descricao + '</p>';
           }
-
-          // Link do Instagram
           if (m.instagram) {
             popupHTML += '<div style="margin-bottom:6px;">';
             popupHTML += '<span style="font-size:12px; color:#666;">📷 Instagram: </span>';
             popupHTML += '<a href="https://instagram.com/' + m.instagram.replace('@', '') + '" target="_blank" style="font-size:12px; color:#00659f; text-decoration:none;">' + m.instagram + '</a>';
             popupHTML += '</div>';
           }
-
-          // Site institucional
           if (m.site) {
             popupHTML += '<div style="margin-bottom:6px;">';
             popupHTML += '<span style="font-size:12px; color:#666;">🌐 Site: </span>';
             popupHTML += '<a href="' + m.site + '" target="_blank" style="font-size:12px; color:#00659f; text-decoration:none; word-break:break-all;">' + m.site + '</a>';
             popupHTML += '</div>';
           }
-
           popupHTML += '</div>';
         }
-
         popupHTML += '</div>';
 
-        // Adiciona o marcador no mapa com o popup
-        L.marker(ll).addTo(map).bindPopup(popupHTML, {
+        var marker = L.marker(ll).addTo(map).bindPopup(popupHTML, {
           maxWidth: 280,
           minWidth: 220
         });
+
+        marker.on('click', function () {
+          const destSelect = document.getElementById('select-dest');
+          if (destSelect) {
+            for (let i = 0; i < destSelect.options.length; i++) {
+              if (destSelect.options[i].text === m.nome) {
+                destSelect.selectedIndex = i;
+                break;
+              }
+            }
+          }
+        });
       });
 
-      // Cria marcador ao clicar no mapa e exibe coordenadas
-      var clickMarker;
-      map.on('click', function(e) {
-        if (clickMarker) map.removeLayer(clickMarker);
-        clickMarker = L.marker(e.latlng).addTo(map);
-        clickMarker.bindPopup('Coordenadas: ' + e.latlng.lat.toFixed(6) + ', ' + e.latlng.lng.toFixed(6)).openPopup();
-      });
-
-      // Função global para expandir/recolher detalhes dentro dos popups
-      window.toggleDetails = function(popupId) {
+      window.toggleDetails = function (popupId) {
         var detailsDiv = document.getElementById(popupId);
         var button = document.getElementById('btn-' + popupId);
 
@@ -267,12 +200,103 @@
           button.innerHTML = '▼ Mais detalhes';
         }
       };
+
+      let currentRouteLayer = null;
+      let currentDestId = null;
+      let dbPOIs = [];
+
+      (async function initRouting() {
+        try {
+          if (!window.API || !window.API.getAllPOIs) return;
+          const response = await window.API.getAllPOIs();
+          dbPOIs = response.dados || [];
+
+          dbPOIs.sort((a, b) => a.nome.localeCompare(b.nome));
+
+          const selOrigem = document.getElementById('select-origin');
+          const selDest = document.getElementById('select-dest');
+
+          dbPOIs.forEach(poi => {
+            let opt1 = document.createElement('option');
+            opt1.value = JSON.stringify(poi.coordenadas);
+            opt1.textContent = poi.nome;
+            selOrigem.appendChild(opt1);
+
+            let opt2 = document.createElement('option');
+            opt2.value = JSON.stringify(poi.coordenadas);
+            opt2.dataset.id = poi.id;
+            opt2.textContent = poi.nome;
+            selDest.appendChild(opt2);
+          });
+        } catch (e) {
+          console.error(e);
+        }
+      })();
+
+      document.getElementById('btn-trace-route').addEventListener('click', async () => {
+        const selOrigem = document.getElementById('select-origin');
+        const selDest = document.getElementById('select-dest');
+        const origemVal = selOrigem.value;
+        const destVal = selDest.value;
+
+        if (!origemVal || !destVal) {
+          alert("Selecione origem e destino.");
+          return;
+        }
+
+        const coordsOrigem = JSON.parse(origemVal);
+        const coordsDest = JSON.parse(destVal);
+
+        currentDestId = selDest.options[selDest.selectedIndex].dataset.id;
+
+        try {
+          if (currentRouteLayer) map.removeLayer(currentRouteLayer);
+
+          const geoJson = await window.API.calculateRoute(
+            coordsOrigem.latitude, coordsOrigem.longitude,
+            coordsDest.latitude, coordsDest.longitude
+          );
+
+          if (!geoJson || !geoJson.features || geoJson.features.length === 0) {
+            alert("Rota não encontrada.");
+            return;
+          }
+
+          currentRouteLayer = L.geoJSON(geoJson, {
+            style: { color: '#00659f', weight: 6, opacity: 0.8 }
+          }).addTo(map);
+
+          map.fitBounds(currentRouteLayer.getBounds(), { padding: [50, 50] });
+
+          const btnFav = document.getElementById('btn-fav-route');
+          btnFav.style.display = 'flex';
+          btnFav.classList.remove('active');
+
+        } catch (err) {
+          console.error(err);
+          alert("Erro ao traçar rota.");
+        }
+      });
+
+      document.getElementById('btn-clear-route').addEventListener('click', () => {
+        if (currentRouteLayer) map.removeLayer(currentRouteLayer);
+        document.getElementById('btn-fav-route').style.display = 'none';
+        document.getElementById('select-origin').value = "";
+        document.getElementById('select-dest').value = "";
+      });
+
+      document.getElementById('btn-fav-route').addEventListener('click', async () => {
+        if (!currentDestId) return;
+        try {
+          await window.API.addFavorite(currentDestId);
+          document.getElementById('btn-fav-route').classList.add('active');
+          alert("Adicionado aos Favoritos!");
+        } catch (err) {
+          alert("Erro: " + err.message);
+        }
+      });
     });
   </script>
-
-  <!-- Scripts auxiliares da aplicação -->
-  <script src="assets/js/api.js"></script>
-  <script src="assets/js/profile.js"></script>
-
 </body>
+
 </html>

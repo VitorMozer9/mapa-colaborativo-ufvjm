@@ -1,17 +1,14 @@
-document.addEventListener('DOMContentLoaded', () => {
-    const searchInput = document.querySelector('.searchbar input');
-    const searchBarContainer = document.querySelector('.searchbar');
-    let map = null; 
-    
+document.addEventListener('DOMContentLoaded', async () => {
+    const selOrigem = document.getElementById('select-origin');
+    const selDest = document.getElementById('select-dest');
+    const btnIr = document.getElementById('btn-trace-route');
+    const btnLimpar = document.getElementById('btn-clear-route');
+    const btnFav = document.getElementById('btn-fav-route');
+
     let currentRouteLayer = null;
-    let selectedPOI = null;
+    let currentDestId = null;
     let userLocation = null;
-    
-    const favButton = document.createElement('div');
-    favButton.className = 'route-fav-btn';
-    favButton.innerHTML = '❤️';
-    favButton.style.display = 'none'; 
-    document.body.appendChild(favButton); 
+    let dbPOIs = [];
 
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(pos => {
@@ -19,138 +16,134 @@ document.addEventListener('DOMContentLoaded', () => {
                 lat: pos.coords.latitude,
                 lng: pos.coords.longitude
             };
-        }, err => console.error("Erro ao pegar localização", err));
+            if (selOrigem) {
+                selOrigem.options[0].text = "📍 Minha Localização (Atual)";
+                selOrigem.options[0].value = JSON.stringify(userLocation);
+            }
+        }, err => {
+            console.error("Erro GPS:", err);
+            if (selOrigem) selOrigem.options[0].text = "📍 Minha Localização (Não permitida)";
+        });
+    }
+
+    async function initComboboxes() {
+        try {
+            if (!window.API || !window.API.getAllPOIs) return;
+            const response = await window.API.getAllPOIs();
+            dbPOIs = response.dados || [];
+
+            dbPOIs.sort((a, b) => a.nome.localeCompare(b.nome));
+
+            dbPOIs.forEach(poi => {
+                let opt1 = document.createElement('option');
+                opt1.value = JSON.stringify(poi.coordenadas);
+                opt1.textContent = poi.nome;
+                selOrigem.appendChild(opt1);
+
+                let opt2 = document.createElement('option');
+                opt2.value = JSON.stringify(poi.coordenadas);
+                opt2.dataset.id = poi.id; 
+                opt2.textContent = poi.nome;
+                selDest.appendChild(opt2);
+            });
+        } catch (e) {
+            console.error("Erro ao carregar POIs:", e);
+        }
     }
     
-    const suggestionsList = document.createElement('ul');
-    suggestionsList.className = 'search-suggestions';
-    searchBarContainer.appendChild(suggestionsList);
+    initComboboxes();
 
-    searchInput.addEventListener('input', async (e) => {
-        const term = e.target.value;
-        if (term.length < 2) {
-            suggestionsList.style.display = 'none';
+    btnIr.addEventListener('click', async () => {
+        const origemVal = selOrigem.value;
+        const destVal = selDest.value;
+
+        if (!origemVal || !destVal) {
+            alert("Selecione uma origem e um destino válidos.");
             return;
         }
 
+        if (origemVal === "" && !userLocation) {
+            alert("Aguardando localização ou selecione um ponto de partida.");
+            return;
+        }
+
+        const coordsOrigem = JSON.parse(origemVal || JSON.stringify(userLocation));
+        const coordsDest = JSON.parse(destVal);
+
+        currentDestId = selDest.options[selDest.selectedIndex].dataset.id;
+
         try {
-            const response = await window.API.searchPOIs(term);
-            const pois = response.dados || [];
-            
-            suggestionsList.innerHTML = '';
-            
-            if (pois.length > 0) {
-                suggestionsList.style.display = 'block';
-                pois.forEach(poi => {
-                    const li = document.createElement('li');
-                    li.textContent = poi.nome; 
-                    li.style.padding = '8px';
-                    li.style.cursor = 'pointer';
-                    li.style.background = '#fff';
-                    li.style.borderBottom = '1px solid #eee';
-
-                    li.addEventListener('click', () => {
-                        selectPOI(poi);
-                        suggestionsList.style.display = 'none';
-                        searchInput.value = poi.nome;
-                    });
-                    suggestionsList.appendChild(li);
-                });
-            } else {
-                suggestionsList.style.display = 'none';
+            if (currentRouteLayer && window.map) {
+                window.map.removeLayer(currentRouteLayer);
             }
-        } catch (err) {
-            console.error(err);
-        }
-    });
 
-    async function selectPOI(poi) {
-        selectedPOI = poi;
-        
-        if (window.map) {
-            window.map.setView([poi.coordenadas.latitude, poi.coordenadas.longitude], 18);
-            
-            L.marker([poi.coordenadas.latitude, poi.coordenadas.longitude])
-             .addTo(window.map)
-             .bindPopup(`<b>${poi.nome}</b><br>${poi.descricao || ''}`)
-             .openPopup();
-        }
+            const geoJson = await window.API.calculateRoute(
+                coordsOrigem.latitude || coordsOrigem.lat,
+                coordsOrigem.longitude || coordsOrigem.lng,
+                coordsDest.latitude,
+                coordsDest.longitude
+            );
 
-        if (userLocation) {
-            try {
-                const geoJsonRota = await window.API.calculateRoute(
-                    userLocation.lat, 
-                    userLocation.lng, 
-                    poi.coordenadas.latitude, 
-                    poi.coordenadas.longitude
-                );
-
-                if (window.map) {
-                    // Remover rota anterior
-                    if (currentRouteLayer) {
-                        window.map.removeLayer(currentRouteLayer);
-                    }
-
-                    // Desenhar nova rota (Linha Azul)
-                    currentRouteLayer = L.geoJSON(geoJsonRota, {
-                        style: { color: '#00659f', weight: 5, opacity: 0.8 }
-                    }).addTo(window.map);
-
-                    // Ajustar zoom para caber a rota
-                    window.map.fitBounds(currentRouteLayer.getBounds(), { padding: [50, 50] });
-                    
-                    // Mostrar botão de favoritar (Feature 3)
-                    updateFavoriteButtonState(poi.id);
-                }
-            } catch (err) {
-                console.error("Erro ao traçar rota", err);
-                alert("Não foi possível traçar a rota neste momento.");
-            }
-        } else {
-            alert("Ative a localização para traçar a rota.");
-        }
-    }
-
-
-    async function updateFavoriteButtonState(poiId) {
-        favButton.style.display = 'flex';
-        
-        // Verificar se ja e favorito
-        const favoritos = await window.API.fetchFavorites();
-        const isFav = favoritos.dados.some(f => f.idPOI === poiId);
-
-        updateFavIcon(isFav);
-        
-        // Limpa antigos clonando o nó
-        const newBtn = favButton.cloneNode(true);
-        favButton.parentNode.replaceChild(newBtn, favButton);
-        
-        newBtn.addEventListener('click', async () => {
-            const currentUser = window.API.getCurrentUser();
-            if (!currentUser) {
-                alert("Faça login para salvar favoritos.");
+            if (!geoJson || !geoJson.features || geoJson.features.length === 0) {
+                alert("Não foi possível traçar uma rota entre estes pontos.");
                 return;
             }
 
-            try {
-                if (isFav) {
-                    alert("Este local já está nos seus favoritos!");
-                } else {
-                    await window.API.addFavorite(poiId);
-                    updateFavIcon(true);
-                    alert("Rota/Local salvo nos favoritos!");
+            if (window.map) {
+                currentRouteLayer = L.geoJSON(geoJson, {
+                    style: { color: '#00659f', weight: 6, opacity: 0.8 }
+                }).addTo(window.map);
+
+                window.map.fitBounds(currentRouteLayer.getBounds(), { padding: [50, 50] });
+
+                if (btnFav) {
+                    btnFav.style.display = 'flex';
+                    checkFavoriteStatus(currentDestId);
                 }
-            } catch (err) {
-                console.error(err);
             }
-        });
-        
-        favButton = newBtn;
+        } catch (err) {
+            console.error(err);
+            alert("Erro ao calcular rota. Verifique sua conexão.");
+        }
+    });
+
+    btnLimpar.addEventListener('click', () => {
+        if (currentRouteLayer && window.map) {
+            window.map.removeLayer(currentRouteLayer);
+        }
+        if (btnFav) btnFav.style.display = 'none';
+        selOrigem.value = "";
+        selDest.value = "";
+    });
+
+    async function checkFavoriteStatus(poiId) {
+        btnFav.classList.remove('active');
     }
 
-    function updateFavIcon(active) {
-        favButton.style.backgroundColor = active ? '#ff4d4d' : '#white';
-        favButton.style.color = active ? '#fff' : '#ff4d4d';
-        favButton.style.border = active ? 'none' : '2px solid #ff4d4d';
+    btnFav.addEventListener('click', async () => {
+        if (!currentDestId) return;
+        try {
+            await window.API.addFavorite(currentDestId);
+            btnFav.classList.add('active');
+            alert("Destino salvo nos Favoritos!");
+        } catch (err) {
+            
+            
+            alert("Atenção: " + err.message);
+        }
+    });
+
+    if (window.map) {
+        window.map.on('popupopen', function(e) {
+            const popupContent = e.popup.getContent();
+            if (typeof popupContent === 'string') {
+                for (let i = 0; i < selDest.options.length; i++) {
+                    if (popupContent.includes(selDest.options[i].text)) {
+                        selDest.selectedIndex = i;
+                        break;
+                    }
+                }
+            }
+        });
     }
 });

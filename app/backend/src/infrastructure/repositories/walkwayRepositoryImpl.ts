@@ -160,33 +160,52 @@ export class RepositorioCaminhoPostgres implements IWalkwayRepository {
     Logger.info(`Caminho deletado: ${id}`);
   }
 
+  // Substitua o método buscarRota antigo por este:
   async buscarRota(origem: [number, number], destino: [number, number]): Promise<any> {
     const sql = `
       WITH start_node AS (
-        SELECT source FROM geo.walkway_topology 
-        ORDER BY geom <-> ST_SetSRID(ST_Point($1, $2), 4326) LIMIT 1
+        -- Encontra o nó (source ou target) da aresta mais próxima do ponto de origem
+        SELECT 
+          CASE 
+            WHEN ST_Distance(ST_StartPoint(geom), ST_SetSRID(ST_Point($1, $2), 4326)) < ST_Distance(ST_EndPoint(geom), ST_SetSRID(ST_Point($1, $2), 4326)) 
+            THEN source 
+            ELSE target 
+          END as id
+        FROM geo.walkway_topology
+        ORDER BY geom <-> ST_SetSRID(ST_Point($1, $2), 4326)
+        LIMIT 1
       ),
       end_node AS (
-        SELECT source FROM geo.walkway_topology 
-        ORDER BY geom <-> ST_SetSRID(ST_Point($3, $4), 4326) LIMIT 1
+        -- Encontra o nó (source ou target) da aresta mais próxima do ponto de destino
+        SELECT 
+          CASE 
+            WHEN ST_Distance(ST_StartPoint(geom), ST_SetSRID(ST_Point($3, $4), 4326)) < ST_Distance(ST_EndPoint(geom), ST_SetSRID(ST_Point($3, $4), 4326)) 
+            THEN source 
+            ELSE target 
+          END as id
+        FROM geo.walkway_topology
+        ORDER BY geom <-> ST_SetSRID(ST_Point($3, $4), 4326)
+        LIMIT 1
       ),
       rota AS (
+        -- Calcula o caminho usando Dijkstra
         SELECT * FROM pgr_dijkstra(
           'SELECT id, source, target, cost, reverse_cost FROM geo.walkway_topology',
-          (SELECT source FROM start_node),
-          (SELECT source FROM end_node),
+          (SELECT id FROM start_node),
+          (SELECT id FROM end_node),
           false
         )
       )
+      -- Monta o resultado em GeoJSON
       SELECT json_build_object(
         'type', 'FeatureCollection',
-        'features', json_agg(
+        'features', COALESCE(json_agg(
           json_build_object(
             'type', 'Feature',
             'geometry', ST_AsGeoJSON(wt.geom)::json,
             'properties', json_build_object('custo', r.cost)
           )
-        )
+        ), '[]'::json)
       ) as geojson
       FROM rota r
       JOIN geo.walkway_topology wt ON r.edge = wt.id;

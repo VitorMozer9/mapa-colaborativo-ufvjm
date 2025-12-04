@@ -26,86 +26,168 @@
     
 /* Informações do usuário (a esquerda na tela de perfil) */
 
-.barra-perfil-lateral {    
-    width: 340px;    
-    background: #9fd960;    
-    display: flex;    
-    flex-direction: column;    
-    align-items: center;    
-    position: relative;}
+.barra-perfil-lateral {
+    width: 340px;
+    background: #ffffff; /* Fundo branco limpo */
+    border-radius: 16px; /* Bordas bem arredondadas */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08); /* Sombra elegante */
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 1px solid #f0f0f0;
+    margin-bottom: 20px;
+    /* Removemos o position: relative antigo que travava o layout */
+}
 
-.capa-perfil {    
-    width: 100%;    
-    height: 220px;    
-    overflow: hidden;}
-    
-.capa-perfil img {    
-    width: 100%;    
-    height: 100%;    
-    object-fit: cover;}
-    
-/* Local da foto do usuário */
+/* Capa do Perfil (Header do Card) */
+.capa-perfil {
+    width: 100%;
+    height: 120px; /* Altura menor para ficar proporcional */
+    background: linear-gradient(135deg, #00659f, #004a73); /* Gradiente azul UFVJM */
+}
 
-.avatar-perfil {    
-    width: 160px;    
-    height: 160px;    
-    border-radius: 50%;    
-    background: #f5f0ff;    
-    display: flex;    
-    align-items: center;    
-    justify-content: center;    
-    font-size: 60px;    
-    border: 6px solid #f6f6f6;    
-    position: absolute;    
-    top: 150px;}
-    
-.perfil-avatar-icone {    
-    line-height: 1;}
-    
-/* Nome e informações pessoais de cada usuário */
+.capa-perfil img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.6; /* Deixa a imagem sutil */
+}
 
-.perfil-info {    
-    margin-top: 190px;    
-    text-align: center;    
-    padding: 0 20px;    
-    color: #004000;    
-    font-family: 'Gabarito', sans-serif;}
-    
-.perfil-nome {    
-    font-size: 32px;    
-    font-weight: 700;    
-    color: #0071bd;    
-    margin-bottom: 4px;}
-    
-.perfil-cargo {    
-    font-size: 18px;    
-    margin-bottom: 8px;}
-    
-.perfil-email,.perfil-matricula {    
-    font-size: 16px;    
-    margin-bottom: 4px;}
-    
-/* botão para sair do usuário atual */
+/* Avatar do Usuário (Flutuando sobre a capa) */
+.avatar-perfil {
+    width: 120px;
+    height: 120px;
+    margin-top: -60px; /* Puxa para cima para sobrepor a capa */
+    position: relative; /* Ajuste para fluxo normal */
+    border-radius: 50%;
+    background: #ffffff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: 5px solid #ffffff; /* Borda branca grossa */
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
 
-.btn-sair-perfil { 
-    margin-top: 30px;    
-    margin-bottom: 30px;    
-    width: 180px;    
-    height: 52px;    
-    border-radius: 10px;    
-    border: none;    
-    background: #00659f;    
-    color: #ffffff;    
-    font-size: 22px;    
-    font-family: 'Gabarito', sans-serif;    
-    cursor: pointer;    
-    box-shadow: 4px 6px 0 rgba(0,0,0,0.25);    
-    transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;}
-    
-.btn-sair-perfil:hover {    
-    background: #004a73;    
-    transform: translateY(3px);    
-    box-shadow: 0 2px p rgba(0,0,0,0.2);}
+/* Avatar grande do CARD de perfil */
+.avatar-perfil .profile-avatar-img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.nav-profile-avatar.profile-avatar-img {
+    width: 40px;      
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    display: block;
+}
+
+
+.perfil-avatar-icone {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    border-radius: 50%;
+}
+
+/* Botãozinho de 'Alterar foto' */
+.input-foto-perfil span {
+    font-size: 0.85rem;
+    color: #00659f;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 12px;
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 20px;
+    background-color: #eef6fb;
+    transition: 0.2s;
+}
+
+.input-foto-perfil span:hover {
+    background-color: #dcebf5;
+}
+
+/* Container de Textos */
+.perfil-info {
+    width: 100%;
+    padding: 15px 25px 25px 25px;
+    text-align: left; /* Alinhado à esquerda fica mais organizado */
+    color: #1e1e1e;
+    font-family: 'Gabarito', sans-serif;
+}
+
+/* Nome do Usuário */
+.perfil-nome {
+    font-size: 24px;
+    font-weight: 700;
+    color: #1e1e1e;
+    margin-bottom: 20px;
+    text-align: center; /* Nome centralizado */
+}
+
+/* Estilos das caixinhas de dados (Cargo, Email, SIAPE) */
+.perfil-cargo-wrapper,
+.perfil-email-wrapper,
+.perfil-matricula-wrapper {
+    background-color: #f9f9f9; /* Fundo cinza claro */
+    padding: 12px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    font-size: 14px;
+    color: #555;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid #eeeeee;
+}
+
+.perfil-cargo-wrapper strong,
+.perfil-email-wrapper strong,
+.perfil-matricula-wrapper strong {
+    color: #333;
+    font-weight: 600;
+}
+
+/* Badge do Cargo */
+.perfil-cargo {
+    background-color: #e3f2fd;
+    color: #00659f;
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-weight: bold;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+}
+
+/* Botão Sair (Vermelho e Moderno) */
+.btn-sair-perfil {
+    width: 100%;
+    height: 45px;
+    border-radius: 8px;
+    border: none;
+    background: #dc3545;
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: bold;
+    font-family: 'Gabarito', sans-serif;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(220, 53, 69, 0.2);
+    transition: transform 0.2s, background 0.2s;
+    margin-top: 10px;
+}
+
+.btn-sair-perfil:hover {
+    background: #c82333;
+    transform: translateY(-2px);
+}
     
 /* Coluna da direita com a tabela e email dos professores */
 
@@ -184,4 +266,3 @@
         
     .perfil-conteudo {        
         padding: 20px;    }}
-

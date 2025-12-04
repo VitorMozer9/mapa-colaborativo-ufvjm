@@ -14,3 +14,13 @@ export function validarUUID(id: string): boolean {
 export function validarStringNaoVazia(valor: string, minimo = 1): boolean {
   return valor !== undefined && valor !== null && valor.trim().length >= minimo;
 }
+
+export function validarEmailInstitucional(email: string): boolean {
+  const regex = /^[a-zA-Z0-9._+-]+@(discente\.)?ufvjm\.edu\.br$/;
+  return regex.test(email);
+}
+
+export function validarSiape(siape: string): boolean {
+  const regex = /^[0-9]{5,10}$/;
+  return regex.test(siape);
+}

@@ -156,4 +156,64 @@ body {
   color: inherit;
 }
 
+.search-suggestions {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 350px; 
+    background: white;
+    list-style: none;
+    padding: 0;
+    margin-top: 5px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    z-index: 2001;
+    max-height: 300px;
+    overflow-y: auto;
+    display: none; 
+}
+
+.search-suggestions li {
+    color: #333;
+    font-size: 14px;
+}
+
+.search-suggestions li:first-child {
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+
+.search-suggestions li:last-child {
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+    border-bottom: none;
+}
+
+.search-suggestions li:hover {
+    background-color: #f0f9ff !important;
+}
+
+.route-fav-btn {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 56px;
+    height: 56px;
+    background-color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    cursor: pointer;
+    z-index: 2000;
+    transition: transform 0.2s;
+}
+
+.route-fav-btn:hover {
+    transform: scale(1.1);
+}
+
 

@@ -117,6 +117,11 @@
     return apiFetch(`/pois/busca?termo=${encodeURIComponent(termo)}`);
   }
 
+// ---------- Caminhos / Rotas ----------
+  async function calculateRoute(latOrigem, lonOrigem, latDestino, lonDestino) {
+    return apiFetch(`/paths/rota/calcular?latOrigem=${latOrigem}&lonOrigem=${lonOrigem}&latDestino=${latDestino}&lonDestino=${lonDestino}`);
+  }
+
   // Expor no escopo global
   window.API = {
     apiFetch,
@@ -132,6 +137,7 @@
     getToken,
     setAuth,
     clearAuth,
+    calculateRoute,
     getCurrentUser
   };
 })();

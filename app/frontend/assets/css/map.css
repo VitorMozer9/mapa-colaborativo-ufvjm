@@ -29,7 +29,7 @@ body {
 
 .logo-img {
   width: 67px;
-  height: 67px;
+  height: 58px;
   display: block;
   margin: 0 auto;
 }
@@ -57,14 +57,23 @@ body {
   display: block;
   margin: 0 auto 5px;
   border-radius: 4px;
+  cursor: pointer;
 }
+
+.icon:hover, 
+.icon1:hover,
+.icon2:hover {
+  background: rgba(15,23,42,0.25);
+}
+
+
 .searchbar {
   position: fixed;
   top: 16px;
   left: 50%;
   transform: translateX(-50%);
-  border-radius: 12px;
-  padding: 8px 12px;
+  border-radius: 999px;
+  padding: 10px 10px;
   display: flex;
   align-items: center;
   gap: 10px;
@@ -83,15 +92,40 @@ body {
 .logo2-img {
   height: 14px;
   width: auto;
+  display: flex;
 }
 .logo3-img {
   height: 14px;
   width: auto;
+  display: flex;
 }
 .logo4-img {
   height: 14px;
   width: auto;
+  display: flex;
 }
 
-.chip { border: 1px solid #ccc; background: #fff; border-radius: 20px; padding: 6px 10px; font-size: 13px; cursor: pointer; }
-.chip.active { background: hsl(205, 87%, 94%); }
+
+.chips {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+}
+
+.chip { 
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  border-radius: 999px;
+  border: 1px solid #e5e7eb;
+  padding: 6px 12px;
+  font-size: 13px;
+  background: #f9fafb;
+  cursor: pointer;
+ }
+
+ .chip:hover {
+    background: #0f766e;
+    color: #f9fafb;
+    border-color: #0f766e;
+ }

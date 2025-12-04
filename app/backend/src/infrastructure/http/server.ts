@@ -26,12 +26,7 @@ class Server {
   }
 
   private configurarMiddlewares(): void {
-    this.app.use(
-      cors({
-        origin: variaveisAmbiente.cors.origem,
-        credentials: true,
-      })
-    );
+    this.app.use(cors());
     this.app.use(express.json());
     this.app.use(express.urlencoded({ extended: true }));
 

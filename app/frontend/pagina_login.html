@@ -6,7 +6,8 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Login UFVJM</title>
-        <link rel="stylesheet" href="assets/css/style.css">
+        <link rel="stylesheet" href="assets/css/login.css">
+        <link rel="stylesheet" href="assets/css/global.css">
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Gabarito:wght@400;700&display=swap" rel="stylesheet">
@@ -14,63 +15,124 @@
     
     <!-- Barra de Navegação -->
     <body> 
-        <!-- Header -->
-        <header>
-            <!-- Barra Superior -->
-            <div class="barra-superior" data-node-id="1:1034"></div>
-            
-            <!-- Logo UFVJM -->
-            <a href="pagina_inicial.html" class="logo-ufvjm" data-node-id="1:1042">
-                <img alt="Logo UFVJM branco 1" src="assets/img/logo-login/Logo-UFVJM-sem-fundo2.png" />
-            </a>
-            
-            <!-- Navegação -->
-            <nav>
-                <a href="pagina_mapa.html" class="nav-link" data-node-id="1:1035">Mapa</a>
-                <a href="pagina_eventos.html" class="nav-link" data-node-id="1:1036">Eventos</a>
-                <a href="pagina_sobre.html" class="nav-link" data-node-id="1:1037">Sobre</a>
-            </nav>
-        </header>
+       
+    <header>
+        <div class="header-container">
+        <a href="index.html" class="logo-ufvjm">
+            <img alt="Logo UFVJM" src="assets/img/logo-login/Logo-UFVJM-sem-fundo2.png" />
+        </a>
+
+        <button class="nav-toggle" aria-label="Menu">☰</button>
+
+        <nav class="nav-menu">
+            <a href="pagina_mapa.html" class="nav-link">Mapa</a>
+            <a href="pagina_eventos.html" class="nav-link">Eventos</a>
+            <a href="pagina_sobre.html" class="nav-link">Sobre</a>
+            <a href="pagina_login.html" class="nav-link">Login</a>
+        </nav>
+        </div>
+    </header>
+
 
         <!-- Conteúdo Principal -->
 
-        <main class="main">
-            <!--Sessão de login/cadastro-->
-            <section id="login" class="secao-principal">
-                <div class="bloco-autenticacao">
-                    <div class="autenticacao">
-                        <h2>Realizar Cadastro</h2>
+<main>
+    <section class="login-section">
+      <div class="bloco-autenticacao">
+        <div id="mensagens-auth" class="mensagens-auth"></div>
+        <!-- Cadastro -->
+        <div class="autenticacao">
+          <h2>Realizar Cadastro</h2>
+          <form>
+            <div class="form-group">
+              <label for="nome-cad">Nome de Usuário</label>
+              <input type="text" id="nome-cad" placeholder="Nome">
+            </div>
+            <div class="form-group">
+              <label for="email-cad">Email</label>
+              <input type="email" id="email-cad" placeholder="E-mail">
+            </div>
+            <div class="form-group">
+              <label for="senha-cad">Senha</label>
+              <input type="password" id="senha-cad" placeholder="Senha">
+            </div>
+            <div class="form-group">
+              <label for="confirma-senha">Confirme a Senha</label>
+              <input type="password" id="confirma-senha" placeholder="Confirmar Senha">
+            </div>
+            <button type="submit" class="btn-submit btn-cadastro">Cadastrar</button>
+          </form>
+        </div>
 
-                        <label for="nome-cad">Nome de Usuário</label>
-                        <input type="text" id="nome-cad" placeholder="Nome">
+        <!-- Login -->
+        <div class="autenticacao">
+          <h2>Bem-vindo de Volta</h2>
+          <form>
+            <div class="form-group">
+              <label for="email-log">E-mail</label>
+              <input type="email" id="email-log" placeholder="E-mail">
+            </div>
+            <div class="form-group">
+              <label for="senha-log">Senha</label>
+              <input type="password" id="senha-log" placeholder="Senha">
+            </div>
+            <button type="submit" class="btn-submit btn-login">Entrar</button>
+          </form>
+        </div>
 
-                        <label for="email-cad">Email</label>
-                        <input type="email" id="email-card" placeholder="E-mail">
 
-                        <label for="senha-card">Senha</label>
-                        <input type="password" id="senha-card" placeholder="Senha">
+         <!--Cadastro SIAP-->
+        <div class="autenticacao">
+          <h2>Cadastro Docente</h2>
+          <form>
+            <div class="form-group">
+              <label for="siap-cad">Número do SIAP</label>
+              <input type="number" id="siap-cad" placeholder="Número">
+            </div>
+            <div class="form-group">
+              <label for="nome-cad">Nome do Docente</label>
+              <input type="text" id="nome-cad" placeholder="Nome">
+            </div>
+            <div class="form-group">
+              <label for="email-cad">Email</label>
+              <input type="email" id="email-cad" placeholder="E-mail">
+            </div>
+            <div class="form-group">
+              <label for="senha-cad">Senha</label>
+              <input type="password" id="senha-cad" placeholder="Senha">
+            </div>
+            <div class="form-group">
+              <label for="confirma-senha">Confirme a Senha</label>
+              <input type="password" id="confirma-senha" placeholder="Confirmar Senha">
+            </div>
+            <button type="submit" class="btn-submit btn-professor">Cadastrar Docente</button>
+          </form>
 
-                        <label for="confirma-senha">Confirme a Senha</label>
-                        <input type="password" id="confirma-senha" placeholder="Confirmar Senha">
+      </div>
+    </section>
+</main>
 
-                        <button class="btn btn-cadastro btn-submit">Cadastrar</button>
-                    </div>
 
-                    <div class="autenticacao">
-                        <h2>Bem-vindo de Volta</h2>
 
-                        <label for="email-log">E-mail</label>
-                        <input type="email" id="email-log" placeholder="E-mail">
 
-                        <label for="senha-log">Senha</label>
-                        <input type="password" id="senha-log" placeholder="Senha">
+  <footer>
+    <div class="footer-content">
+      <div class="footer-links">
+        <p>&copy; 2025 UFVJM - Mapa Colaborativo</p>
+      </div>
+    </div>
+  </footer>
+  
+  <script src="assets/js/api.js"></script>
+  <script src="assets/js/auth.js"></script>
+  <script>
+    const navToggle = document.querySelector('.nav-toggle');
+    const navMenu = document.querySelector('.nav-menu');
 
-                        <button class="btn btn-login btn-submit">Entrar</button>
-                    </div>
-                </div>
-            </section>
-
-        </main>
+    navToggle.addEventListener('click', () => {
+      navMenu.classList.toggle('active');
+    });
+  </script>
 
     </body>
 

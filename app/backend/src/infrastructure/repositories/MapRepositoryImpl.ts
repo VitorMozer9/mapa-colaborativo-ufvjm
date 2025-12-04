@@ -73,4 +73,66 @@ export class RepositorioMapaPostgres implements IRepositorioMapa {
       throw erro;
     }
   }
+
+  async obterLimitesMapa(): Promise<{
+    bounds: [[number, number], [number, number]];
+  }> {
+    const sql = `
+      SELECT
+        ST_Extent(geom) AS bbox
+      FROM (
+        SELECT geom FROM geo.poi
+        UNION ALL
+        SELECT geom FROM geo.building
+        UNION ALL
+        SELECT geom FROM geo.walkway
+      ) AS todas_geometrias;
+    `;
+
+    try {
+      const resultado = await pool.query<{ bbox: string | null }>(sql);
+      const linha = resultado.rows[0];
+
+      if (!linha || !linha.bbox) {
+        Logger.warn('RepositorioMapaPostgres: nenhum bbox encontrado');
+        return {
+          bounds: [
+            [0, 0],
+            [0, 0],
+          ],
+        };
+      }
+
+      const bboxMatch = linha.bbox.match(
+        /^BOX\(([-0-9\.]+)\s+([-0-9\.]+),\s*([-0-9\.]+)\s+([-0-9\.]+)\)$/
+      );
+
+      if (!bboxMatch) {
+        Logger.warn(
+          `RepositorioMapaPostgres: formato de bbox inesperado: ${linha.bbox}`
+        );
+        return {
+          bounds: [
+            [0, 0],
+            [0, 0],
+          ],
+        };
+      }
+
+      const west = parseFloat(bboxMatch[1]);
+      const south = parseFloat(bboxMatch[2]);
+      const east = parseFloat(bboxMatch[3]);
+      const north = parseFloat(bboxMatch[4]);
+
+      return {
+        bounds: [
+          [south, west],
+          [north, east],
+        ],
+      };
+    } catch (erro) {
+      Logger.error('Erro ao calcular limites do mapa (bbox)', erro as Error);
+      throw erro;
+    }
+  }  
 }

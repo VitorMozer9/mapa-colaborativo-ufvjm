@@ -18,4 +18,18 @@ export class ControladorMapa {
       next(erro);
     }
   };
+
+  obterConfiguracao = async (
+    _req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> => {
+    try {
+      const config = await this.servicoMapa.obterConfiguracaoMapa();
+      res.setHeader('Cache-Control', 'public, max-age=600');
+      res.json(config);
+    } catch (erro) {
+      next(erro);
+    }
+  };
 }

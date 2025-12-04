@@ -1,76 +1,184 @@
-<!-- Página de Eventos-->
-
 <!DOCTYPE html>
 <html lang="pt-br">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Tela de Eventos</title>
-        <link rel="stylesheet" href="assets/css/style.css">
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com">
-        <link href="https://fonts.googleapis.com/css2?family=Gabarito:wght@400;700&display=swap" rel="stylesheet">
-    </head>
 
-    <!--Barra de Navegação-->
-    <body>
-        <header>
-            <!--Barra Superior-->
-            <div class="barra-superior" data-node-id="1:1034"></div>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Eventos - UFVJM</title>
+  <link rel="stylesheet" href="assets/css/global.css">
+  <link rel="stylesheet" href="assets/css/events.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Gabarito:wght@400;700&display=swap" rel="stylesheet">
+</head>
 
-            <!--Logo UFVJM-->
-            <a href="pagina_inicial.html" class="logo-ufvjm" data-node-id="1:1042">
-                <img src="assets/img/logo-login/Logo-UFVJM-sem-fundo2.png" alt="logo UFVJM branco 1">
-            </a>
+<body>
+  <header>
+    <div class="header-container">
+      <a href="index.html" class="logo-ufvjm">
+        <img alt="Logo UFVJM" src="assets/img/logo-login/Logo-UFVJM-sem-fundo2.png" />
+      </a>
 
-            <!--Navegação-->
-            <nav>
-                <a href="pagina_mapa.html" class="nav-link" data-node-id="1:1035">Mapa</a>
-                <a href="pagina_eventos.html" class="nav-link" data-node-id="1:1036">Eventos</a>
-                <a href="pagina_sobre.html" class="nav-link" data-node-id="1:1037">Sobre</a>
-            </nav>
+      <button class="nav-toggle" aria-label="Menu">☰</button>
 
-            <!--Botões de Acesso-->
-            <div class="botoes-acesso">
-                <a href="pagina_login.html" class="botao-login" data-node-id="1:1038">
-                    <span data-node-id="1:1040">Login</span>
-                </a>
-                <a href="pagina_login.html" class="botao-cadastro" data-node-id="1:1039">
-                    <span data-node-id="1:1041">Cadastre-se</span>
-                </a>
+      <nav class="nav-menu">
+        <a href="pagina_mapa.html" class="nav-link">Mapa</a>
+        <a href="pagina_eventos.html" class="nav-link">Eventos</a>
+        <a href="pagina_sobre.html" class="nav-link">Sobre</a>
+        <a href="pagina_login.html" class="nav-link">Login</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <h1>Eventos</h1>
+
+    <section class="filters-section">
+      <div class="search-bar">
+        <input type="text" class="search-input" placeholder="Buscar eventos...">
+        <button class="search-button">Buscar</button>
+      </div>
+
+      <div class="categories">
+        <button class="category-tag active">Todos</button>
+        <button class="category-tag">Música</button>
+        <button class="category-tag">Online</button>
+        <button class="category-tag">Arte</button>
+        <button class="category-tag">Esporte</button>
+        <button class="category-tag">Acadêmico</button>
+      </div>
+    </section>
+
+            <!--Barra de Busca de Eventos-->
+            <div class="search-bar">
+                <input type="text" class="search-input" placeholder="Buscar eventos...">
+                <button class="search-button">Buscar</button>
             </div>
-        </header>
 
-        <!--Contéudo Principal-->
-        <main>
-            <div class="eventos-container">
-
-                <!--Titulo-->
-                <h1 class="evento-titulo">Eventos</h1>
-
-                <!--Barra de Busca-->
-                <div class="evento-busca">
-                    <button class="evento-busca-menu">
-                        <img src="assets/img/barra-busca/opcoes.png" alt="Barra Opções">
-                    </button>
-                    <input type="text" placeholder="Procurar Evento" class="barra-pesquisa">
-                    <button class="evento-busca-icone">
-                        <img src="assets/img/barra-busca/lupa.png" alt="Logo Busca">
-                    </button>
-                </div>
-
-                <!--Bloco de eventos do site da UFVJM-->
-                <section class="eventos-secao">
-                    <h2>Eventos do site da UFVJM</h2>
-                <div class="caixa-eventos">
-                    <iframe src="https://portal.ufvjm.edu.br/agendas/eventos/2025" title="Eventos UFVJM" loading="lazy"></iframe>
-                </div>
-               
-                <p class="eventos-secao-aviso">
-                    *O conteúdo acima é carregado diretamente do site oficial da UFVJM.
-                </p>
-                </section>
+            <!--Categoria de Eventos-->
+            <div class="categories">
+                <button class="category-tag active">Todos</button>
+                <button class="category-tag">Música</button>
+                <button class="category-tag">Online</button>
+                <button class="category-tag">Arte</button>
+                <button class="category-tag">Esporte</button>
+                <button class="category-tag">Acadêmico</button>
             </div>
-        </main>
-    </body>
+        </section>
+
+        <section class="events-grid">
+            <!-- Card 1 -->
+            <article class="event-card">
+                <img src="assets/img/events/event_computing_week.png" alt="Imagem do Evento Semana da Computação"
+                class="event-image">
+                <div class="event-details">
+                <p class="event-date">QUA, 12 DE DEZ • 19:00</p>
+                <h3 class="event-title">Semana da Computação</h3>
+                <p class="event-location">📍 Auditório 1 - Campus JK</p>
+                </div>
+            </article>
+
+            <!-- Card 2 -->
+            <article class="event-card">
+                <img src="assets/img/events/event_ai_workshop.png" alt="Imagem do Evento Workshop de IA" class="event-image">
+                <div class="event-details">
+                <p class="event-date">SEX, 14 DE DEZ • 14:00</p>
+                <h3 class="event-title">Workshop de IA</h3>
+                <p class="event-location">📍 Lab 3 - Prédio da Computação</p>
+                </div>
+            </article>
+
+            <!-- Card 3 -->
+            <article class="event-card">
+                <img src="assets/img/events/event_programming_marathon.png" alt="Imagem do Evento Maratona de Programação"
+                class="event-image">
+                <div class="event-details">
+                <p class="event-date">SÁB, 15 DE DEZ • 09:00</p>
+                <h3 class="event-title">Maratona de Programação</h3>
+                <p class="event-location">📍 Biblioteca Central</p>
+                </div>
+            </article>
+
+            <!-- Card 4 -->
+            <article class="event-card">
+                <img src="assets/img/events/event_web_future.png" alt="Imagem do Evento Palestra Futuro da Web"
+                class="event-image">
+                <div class="event-details">
+                <p class="event-date">SEG, 17 DE DEZ • 18:00</p>
+                <h3 class="event-title">Palestra: Futuro da Web</h3>
+                <p class="event-location">📍 Online</p>
+                </div>
+            </article>
+            </section>
+
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-links">
+                <p>&copy; 2025 UFVJM - Mapa Colaborativo</p>
+            </div>
+            <div class="footer-social">
+                <!-- Placeholder for social icons if needed, or just text -->
+            </div>
+        </div>
+      </article>
+
+      <!-- Card 2 -->
+      <article class="event-card">
+        <img src="assets/img/events/event_ai_workshop.png" alt="Imagem do Evento Workshop de IA" class="event-image">
+        <div class="event-details">
+          <p class="event-date">SEX, 14 DE DEZ • 14:00</p>
+          <h3 class="event-title">Workshop de IA</h3>
+          <p class="event-location">📍 Lab 3 - Prédio da Computação</p>
+        </div>
+      </article>
+
+      <!-- Card 3 -->
+      <article class="event-card">
+        <img src="assets/img/events/event_programming_marathon.png" alt="Imagem do Evento Maratona de Programação"
+          class="event-image">
+        <div class="event-details">
+          <p class="event-date">SÁB, 15 DE DEZ • 09:00</p>
+          <h3 class="event-title">Maratona de Programação</h3>
+          <p class="event-location">📍 Biblioteca Central</p>
+        </div>
+      </article>
+
+      <!-- Card 4 -->
+      <article class="event-card">
+        <img src="assets/img/events/event_web_future.png" alt="Imagem do Evento Palestra Futuro da Web"
+          class="event-image">
+        <div class="event-details">
+          <p class="event-date">SEG, 17 DE DEZ • 18:00</p>
+          <h3 class="event-title">Palestra: Futuro da Web</h3>
+          <p class="event-location">📍 Online</p>
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <footer>
+    <div class="footer-content">
+      <div class="footer-links">
+        <p>&copy; 2024 UFVJM - Mapa Colaborativo</p>
+      </div>
+      <div class="footer-social">
+        <!-- Placeholder for social icons if needed, or just text -->
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Script simples para o menu mobile
+    const navToggle = document.querySelector('.nav-toggle');
+    const navMenu = document.querySelector('.nav-menu');
+
+    navToggle.addEventListener('click', () => {
+      navMenu.classList.toggle('active');
+    });
+  </script>
+</body>
+
 </html>

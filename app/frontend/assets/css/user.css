@@ -1,0 +1,268 @@
+/* CSS da tela de perfil do usuário quando logado *//* Icone do usuário na barra de navegação */
+.perfil-header-avatar {  
+    position: absolute; 
+    top: 50px;    
+    right: 40px;    
+    flex-direction: column;    
+    align-items: center;    
+    gap: 8px;    
+    color: #ffffff;    
+    font-family: 'Gabarito', sans-serif;    
+    text-align: center;}
+    
+.perfil-header-avatar img {    
+    width: 70px;    
+    height: 70px;}
+    
+.perfil-header-nome {    
+    font-size: 14px;    
+    font-weight: 400;}
+    
+.perfil-layout {    
+    display: flex;    
+    width: 100%;    
+    background: #ffffff;    
+    overflow: hidden;}
+    
+/* Informações do usuário (a esquerda na tela de perfil) */
+
+.barra-perfil-lateral {
+    width: 340px;
+    background: #ffffff; /* Fundo branco limpo */
+    border-radius: 16px; /* Bordas bem arredondadas */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08); /* Sombra elegante */
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 1px solid #f0f0f0;
+    margin-bottom: 20px;
+    /* Removemos o position: relative antigo que travava o layout */
+}
+
+/* Capa do Perfil (Header do Card) */
+.capa-perfil {
+    width: 100%;
+    height: 120px; /* Altura menor para ficar proporcional */
+    background: linear-gradient(135deg, #00659f, #004a73); /* Gradiente azul UFVJM */
+}
+
+.capa-perfil img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.6; /* Deixa a imagem sutil */
+}
+
+/* Avatar do Usuário (Flutuando sobre a capa) */
+.avatar-perfil {
+    width: 120px;
+    height: 120px;
+    margin-top: -60px; /* Puxa para cima para sobrepor a capa */
+    position: relative; /* Ajuste para fluxo normal */
+    border-radius: 50%;
+    background: #ffffff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: 5px solid #ffffff; /* Borda branca grossa */
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+
+/* Avatar grande do CARD de perfil */
+.avatar-perfil .profile-avatar-img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.nav-profile-avatar.profile-avatar-img {
+    width: 40px;      
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    display: block;
+}
+
+
+.perfil-avatar-icone {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    border-radius: 50%;
+}
+
+/* Botãozinho de 'Alterar foto' */
+.input-foto-perfil span {
+    font-size: 0.85rem;
+    color: #00659f;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 12px;
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 20px;
+    background-color: #eef6fb;
+    transition: 0.2s;
+}
+
+.input-foto-perfil span:hover {
+    background-color: #dcebf5;
+}
+
+/* Container de Textos */
+.perfil-info {
+    width: 100%;
+    padding: 15px 25px 25px 25px;
+    text-align: left; /* Alinhado à esquerda fica mais organizado */
+    color: #1e1e1e;
+    font-family: 'Gabarito', sans-serif;
+}
+
+/* Nome do Usuário */
+.perfil-nome {
+    font-size: 24px;
+    font-weight: 700;
+    color: #1e1e1e;
+    margin-bottom: 20px;
+    text-align: center; /* Nome centralizado */
+}
+
+/* Estilos das caixinhas de dados (Cargo, Email, SIAPE) */
+.perfil-cargo-wrapper,
+.perfil-email-wrapper,
+.perfil-matricula-wrapper {
+    background-color: #f9f9f9; /* Fundo cinza claro */
+    padding: 12px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    font-size: 14px;
+    color: #555;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid #eeeeee;
+}
+
+.perfil-cargo-wrapper strong,
+.perfil-email-wrapper strong,
+.perfil-matricula-wrapper strong {
+    color: #333;
+    font-weight: 600;
+}
+
+/* Badge do Cargo */
+.perfil-cargo {
+    background-color: #e3f2fd;
+    color: #00659f;
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-weight: bold;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+}
+
+/* Botão Sair (Vermelho e Moderno) */
+.btn-sair-perfil {
+    width: 100%;
+    height: 45px;
+    border-radius: 8px;
+    border: none;
+    background: #dc3545;
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: bold;
+    font-family: 'Gabarito', sans-serif;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(220, 53, 69, 0.2);
+    transition: transform 0.2s, background 0.2s;
+    margin-top: 10px;
+}
+
+.btn-sair-perfil:hover {
+    background: #c82333;
+    transform: translateY(-2px);
+}
+    
+/* Coluna da direita com a tabela e email dos professores */
+
+.perfil-bloco + .perfil-bloco {    
+    margin-top: 40px;}
+    
+.perfil-conteudo {    
+    flex: 1;    
+    background: #f6f6f6;    
+    padding: 30px 40px;    
+    font-family: 'Gabarito', sans-serif;}
+    
+.perfil-titulo {    
+    font-size: 24px;    
+    margin-bottom: 16px;}
+    
+/* tabela com horários */
+
+.perfil-tabela {    
+    background: #ffffff;    
+    border: 3px solid #00659f;    
+    border-radius: 4px;   
+     overflow: hidden;}
+     
+.tabela-horarios {    
+    width: 100%;    
+    border-collapse: collapse;    
+    font-size: 14px;}
+    
+.tabela-horarios th,.tabela-horarios td {    
+    border: 1px solid #c8c8c8;    
+    padding: 8px 10px;    
+    text-align: left;    
+    vertical-align: top;}
+    
+.tabela-horarios th {    
+    background: #f2f2f2;    
+    font-weight: 700;}
+    
+.prof-lista {    
+    display: flex;    
+    flex-wrap: wrap;    
+    gap: 40px;    
+    margin-top: 10px;}
+    
+.prof-card {    
+    text-align: center;   
+    font-size: 14px;}
+    
+.prof-avatar {    
+    width: 80px;    
+    height: 80px;    
+    border-radius: 50%;    
+    background: #e9ddff;   
+    display: flex;    
+    align-items: center;    
+    justify-content: center;    
+    font-size: 30px;    
+    margin: 0 auto 6px;}
+    
+.prof-avatar img {    
+    height: 80px;    
+    width: 80px;}
+    
+.prof-email {    
+    font-size: 13px;}
+    
+@media (max-width: 900px) {    
+    .perfil-layout {        
+        flex-direction: column;        
+        max-width: 100%;    }    
+    
+    .barra-perfil-lateral {        
+        width: 100%;        
+        align-items: center;    }    
+        
+    .perfil-conteudo {        
+        padding: 20px;    }}

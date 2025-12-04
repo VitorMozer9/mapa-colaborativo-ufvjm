@@ -1,112 +1,302 @@
-<!-- Página do Mapa-->
-
 <!DOCTYPE html>
-<html lang="pt-br">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Mapa da Universidade</title>
-        <link rel="stylesheet" href="assets/css/style.css">
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com">
-        <link href="https://fonts.googleapis.com/css2?family=Gabarito:wght@400;700&display=swap" rel="stylesheet">
-        <!--Leaflet-->
-        <link href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="" rel="stylesheet">
-    </head>
+<html lang="pt-BR">
 
-    <!--Barra de Navegação-->
-    <body>
-        <div class="barra-esquerda">
-            <!--Barra lateral (esquerda)-->
-            <aside class="sidebar">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mapa Colaborativo UFVJM</title>
 
-                <a href="pagina_inicial.html" class="logo-icones" data-node-id="1:1042">
-                        <img src="assets/img/logo-login/logo-lateral.png" alt="logo UFVJM minimalista">
-                </a>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <link rel="stylesheet" href="assets/css/map.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Gabarito:wght@400;700&display=swap" rel="stylesheet">
 
-                <nav class="sidebar-nav">
-                    <button class="sidebar-btn">
-                        <span class="icone">
-                            <img src="assets/img/icones-mapa/salvos.png" alt="icone salvos">
-                            <p class="btn-nome">
-                                Salvos
-                            </p>
-                        </span>
-                    </button>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+</head>
 
-                    <button class="sidebar-btn">
-                        <span class="icone">
-                            <img src="assets/img/icones-mapa/favoritos.png" alt="icone favoritos">
-                            <p class="btn-nome">
-                                Favoritos
-                            </p>
-                        </span>
-                    </button>
+<body>
 
-                    <button class="sidebar-btn">
-                        <span class="icone">
-                            <img src="assets/img/icones-mapa/eventos.png" alt="icone eventos">
-                            <p class="btn-nome">
-                                Eventos
-                            </p>
-                        </span>
-                    </button>
-                </nav>
-            </aside>
+  <div id="map"></div>
 
-            <!--Conteúdo Principal-->
-            <main>
-                <!--Topo-->
-                <!--Barra de Pesquisa-->
-                <header class="topbar">
-                    <div class="bara-busca-mapa">
-                        <input type="text" placeholder="Pesquise o local desejado" id="seach-input"/>
-                        <button class="btn-busca">
-                            <img src="assets/img/barra-busca/lupa.png" alt="Lupa busca mapa">
-                        </button>
-                    </div>
+  <div class="routing-container">
+    <select id="select-origin" class="route-select">
+      <option value="">📍 Minha Localização (Detectando...)</option>
+    </select>
 
-                    <!--Filtros de Busca-->
-                    <div class="filtro-grupos">
-                        <button class="filtro-btn" data-category="Departamento">Departamentos</button>
+    <span style="color: #666; font-weight: bold;">➝</span>
 
-                        <button class="filtro-btn" data-category="Alimentação">Lanchonetes</button>
+    <select id="select-dest" class="route-select">
+      <option value="">🏁 Selecione o Destino</option>
+    </select>
 
-                        <button class="filtro-btn" data-category="Eventos">Eventos</button>
-                    </div>
+    <button id="btn-trace-route" class="btn-route">IR</button>
+    <button id="btn-clear-route" class="btn-clear" title="Limpar rota">✕</button>
+  </div>
 
-                    <!--Acesso ao perfil do usuário-->
-                    <!-- <a href="perfil_usuario.html" class="user-btnx">
-                        <img src="assets/img/perfil-usuário/user.png" alt="icone usuário">
-                    </a> -->
+  <button id="btn-fav-route" class="fav-route-btn" title="Salvar rota nos favoritos">
+    ❤
+  </button>
 
-                    <div class="botoes-acessox">
-                        <a href="pagina_login.html" class="botao-loginx" data-node-id="1:1038">
-                             <span data-node-id="1:1040">Login</span>
-                        </a>
-                        <a href="pagina_login.html" class="botao-cadastrox" data-node-id="1:1039">
-                            <span data-node-id="1:1041">Cadastre-se</span>
-                        </a>
-                    </div>
-                     
-                </header>
+  <div class="sidebar">
+    <div class="logo">
+      <a href="index.html" class="logo-ufvjm">
+        <img src="assets/img/Mapa/logo.png" alt="Logo" class="logo-img">
+      </a>
+    </div>
 
-                <!--Mapa-->
-                <section class="map-class">
-                    <div id="map">
+    <div class="menu">
+      <div class="item">
+        <img src="assets/img/Mapa/pngegg2.png" class="icon2"><span>Salvos</span>
+      </div>
+      <div class="item">
+        <img src="assets/img/Mapa/pngegg1.png" class="icon1"><span>Favoritos</span>
+      </div>
+      <div class="item">
+        <img src="assets/img/Mapa/pngegg.png" class="icon"><span>Eventos</span>
+      </div>
+      
+      <div class="item menu-profile-bottom">
+        <a href="perfil_usuario.html" class="menu-profile-link">
+          <img src="assets/img/perfil-usuário/user.png" class="icon-profile profile-avatar-img" />
+          <span>Perfil</span>
+        </a>
+      </div>
+    </div>
+  </div>
 
-                    </div>
-                </section>
-            </main>
-        </div>
+  <script src="assets/js/api.js"></script>
+  <script src="assets/js/profile.js"></script>
 
-        <!--Leaflet-->
-        <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-                integrity="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-                crossorigin="">
-        </script>
+  <script>
+    document.addEventListener('DOMContentLoaded', async function () {
 
-        <script src="apps.js"></script>
-        
-    </body>
+      if (typeof L === 'undefined') {
+        var el = document.getElementById('map');
+        el.textContent = 'Erro: Leaflet não carregado.';
+        return;
+      }
+
+      var map = L.map('map', { maxBoundsViscosity: 1.0 });
+
+      var imageUrl = 'assets/img/Mapa/mapa-quadrado.png';
+      var areaPoints = [
+        [-18.20596, -43.58189],
+        [-18.18906, -43.56978],
+        [-18.20199, -43.56016],
+        [-18.21125, -43.56789]
+      ];
+
+      var bounds = L.latLngBounds(areaPoints);
+      var srcPt = L.latLng(-18.202508, -43.573279);
+      var dstPt = L.latLng(-18.200153, -43.575919);
+      var dLat = dstPt.lat - srcPt.lat;
+      var dLng = dstPt.lng - srcPt.lng;
+      var shifted = areaPoints.map(function (p) { return [p[0] + dLat, p[1] + dLng]; });
+      var shiftedBounds = L.latLngBounds(shifted);
+
+      map.fitBounds(shiftedBounds);
+
+      var overlay = L.imageOverlay(imageUrl, shiftedBounds, { opacity: 1 }).addTo(map);
+      overlay.on('error', function () { console.error('Imagem base não encontrada'); });
+
+      map.setMinZoom(16.5);
+      map.setMaxZoom(18);
+      map.setMaxBounds(shiftedBounds);
+      map.fitBounds(shiftedBounds);
+
+      var markersData = [
+        { nome: 'Almoxarifado', lat: -18.203389, lng: -43.575549, categoria: 'Logística', image: 'assets/img/fotos-pop-up/Almoxarifado.jpg', descricao: 'Responsável pelo armazenamento e distribuição de materiais da universidade.' },
+        { nome: 'Biblioteca', lat: -18.2001528787829, lng: -43.5760135599367, categoria: 'Serviço', image: 'assets/img/fotos-pop-up/Biblioteca.jpg', descricao: 'Biblioteca central com acervo físico e digital, salas de estudo e computadores.', instagram: '@bibliotecasufvjm', site: 'https://ufvjm.edu.br/biblioteca/' },
+        { nome: 'Bosque', lat: -18.2002999000964, lng: -43.5753240295475, categoria: 'Área Verde', image: 'assets/img/fotos-pop-up/Bosque.jpg', descricao: 'Área de convivência ao ar livre, ideal para descanso e estudos em grupo.' },
+        { nome: 'Centro de Pós CIpq', lat: -18.198696, lng: -43.572024, categoria: 'Acadêmico', image: 'assets/img/fotos-pop-up/CIPQ.jpeg', descricao: 'Centro de pesquisa e pós-graduação da UFVJM.', instagram: '', site: 'https://portal.ufvjm.edu.br/prppg/pesquisa/infraestrutura-para-pesquisa/laboratorio-cipq' },
+        { nome: 'DECOM', lat: -18.202215722936, lng: -43.5771069207662, categoria: 'Departamento', image: 'assets/img/fotos-pop-up/Decom.jpg', descricao: 'Departamento de Computação - Curso de Sistemas de Informação.', instagram: '@decom_ufvjm', site: 'http://www.decom.ufvjm.edu.br/dc2020/' },
+        { nome: 'Departamento de Agronomia', lat: -18.2020544880635, lng: -43.5736118358237, categoria: 'Departamento', image: 'assets/img/fotos-pop-up/Agronomia.jpg', descricao: 'Curso de Agronomia e pesquisas em agricultura sustentável.', instagram: '', site: 'https://portal.ufvjm.edu.br/a-universidade/cursos/agr' },
+        { nome: 'Departamento de Biologia', lat: -18.1958072077952, lng: -43.5731395386659, categoria: 'Departamento', image: 'assets/img/fotos-pop-up/Biologia.jpg', descricao: 'Cursos de Ciências Biológicas - Licenciatura e Bacharelado.', instagram: '', site: 'https://portal.ufvjm.edu.br/a-universidade/cursos/bio' },
+        { nome: 'Departamento de Educação Física', lat: -18.196219, lng: -43.573966, categoria: 'Departamento', image: 'assets/img/fotos-pop-up/Educação_Fisica.jpg', descricao: 'Curso de Educação Física e atividades esportivas.', instagram: '', site: 'https://portal.ufvjm.edu.br/a-universidade/cursos/efs ' },
+        { nome: 'Departamento de Enfermagem', lat: -18.195511, lng: -43.573580, categoria: 'Departamento', image: 'assets/img/fotos-pop-up/Enfermagem.jpg', descricao: 'Curso de Enfermagem e práticas em saúde.', instagram: '', site: 'https://portal.ufvjm.edu.br/a-universidade/cursos/edf' },
+        { nome: 'Departamento de Farmácia', lat: -18.196382, lng: -43.572668, categoria: 'Departamento', image: 'assets/img/fotos-pop-up/Farmácia.jpg', descricao: 'Curso de Farmácia e laboratórios de pesquisa farmacêutica.', instagram: '', site: 'https://portal.ufvjm.edu.br/a-universidade/cursos/far' },
+        { nome: 'Departamento de Medicina', lat: -18.194354, lng: -43.574256, categoria: 'Departamento', image: 'assets/img/fotos-pop-up/Medicina.jpg', descricao: 'Curso de Medicina e Hospital Universitário.', instagram: '', site: 'https://portal.ufvjm.edu.br/a-universidade/cursos/med' },
+        { nome: 'Departamento de Odontologia', lat: -18.193579, lng: -43.573151, categoria: 'Departamento', image: 'assets/img/fotos-pop-up/Odontologia.jpg', descricao: 'Dinheiro jogado fora', instagram: '', site: 'https://portal.ufvjm.edu.br/a-universidade/cursos/odo' },
+        { nome: 'Departamento de Química', lat: -18.202834, lng: -43.576552, categoria: 'Departamento', image: 'assets/img/fotos-pop-up/Química.jpeg', descricao: 'Departamento do curso de Química (Bacharelado e Licenciatura). Possui complexo de laboratórios para ensino e pesquisa em ciências exatas.', instagram: '', site: '' },
+        { nome: 'Departamento de Zootecnia', lat: -18.2028258218552, lng: -43.5741621680712, categoria: 'Departamento', image: 'assets/img/fotos-pop-up/Zootecnia.jpg', descricao: 'Departamento do curso de Zootecnia. Foca na produção animal, nutrição e melhoramento genético, com laboratórios especializados.', instagram: '', site: 'https://portal.ufvjm.edu.br/a-universidade/cursos/zoo ' },
+        { nome: 'Departamento Florestal', lat: -18.2020202064797, lng: -43.571419528717, categoria: 'Departamento', image: 'assets/img/fotos-pop-up/Florestal.jpg', descricao: 'Departamento de Engenharia Florestal. Dedicado ao manejo de recursos florestais, silvicultura e tecnologia da madeira.', instagram: '', site: 'https://portal.ufvjm.edu.br/a-universidade/cursos/flo' },
+        { nome: 'Diretoria de Educação', lat: -18.2024421059305, lng: -43.5756951652816, categoria: 'Administração', image: 'assets/img/fotos-pop-up/diretoria_de_educacao.jpeg', descricao: 'Unidade responsável pela gestão de políticas educacionais e coordenação dos cursos de Educação a Distância (EaD) da UFVJM.', instagram: '', site: '' },
+        { nome: 'Lanchonete Central', lat: -18.1990605490143, lng: -43.5749705947735, categoria: 'Alimentação', image: 'assets/img/fotos-pop-up/Kebek.jpeg', descricao: 'Conhecida como Kebek, é a principal área de convivência e alimentação do campus, servindo lanches e refeições variadas.', instagram: '', site: '' },
+        { nome: 'Lanchonete do Pavilhão', lat: -18.2007871361384, lng: -43.5775763771777, categoria: 'Alimentação', image: 'assets/img/fotos-pop-up/Lanchonete_Pavilhao.jpg', descricao: 'Ponto de alimentação estratégica localizado próximo às salas de aula dos pavilhões, ideal para lanches rápidos nos intervalos.', instagram: '', site: '' },
+        { nome: 'Portaria', lat: -18.204454, lng: -43.580768, categoria: 'Entrada', image: 'assets/img/fotos-pop-up/Portaria.jpg', descricao: 'Acesso ao Campus JK. Realiza o controle de entrada/saída e serve como ponto de parada para transporte coletivo.', instagram: '', site: '' },
+        { nome: 'Reitoria', lat: -18.2010170232133, lng: -43.5753023464019, categoria: 'Administração', image: 'assets/img/fotos-pop-up/Reitoria.jpeg', descricao: 'Edifício sede da administração superior. Abriga o gabinete do Reitor, as Pró-Reitorias e os setores administrativos centrais da universidade.', instagram: '', site: 'https://portal.ufvjm.edu.br/a-universidade/reitoria' }
+      ];
+
+      markersData.forEach(function (m) {
+        var ll = L.latLng(m.lat, m.lng);
+        var popupId = 'popup-' + m.nome.replace(/\s+/g, '-').toLowerCase();
+
+        var popupHTML = '<div style="font-family: Gabarito, sans-serif; min-width: 220px;">';
+
+        if (m.image) {
+          popupHTML += '<img src="' + m.image + '" alt="' + m.nome + '" style="width:100%; height:auto; max-height:180px; object-fit:contain; border-radius:4px; margin-bottom:8px; background:#f6f6f6;">';
+        }
+
+        popupHTML += '<strong style="font-size:16px; color:#00659f; display:block; margin-bottom:4px;">' + m.nome + '</strong>';
+        popupHTML += '<span style="color:#666; font-size:13px; display:block; margin-bottom:6px;">📍 ' + (m.categoria || 'Local') + '</span>';
+
+        popupHTML += '<div style="font-size:11px; color:#999; margin-bottom:10px;">';
+        popupHTML += 'Lat: ' + m.lat.toFixed(6) + ' | Lng: ' + m.lng.toFixed(6);
+        popupHTML += '</div>';
+
+        if (m.descricao || m.instagram || m.site) {
+          popupHTML += '<button id="btn-' + popupId + '" onclick="toggleDetails(\'' + popupId + '\')" ';
+          popupHTML += 'style="width:100%; padding:8px; background:#00659f; color:white; border:none; border-radius:4px; cursor:pointer; font-family:Gabarito; font-size:13px; font-weight:600; transition:0.15s ease;"';
+          popupHTML += ' onmouseover="this.style.background=\'#004a73\'" onmouseout="this.style.background=\'#00659f\'">';
+          popupHTML += '▼ Mais detalhes</button>';
+
+          popupHTML += '<div id="' + popupId + '" style="display:none; margin-top:10px; padding-top:10px; border-top:1px solid #e0e0e0;">';
+
+          if (m.descricao) {
+            popupHTML += '<p style="font-size:13px; color:#333; line-height:1.4; margin:0 0 8px 0;">' + m.descricao + '</p>';
+          }
+          if (m.instagram) {
+            popupHTML += '<div style="margin-bottom:6px;">';
+            popupHTML += '<span style="font-size:12px; color:#666;">📷 Instagram: </span>';
+            popupHTML += '<a href="https://instagram.com/' + m.instagram.replace('@', '') + '" target="_blank" style="font-size:12px; color:#00659f; text-decoration:none;">' + m.instagram + '</a>';
+            popupHTML += '</div>';
+          }
+          if (m.site) {
+            popupHTML += '<div style="margin-bottom:6px;">';
+            popupHTML += '<span style="font-size:12px; color:#666;">🌐 Site: </span>';
+            popupHTML += '<a href="' + m.site + '" target="_blank" style="font-size:12px; color:#00659f; text-decoration:none; word-break:break-all;">' + m.site + '</a>';
+            popupHTML += '</div>';
+          }
+          popupHTML += '</div>';
+        }
+        popupHTML += '</div>';
+
+        var marker = L.marker(ll).addTo(map).bindPopup(popupHTML, {
+          maxWidth: 280,
+          minWidth: 220
+        });
+
+        marker.on('click', function () {
+          const destSelect = document.getElementById('select-dest');
+          if (destSelect) {
+            for (let i = 0; i < destSelect.options.length; i++) {
+              if (destSelect.options[i].text === m.nome) {
+                destSelect.selectedIndex = i;
+                break;
+              }
+            }
+          }
+        });
+      });
+
+      window.toggleDetails = function (popupId) {
+        var detailsDiv = document.getElementById(popupId);
+        var button = document.getElementById('btn-' + popupId);
+
+        if (detailsDiv.style.display === 'none') {
+          detailsDiv.style.display = 'block';
+          button.innerHTML = '▲ Menos detalhes';
+        } else {
+          detailsDiv.style.display = 'none';
+          button.innerHTML = '▼ Mais detalhes';
+        }
+      };
+
+      let currentRouteLayer = null;
+      let currentDestId = null;
+      let dbPOIs = [];
+
+      (async function initRouting() {
+        try {
+          if (!window.API || !window.API.getAllPOIs) return;
+          const response = await window.API.getAllPOIs();
+          dbPOIs = response.dados || [];
+
+          dbPOIs.sort((a, b) => a.nome.localeCompare(b.nome));
+
+          const selOrigem = document.getElementById('select-origin');
+          const selDest = document.getElementById('select-dest');
+
+          dbPOIs.forEach(poi => {
+            let opt1 = document.createElement('option');
+            opt1.value = JSON.stringify(poi.coordenadas);
+            opt1.textContent = poi.nome;
+            selOrigem.appendChild(opt1);
+
+            let opt2 = document.createElement('option');
+            opt2.value = JSON.stringify(poi.coordenadas);
+            opt2.dataset.id = poi.id;
+            opt2.textContent = poi.nome;
+            selDest.appendChild(opt2);
+          });
+        } catch (e) {
+          console.error(e);
+        }
+      })();
+
+      document.getElementById('btn-trace-route').addEventListener('click', async () => {
+        const selOrigem = document.getElementById('select-origin');
+        const selDest = document.getElementById('select-dest');
+        const origemVal = selOrigem.value;
+        const destVal = selDest.value;
+
+        if (!origemVal || !destVal) {
+          alert("Selecione origem e destino.");
+          return;
+        }
+
+        const coordsOrigem = JSON.parse(origemVal);
+        const coordsDest = JSON.parse(destVal);
+
+        currentDestId = selDest.options[selDest.selectedIndex].dataset.id;
+
+        try {
+          if (currentRouteLayer) map.removeLayer(currentRouteLayer);
+
+          const geoJson = await window.API.calculateRoute(
+            coordsOrigem.latitude, coordsOrigem.longitude,
+            coordsDest.latitude, coordsDest.longitude
+          );
+
+          if (!geoJson || !geoJson.features || geoJson.features.length === 0) {
+            alert("Rota não encontrada.");
+            return;
+          }
+
+          currentRouteLayer = L.geoJSON(geoJson, {
+            style: { color: '#00659f', weight: 6, opacity: 0.8 }
+          }).addTo(map);
+
+          map.fitBounds(currentRouteLayer.getBounds(), { padding: [50, 50] });
+
+          const btnFav = document.getElementById('btn-fav-route');
+          btnFav.style.display = 'flex';
+          btnFav.classList.remove('active');
+
+        } catch (err) {
+          console.error(err);
+          alert("Erro ao traçar rota.");
+        }
+      });
+
+      document.getElementById('btn-clear-route').addEventListener('click', () => {
+        if (currentRouteLayer) map.removeLayer(currentRouteLayer);
+        document.getElementById('btn-fav-route').style.display = 'none';
+        document.getElementById('select-origin').value = "";
+        document.getElementById('select-dest').value = "";
+      });
+
+      document.getElementById('btn-fav-route').addEventListener('click', async () => {
+        if (!currentDestId) return;
+        try {
+          await window.API.addFavorite(currentDestId);
+          document.getElementById('btn-fav-route').classList.add('active');
+          alert("Adicionado aos Favoritos!");
+        } catch (err) {
+          alert("Erro: " + err.message);
+        }
+      });
+    });
+  </script>
+</body>
+
 </html>

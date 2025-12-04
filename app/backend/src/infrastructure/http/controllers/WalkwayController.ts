@@ -91,4 +91,23 @@ export class ControladorCaminhos {
       next(erro);
     }
   };
+
+  calcularRota = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> => {
+    try {
+      const { latOrigem, lonOrigem, latDestino, lonDestino } = req.query;
+
+      const rota = await this.servicoCaminhos.calcularRota(
+        [Number(lonOrigem), Number(latOrigem)],
+        [Number(lonDestino), Number(latDestino)]
+      );
+
+      res.json(rota);
+    } catch (erro) {
+      next(erro);
+    }
+  };
 }

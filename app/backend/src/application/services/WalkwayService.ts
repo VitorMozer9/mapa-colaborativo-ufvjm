@@ -62,4 +62,11 @@ export class ServicoCaminhos {
       );
     }
   }
+
+  async calcularRota(origem: [number, number], destino: [number, number]): Promise<any> {
+    if (!origem || !destino) {
+        throw new ValidationError('Origem e destino são obrigatórios');
+    }
+    return this.repositorioCaminho.buscarRota(origem, destino);
+  }
 }

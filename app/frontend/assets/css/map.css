@@ -129,3 +129,31 @@ body {
     color: #f9fafb;
     border-color: #0f766e;
  }
+
+.menu-lateral {
+  display: flex;
+  flex-direction: column;
+  height: 100%;        
+}
+
+.menu-profile-bottom {
+  margin-top: auto;
+}
+
+.icon-profile {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+
+.menu-profile-link {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  color: inherit;
+}
+
+

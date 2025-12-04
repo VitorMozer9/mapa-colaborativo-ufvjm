@@ -3,88 +3,96 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Tela de Eventos</title>
-        <link rel="stylesheet" href="assets/css/events.css">
-        <link rel="stylesheet" href="assets/css/global.css">
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com">
-        <link href="https://fonts.googleapis.com/css2?family=Gabarito:wght@400;700&display=swap" rel="stylesheet">
-    </head>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tela de Eventos</title>
+    <link rel="stylesheet" href="assets/css/events.css">
+    <link rel="stylesheet" href="assets/css/global.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Gabarito:wght@400;700&display=swap" rel="stylesheet">
+</head>
 
-        <body>
-            <header>
-                <div class="header-container">
-                
-                <!--Logo UFVJM-->
-                    <a href="index.html" class="logo-ufvjm">
-                        <img alt="Logo UFVJM" src="assets/img/logo-login/Logo-UFVJM-sem-fundo2.png" />
-                    </a>
+<body>
+    <header>
+        <div class="header-container">
 
-                <!--Opção para Mobile-->
-                <button class="nav-toggle" aria-label="Menu">☰</button>
+            <!--Logo UFVJM-->
+            <a href="index.html" class="logo-ufvjm">
+                <img alt="Logo UFVJM" src="assets/img/logo-login/Logo-UFVJM-sem-fundo2.png" />
+            </a>
 
-                <!--Barra de Navegação-->
-                    <nav class="nav-menu">
-                        <a href="pagina_mapa.html" class="nav-link">Mapa</a>
-                        <a href="pagina_eventos.html" class="nav-link">Eventos</a>
-                        <a href="pagina_sobre.html" class="nav-link">Sobre</a>
-                        <a href="pagina_login.html" class="nav-link">Login</a>
-                    </nav>
-                </div>
-            </header>
+            <!--Opção para Mobile-->
+            <button class="nav-toggle" aria-label="Menu">☰</button>
 
-        <!--Conteúdo Principal-->
-        <main>
-            <h1>Eventos</h1>
+            <!--Barra de Navegação-->
+            <nav class="nav-menu">
+                <a href="pagina_mapa.html" class="nav-link">Mapa</a>
+                <a href="pagina_eventos.html" class="nav-link">Eventos</a>
+                <a href="pagina_sobre.html" class="nav-link">Sobre</a>
+                <a href="pagina_login.html" class="nav-link nav-link-login">Login</a>
+            </nav>
+            <div class="nav-profile">
+                <a href="perfil_usuario.html" class="nav-profile-link">
+                    <img src="assets/img/perfil-usuário/user.png" alt="Perfil"
+                        class="nav-profile-avatar profile-avatar-img" />
+                    <span class="nav-profile-name">Usuário</span>
+                </a>
+            </div>
+    </header>
 
-            <section class="filters-section">
+    <!--Conteúdo Principal-->
+    <main>
+        <h1>Eventos</h1>
 
-                <!--Barra de Busca de Eventos-->
-                <div class="search-bar">
-                    <input type="text" class="search-input" placeholder="Buscar eventos...">
-                    <button class="search-button">Buscar</button>
-                </div>
+        <section class="filters-section">
+
+            <!--Barra de Busca de Eventos-->
+            <div class="search-bar">
+                <input type="text" class="search-input" placeholder="Buscar eventos...">
+                <button class="search-button">Buscar</button>
+            </div>
 
             <!--Categoria de Eventos-->
-                <div class="categories">
-                    <button class="category-tag active">Todos</button>
-                    <button class="category-tag">Música</button>
-                    <button class="category-tag">Online</button>
-                    <button class="category-tag">Arte</button>
-                    <button class="category-tag">Esporte</button>
-                    <button class="category-tag">Acadêmico</button>
-                </div>
-            </section>
+            <div class="categories">
+                <button class="category-tag active">Todos</button>
+                <button class="category-tag">Música</button>
+                <button class="category-tag">Online</button>
+                <button class="category-tag">Arte</button>
+                <button class="category-tag">Esporte</button>
+                <button class="category-tag">Acadêmico</button>
+            </div>
+        </section>
 
-            <section class="events-grid" id="events-grid">
+        <section class="events-grid" id="events-grid">
 
-            </section>
-        </main>
+        </section>
+    </main>
 
     <footer>
         <div class="footer-content">
-        <div class="footer-links">
-            <p>&copy; 2025 UFVJM - Mapa Colaborativo</p>
-        </div>
-        <div class="footer-social">
-            <!-- Placeholder for social icons if needed, or just text -->
-        </div>
+            <div class="footer-links">
+                <p>&copy; 2025 UFVJM - Mapa Colaborativo</p>
+            </div>
+            <div class="footer-social">
+                <!-- Placeholder for social icons if needed, or just text -->
+            </div>
         </div>
     </footer>
 
-  <script src="assets/js/api.js"></script>
-  <script src="assets/js/events.js"></script>
-  <script>
-    const navToggle = document.querySelector('.nav-toggle');
-    const navMenu = document.querySelector('.nav-menu');
+    <script src="assets/js/api.js"></script>
+    <script src="assets/js/events.js"></script>
+    <script src="assets/js/profile.js"></script>
+    <script>
+        const navToggle = document.querySelector('.nav-toggle');
+        const navMenu = document.querySelector('.nav-menu');
 
-    navToggle.addEventListener('click', () => {
-      navMenu.classList.toggle('active');
-    });
-  </script>
+        navToggle.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+        });
+    </script>
 
-    </body>
+</body>
+
 </html>

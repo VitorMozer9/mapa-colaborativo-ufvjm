@@ -215,3 +215,47 @@ footer {
         text-align: left;
     }
 }
+
+ .menu-profile-link {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  color: inherit;
+}
+
+.icon-profile {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+/* Container do perfil no header */
+.nav-profile {
+  display: flex;
+  align-items: center;
+  margin-left: 16px; /* ou o que ficar bom com seu layout */
+}
+
+/* Link com avatar + nome */
+.nav-profile-link {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Avatar menorzinho */
+.nav-profile-avatar {
+  width: 24px;   /* aqui você controla o tamanho */
+  height: 24px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+/* Nome do usuário mais discreto */
+.nav-profile-name {
+  font-size: 0.85rem;
+}

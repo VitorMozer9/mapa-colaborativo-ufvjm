@@ -121,42 +121,101 @@
 
 
       var markersData = [
-        { nome: 'Almoxarifado', lat: -18.203047464079, lng: -43.5756421509754, categoria: 'Logística' },
-        { nome: 'Biblioteca', lat: -18.2001528787829, lng: -43.5760135599367, categoria: 'Serviço' },
-        { nome: 'Bosque', lat: -18.2002999000964, lng: -43.5753240295475, categoria: 'Área Verde' },
-        { nome: 'Centro de Pós CIpq', lat: -18.199243168563, lng: -43.57256262081, categoria: 'Acadêmico' },
-        { nome: 'DECOM', lat: -18.202215722936, lng: -43.5771069207662, categoria: 'Departamento' },
-        { nome: 'Departamento de Agronomia', lat: -18.2020544880635, lng: -43.5736118358237, categoria: 'Departamento' },
-        { nome: 'Departamento de Biologia', lat: -18.1958072077952, lng: -43.5731395386659, categoria: 'Departamento' },
-        { nome: 'Departamento de Educação Física', lat: -18.1969559272964, lng: -43.574105164036, categoria: 'Departamento' },
-        { nome: 'Departamento de Enfermagem', lat: -18.1962623397701, lng: -43.573843446478, categoria: 'Departamento' },
-        { nome: 'Departamento de Farmácia', lat: -18.197138053417, lng: -43.5730044995501, categoria: 'Departamento' },
-        { nome: 'Departamento de Medicina', lat: -18.1954138404507, lng: -43.5743937787052, categoria: 'Departamento' }
+        { nome: 'Almoxarifado', lat: -18.203047464079, lng: -43.5756421509754, categoria: 'Logística', descricao: 'Responsável pelo armazenamento e distribuição de materiais da universidade.' },
+        { nome: 'Biblioteca', lat: -18.2001528787829, lng: -43.5760135599367, categoria: 'Serviço', image: 'assets/img/slide-show-tela-inicial/Biblioteca.jpg', descricao: 'Biblioteca central com acervo físico e digital, salas de estudo e computadores.', instagram: '@bibliotecasufvjm', site: 'https://ufvjm.edu.br/biblioteca/' },
+        { nome: 'Bosque', lat: -18.2002999000964, lng: -43.5753240295475, categoria: 'Área Verde', image: 'assets/img/slide-show-tela-inicial/Bosque.jpg', descricao: 'Área de convivência ao ar livre, ideal para descanso e estudos em grupo.' },
+        { nome: 'Centro de Pós CIpq', lat: -18.199243168563, lng: -43.57256262081, categoria: 'Acadêmico', descricao: 'Centro de pesquisa e pós-graduação da UFVJM.' },
+        { nome: 'DECOM', lat: -18.202215722936, lng: -43.5771069207662, categoria: 'Departamento', image: 'assets/img/slide-show-tela-inicial/PrédioSistemas.jpg', descricao: 'Departamento de Computação - Curso de Sistemas de Informação.', instagram: '@decom_ufvjm', site: 'http://www.decom.ufvjm.edu.br/dc2020/' },
+        { nome: 'Departamento de Agronomia', lat: -18.2020544880635, lng: -43.5736118358237, categoria: 'Departamento', descricao: 'Curso de Agronomia e pesquisas em agricultura sustentável.' },
+        { nome: 'Departamento de Biologia', lat: -18.1958072077952, lng: -43.5731395386659, categoria: 'Departamento', descricao: 'Cursos de Ciências Biológicas - Licenciatura e Bacharelado.' },
+        { nome: 'Departamento de Educação Física', lat: -18.1969559272964, lng: -43.574105164036, categoria: 'Departamento', descricao: 'Curso de Educação Física e atividades esportivas.' },
+        { nome: 'Departamento de Enfermagem', lat: -18.1962623397701, lng: -43.573843446478, categoria: 'Departamento', descricao: 'Curso de Enfermagem e práticas em saúde.' },
+        { nome: 'Departamento de Farmácia', lat: -18.197138053417, lng: -43.5730044995501, categoria: 'Departamento', descricao: 'Curso de Farmácia e laboratórios de pesquisa farmacêutica.' },
+        { nome: 'Departamento de Medicina', lat: -18.1954138404507, lng: -43.5743937787052, categoria: 'Departamento', descricao: 'Curso de Medicina e Hospital Universitário.' }
       ];
 
-
-
-      markersData.forEach(function(m) {
-        var ll = L.latLng(m.lat, m.lng);
-        var info = '<strong>' + m.nome + '</strong><br/>' + (m.categoria || '') + '<br/>' +
-          'Lat: ' + m.lat.toFixed(6) + ', Lng: ' + m.lng.toFixed(6);
-        L.marker(ll).addTo(map).bindPopup(info);
-      });
-      var clickMarker;
-      map.on('click', function(e) {
-        if (clickMarker) map.removeLayer(clickMarker);
-        clickMarker = L.marker(e.latlng).addTo(map);
-        clickMarker.bindPopup('Coordenadas: ' + e.latlng.lat.toFixed(6) + ', ' + e.latlng.lng.toFixed(6)).openPopup();
-      });
-
+    markersData.forEach(function(m) {
+    var ll = L.latLng(m.lat, m.lng);
+    
+    // ID único para cada popup (para controlar o toggle)
+    var popupId = 'popup-' + m.nome.replace(/\s+/g, '-').toLowerCase();
+    
+    // Constrói o HTML do popup
+    var popupHTML = '<div style="font-family: Gabarito, sans-serif; min-width: 220px;">';
+    
+    // Imagem (se existir)
+    if (m.image) {
+      popupHTML += '<img src="' + m.image + '" alt="' + m.nome + '" style="width:100%; height:auto; max-height:180px; object-fit:contain; border-radius:4px; margin-bottom:8px; background:#f6f6f6;">';
+    }
+    
+    // Título e categoria
+    popupHTML += '<strong style="font-size:16px; color:#00659f; display:block; margin-bottom:4px;">' + m.nome + '</strong>';
+    popupHTML += '<span style="color:#666; font-size:13px; display:block; margin-bottom:6px;">📍 ' + (m.categoria || 'Local') + '</span>';
+    
+    // Coordenadas (sempre visíveis)
+    popupHTML += '<div style="font-size:11px; color:#999; margin-bottom:10px;">';
+    popupHTML += 'Lat: ' + m.lat.toFixed(6) + ' | Lng: ' + m.lng.toFixed(6);
+    popupHTML += '</div>';
+    
+    // Botão "Mais detalhes" (se houver informações adicionais)
+    if (m.descricao || m.instagram || m.site) {
+      popupHTML += '<button id="btn-' + popupId + '" onclick="toggleDetails(\'' + popupId + '\')" ';
+      popupHTML += 'style="width:100%; padding:8px; background:#00659f; color:white; border:none; border-radius:4px; cursor:pointer; font-family:Gabarito; font-size:13px; font-weight:600; transition:0.15s ease;"';
+      popupHTML += ' onmouseover="this.style.background=\'#004a73\'" onmouseout="this.style.background=\'#00659f\'">';
+      popupHTML += '▼ Mais detalhes</button>';
       
-
+      // Conteúdo expandível (inicialmente oculto)
+      popupHTML += '<div id="' + popupId + '" style="display:none; margin-top:10px; padding-top:10px; border-top:1px solid #e0e0e0;">';
       
-
+      if (m.descricao) {
+        popupHTML += '<p style="font-size:13px; color:#333; line-height:1.4; margin:0 0 8px 0;">' + m.descricao + '</p>';
+      }
       
-
-
+      if (m.instagram) {
+        popupHTML += '<div style="margin-bottom:6px;">';
+        popupHTML += '<span style="font-size:12px; color:#666;">📷 Instagram: </span>';
+        popupHTML += '<a href="https://instagram.com/' + m.instagram.replace('@', '') + '" target="_blank" style="font-size:12px; color:#00659f; text-decoration:none;">' + m.instagram + '</a>';
+        popupHTML += '</div>';
+      }
       
+      if (m.site) {
+        popupHTML += '<div style="margin-bottom:6px;">';
+        popupHTML += '<span style="font-size:12px; color:#666;">🌐 Site: </span>';
+        popupHTML += '<a href="' + m.site + '" target="_blank" style="font-size:12px; color:#00659f; text-decoration:none; word-break:break-all;">' + m.site + '</a>';
+        popupHTML += '</div>';
+      }
+      
+      popupHTML += '</div>';
+    }
+    
+    popupHTML += '</div>';
+    
+    L.marker(ll).addTo(map).bindPopup(popupHTML, {
+      maxWidth: 280,
+      minWidth: 220
+    });
+  });
+
+    var clickMarker;
+    map.on('click', function(e) {
+      if (clickMarker) map.removeLayer(clickMarker);
+      clickMarker = L.marker(e.latlng).addTo(map);
+      clickMarker.bindPopup('Coordenadas: ' + e.latlng.lat.toFixed(6) + ', ' + e.latlng.lng.toFixed(6)).openPopup();
+    });
+
+    // Função para expandir/recolher detalhes
+    window.toggleDetails = function(popupId) {
+      var detailsDiv = document.getElementById(popupId);
+      var button = document.getElementById('btn-' + popupId);
+      
+      if (detailsDiv.style.display === 'none') {
+        detailsDiv.style.display = 'block';
+        button.innerHTML = '▲ Menos detalhes';
+      } else {
+        detailsDiv.style.display = 'none';
+        button.innerHTML = '▼ Mais detalhes';
+      }
+    };
 
     });
   </script>

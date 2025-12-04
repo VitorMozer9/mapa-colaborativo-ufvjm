@@ -233,12 +233,15 @@ body {
 }
 
 .menu-profile-bottom {
-  margin-top: auto;
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  z-index: 2100;
 }
 
 .icon-profile {
-  width: 24px;
-  height: 24px;
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
   object-fit: cover;
 }
@@ -246,6 +249,8 @@ body {
 
 .menu-profile-link {
   display: flex;
+  width: auto;
+  height: 36px;
   align-items: center;
   gap: 8px;
   text-decoration: none;

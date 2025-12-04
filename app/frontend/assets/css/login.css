@@ -79,6 +79,14 @@
     background-color: var(--primary-hover);
 }
 
+.btn-professor {
+    background-color: var(--secondary-color);
+}
+
+.btn-professor:hover {
+    background-color: var(--secondary-hover);
+}
+
 /* Responsive */
 @media (min-width: 768px) {
     .bloco-autenticacao {

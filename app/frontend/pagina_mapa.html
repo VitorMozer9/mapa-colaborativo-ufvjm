@@ -246,14 +246,6 @@
         });
       });
 
-      // Cria marcador ao clicar no mapa e exibe coordenadas
-      var clickMarker;
-      map.on('click', function(e) {
-        if (clickMarker) map.removeLayer(clickMarker);
-        clickMarker = L.marker(e.latlng).addTo(map);
-        clickMarker.bindPopup('Coordenadas: ' + e.latlng.lat.toFixed(6) + ', ' + e.latlng.lng.toFixed(6)).openPopup();
-      });
-
       // Função global para expandir/recolher detalhes dentro dos popups
       window.toggleDetails = function(popupId) {
         var detailsDiv = document.getElementById(popupId);

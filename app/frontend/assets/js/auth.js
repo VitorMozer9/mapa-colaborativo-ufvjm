@@ -44,20 +44,24 @@ document.addEventListener('DOMContentLoaded', () => {
   if (professorForm) {
     professorForm.addEventListener('submit', async (e) => {
       e.preventDefault();
-      const siap = document.getElementById('siap-cad')?.value.trim();
+      const siape = document.getElementById('siap-cad')?.value.trim();
       const nome = professorForm.querySelector('#nome-cad')?.value.trim();
       const email = professorForm.querySelector('#email-cad')?.value.trim();
       const senha = professorForm.querySelector('#senha-cad')?.value;
       const confirma = professorForm.querySelector('#confirma-senha')?.value;
 
-      if (!siap || !nome || !email || !senha) {
+      if (!siape || !nome || !email || !senha) {
         return showMessage('Preencha todos os dados do docente.', 'erro');
       }
 
       try {
-        await window.API.registerUser({ nome, email, senha, siap, papel: 'professor' });
+        const resposta = await window.API.registerUser({ nome, email, senha, papel: 'professor', siape });
+        if(resposta.usuario){
+          localStorage.setItem('authUser', JSON.stringify(resposta.usuario));
+          localStorage.setItem('authToken', resposta.token);
+        }
         showMessage('Docente cadastrado! Aguarde aprovação ou faça login.', 'sucesso');
-        setTimeout(() => window.location.reload(), 1500);
+        setTimeout(() => window.location.href = 'pagina_mapa.html',  1500);
       } catch (error) {
         console.error(error);
         showMessage(error.message || 'Erro ao cadastrar docente.', 'erro');

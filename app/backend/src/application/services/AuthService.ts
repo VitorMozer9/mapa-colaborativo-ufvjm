@@ -5,6 +5,8 @@ import { Usuario } from '../../domain/User';
 import { Role } from '../../domain/Role';
 import { ValidationError } from '../../shared/errors/ValidationError';
 import { UnauthorizedError } from '../../shared/errors/UnauthorizedError';
+import { validarEmailInstitucional } from '../../shared/validators';
+import { validarSiape } from '../../shared/validators';
 
 export class ServicoAutenticacao {
   constructor(
@@ -13,13 +15,29 @@ export class ServicoAutenticacao {
     private readonly servicoJWT: IServicoJWT
   ) {}
 
+ 
   // Registra um novo usuário no sistema
   async registrar(
     nome: string,
     email: string,
     senha: string,
+    siape?: string,
     papel: Role = Role.VISITANTE
   ): Promise<{ usuario: Usuario; token: string }> {
+
+    // Valida email institucional
+    const ehInstitucional = validarEmailInstitucional(email);
+    if (!ehInstitucional) {
+      throw new ValidationError('Email deve ser institucional (@ufvjm)');
+    }
+    let papelDefinido = Role.ESTUDANTE;
+    if (siape) {
+      const siapeValido = validarSiape(siape);
+      if (!siapeValido) {
+        throw new ValidationError('SIAPE inválido');
+      }
+      papelDefinido = Role.PROFESSOR;
+    }
     // Valida se já existe usuário
     const usuarioExistente = await this.repositorioUsuario.buscarPorEmail(email);
     if (usuarioExistente) {
@@ -34,7 +52,7 @@ export class ServicoAutenticacao {
 
     // Cria usuário com senha criptografada
     const senhaHash = await this.servicoCriptografia.criptografar(senha);
-    const usuario = Usuario.criar(nome, email, senhaHash, papel);
+    const usuario = Usuario.criar(nome, email, senhaHash, papelDefinido);
 
     // Persiste e gera token
     const usuarioSalvo = await this.repositorioUsuario.criar(usuario);

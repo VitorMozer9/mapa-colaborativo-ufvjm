@@ -168,4 +168,20 @@ CORS_ORIGIN=*
 Instale as dependências do projeto:
 
 ~~~bash
-n
+npm install
+~~~
+
+Rodar em modo de desenvolvimento (com hot-reload via `ts-node-dev` ou `nodemon`):
+
+~~~bash
+npm run dev
+~~~
+
+Para build de produção e execução:
+
+~~~bash
+npm run build
+npm start
+~~~
+
+---

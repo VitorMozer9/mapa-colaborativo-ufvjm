@@ -165,4 +165,87 @@ body {
   font-size: 14px;
 }
 
+@media (max-width: 640px) {
+  .sidebar {
+    top: auto;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: 64px;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    padding-top: 0;
+    padding: 8px 12px;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+  }
+
+  .logo { display: none; }
+
+  .menu {
+    flex-direction: row;
+    gap: 16px;
+    width: 100%;
+    justify-content: space-evenly;
+  }
+
+  .item span { display: none; }
+
+  .icon, .icon1, .icon2 {
+    width: 28px;
+    height: 28px;
+    margin: 0;
+  }
+
+  .menu-profile-bottom {
+    display: none;
+  }
+  .searchbar {
+    left: 0;
+    right: 0;
+    transform: none;
+    top: 10px;
+    width: calc(100% - 16px);
+    margin: 0 8px;
+    border-radius: 12px;
+    padding: 4px;
+    gap: 4px;
+    flex-direction: row;
+    align-items: center;
+    background: transparent;
+  }
+
+  .searchbar input {
+    width: 100%;
+    height: 30px;
+    border-radius: 10px;
+    font-size: 14px;
+  }
+
+  .chips {
+    display: none;
+  }
+
+  .chip {
+    white-space: nowrap;
+    padding: 8px 12px;
+    font-size: 14px;
+  }
+
+  .chip img,
+  .logo2-img,
+  .logo3-img,
+  .logo4-img {
+    height: 16px;
+    flex-shrink: 0;
+    display: inline-block;
+  }
+
+  .leaflet-control-zoom {
+    display: none;
+  }
+}
+
 
